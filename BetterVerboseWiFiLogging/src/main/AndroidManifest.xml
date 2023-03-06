@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+    
+    <application
+        android:allowBackup="false"
+        android:label="Better verbose WiFi logging"
+        tools:ignore="DataExtractionRules,MissingApplicationIcon"
+        >
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true"
+            />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Improves the verbose WiFi logging"
+            />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="53"
+            />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/scope"
+            />
+    </application>
+</manifest>

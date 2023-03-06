@@ -1,0 +1,51 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+plugins {
+    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.library' version '7.4.2' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.10' apply false
+    id 'idea'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0' apply false
+}
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+allprojects {
+    apply plugin: 'idea'
+    idea {
+        module {
+            downloadJavadoc = true
+            downloadSources = true
+        }
+    }
+    
+    afterEvaluate { project ->
+        def propsFile = rootProject.file('keystore.properties')
+        
+        if (propsFile.exists() && project.hasProperty("android")) {
+            def props = new Properties()
+            props.load(new FileInputStream(propsFile))
+            
+            android {
+                signingConfigs {
+                    release {
+                        storeFile = file(props['storeFile'])
+                        assert storeFile.exists()
+                        
+                        storePassword = props['storePassword']
+                        keyAlias = props['keyAlias']
+                        keyPassword = props['keyPassword']
+                    }
+                }
+                
+                defaultConfig.signingConfig = signingConfigs.release
+                buildTypes.debug.signingConfig = signingConfigs.release
+            }
+        }
+    }
+}
