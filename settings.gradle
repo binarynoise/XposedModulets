@@ -21,5 +21,6 @@ dependencyResolutionManagement {
 rootProject.name = "XposedModulets"
 include ':BetterVerboseWiFiLogging'
 include ':BetterBluetoothDeviceSort'
+include ':DontResetIfBootedAndConnected'
 include ':reflection'
 include ':logger'
