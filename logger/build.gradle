@@ -33,6 +33,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "androidx.collection:collection-ktx:1.2.0"
 //    compileOnly "androidx.appcompat:appcompat:1.6.1"
-    implementation "androidx.core:core-ktx:1.9.0"
-
+    implementation "androidx.core:core-ktx:1.10.1"
+    
 }
