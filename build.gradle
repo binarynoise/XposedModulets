@@ -25,27 +25,7 @@ allprojects {
     }
     
     afterEvaluate { project ->
-        def propsFile = rootProject.file('keystore.properties')
-        
-        if (propsFile.exists() && project.hasProperty("android")) {
-            def props = new Properties()
-            props.load(new FileInputStream(propsFile))
-            
-            android {
-                signingConfigs {
-                    release {
-                        storeFile = file(props['storeFile'])
-                        assert storeFile.exists()
-                        
-                        storePassword = props['storePassword']
-                        keyAlias = props['keyAlias']
-                        keyPassword = props['keyPassword']
-                    }
-                }
-                
-                defaultConfig.signingConfig = signingConfigs.release
-                buildTypes.debug.signingConfig = signingConfigs.release
-            }
-        }
+        if (project != rootProject)
+            project.apply from: "../common.build.gradle"
     }
 }

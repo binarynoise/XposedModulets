@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
 }
 
@@ -15,47 +14,9 @@ android {
         compileSdk 33
         versionCode 1
         versionName "1.0"
-        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../proguard-rules.pro'
-    }
-    
-    buildTypes {
-        release {
-            minifyEnabled true
-            shrinkResources true
-            multiDexEnabled false
-        }
-        debug {
-            minifyEnabled false
-            shrinkResources false
-            multiDexEnabled false
-            versionNameSuffix = "-dev"
-        }
-    }
-    
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = '11'
-    }
-    dependenciesInfo {
-        includeInApk false
-        includeInBundle false
-    }
-    packagingOptions {
-        jniLibs {
-            excludes += ['**/kotlin/**']
-        }
-        resources {
-            excludes += ['/META-INF/*.kotlin_module', 'kotlin-tooling-metadata.json', '**/kotlin/**', '**/*.txt', '**/*.xml', '**/*.properties']
-        }
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     debugImplementation project(":logger")
-    
-    compileOnly "de.robv.android.xposed:api:82"
 }
