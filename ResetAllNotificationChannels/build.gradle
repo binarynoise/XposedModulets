@@ -1,0 +1,23 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    def packageName = 'de.binarynoise.resetAllNotificationChannels'
+    namespace packageName
+    
+    defaultConfig {
+        applicationId packageName
+        minSdk 21
+        targetSdk 33
+        compileSdk 33
+        versionCode 1
+        versionName "1.0"
+        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), '../proguard-rules.pro'
+    }
+}
+
+dependencies {
+
+}
