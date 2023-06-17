@@ -18,7 +18,9 @@ dependencyResolutionManagement {
         }
     }
 }
+
 rootProject.name = "XposedModulets"
+include ':AutomaticAdvancedSettingsExpander'
 include ':BetterVerboseWiFiLogging'
 include ':BetterBluetoothDeviceSort'
 include ':DontResetIfBootedAndConnected'
