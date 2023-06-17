@@ -1,5 +1,6 @@
 -dontobfuscate
 -allowaccessmodification
+-optimizations !code/simplification/arithmetic
 
 -keepattributes SourceFile, LineNumberTable, Exception, *Annotation*, InnerClasses, EnclosingMethod, Signature
 
