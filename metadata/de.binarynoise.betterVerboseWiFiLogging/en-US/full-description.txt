@@ -1,0 +1,8 @@
+This makes the verbose wifi information (enabled in the developer settings) more readable, adds some and hides some useless information.
+
+Without the module it is all one long line that gets wrapped at your screen to make it fit.
+
+With the module, it is split into multiple lines: one for the general status info, one for _each_ network.
+In parentheses you find the channel number because that is usually more interesting than the frequency itself.
+Everything that has units now displays those units.
+What you don't see that elements that belong together have no break spaces between them so that they are always displayed in one line next to each other.
