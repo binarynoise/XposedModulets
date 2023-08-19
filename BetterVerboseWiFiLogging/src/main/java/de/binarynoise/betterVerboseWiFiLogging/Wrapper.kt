@@ -238,7 +238,7 @@ object StandardWifiEntry {
         @Suppress("UNCHECKED_CAST") val mTargetScanResults = mTargetScanResultsField[wifiEntry] as ArrayList<ScanResult>
         val mWifiInfo = mWifiInfoField[wifiEntry] as WifiInfo?
         if (mTargetScanResults.isEmpty()) return ""
-        return mTargetScanResults.sortedBy { it.frequency }.joinToString(",\n ", "\n[", "]") {
+        return mTargetScanResults.sortedBy { it.frequency }.joinToString(",\n ", "[", "]") {
             buildString {
                 append("{")
                 append(it.BSSID)

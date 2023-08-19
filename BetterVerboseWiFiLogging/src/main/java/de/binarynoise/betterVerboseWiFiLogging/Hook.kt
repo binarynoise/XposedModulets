@@ -58,7 +58,7 @@ class Hook : IXposedHookLoadPackage {
                         getNetworkCapabilityDescription.invoke(wifiEntry) as String?, // can stay as is
                         newGetScanResultDescription(wifiEntry),
                         getNetworkSelectionDescription.invoke(wifiEntry) as String?, // TODO
-                    ).filterNot { it.isNullOrBlank() }.joinToString(", ").trim()
+                    ).filterNot { it.isNullOrBlank() }.joinToString(",\n").trim()
                 }
             }
         })
