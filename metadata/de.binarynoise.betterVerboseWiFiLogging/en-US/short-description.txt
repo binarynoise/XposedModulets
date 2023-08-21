@@ -1,1 +1,1 @@
-This makes the verbose wifi information more readable
+Makes the verbose Wi-Fi information more readable

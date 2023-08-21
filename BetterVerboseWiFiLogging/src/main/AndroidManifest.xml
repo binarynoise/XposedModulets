@@ -6,7 +6,7 @@
     
     <application
         android:allowBackup="false"
-        android:label="Better verbose WiFi logging"
+        android:label="@string/appname"
         tools:ignore="DataExtractionRules,MissingApplicationIcon"
         >
         <meta-data
@@ -15,7 +15,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Improves the verbose WiFi logging"
+            android:value="@string/xposeddesciption"
             />
         <meta-data
             android:name="xposedminversion"

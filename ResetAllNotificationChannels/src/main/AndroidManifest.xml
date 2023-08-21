@@ -6,7 +6,7 @@
     
     <application
         android:allowBackup="true"
-        android:label="ResetAllNotificationChannels"
+        android:label="@string/appname"
         tools:ignore="MissingApplicationIcon"
         >
         <meta-data
@@ -15,7 +15,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Resets the table of which application has which notification channels on boot.\nMake sure to disable the module after rebooting, else you will lose your settings on the next boot again!"
+            android:value="@string/xposeddescription"
             />
         <meta-data
             android:name="xposedminversion"

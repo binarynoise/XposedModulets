@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appname">Better Bluetooth device sort</string>
+    <string name="xposeddesciption">Sorts Bluetooth devices by name</string>
+</resources>

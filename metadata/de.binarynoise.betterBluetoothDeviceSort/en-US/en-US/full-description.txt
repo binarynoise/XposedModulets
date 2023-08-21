@@ -1,2 +1,2 @@
-Sorts Bluetooth devices by name instead of whatever it does.
+Sorts Bluetooth devices by name instead of whatever they are otherwise sorted by.
 Takes effect in the settings app and the media device picker.

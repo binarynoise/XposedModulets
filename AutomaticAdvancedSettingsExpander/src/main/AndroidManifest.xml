@@ -6,7 +6,7 @@
     
     <application
         android:allowBackup="true"
-        android:label="Automatic Advanced Settings Expander"
+        android:label="@string/appname"
         tools:ignore="MissingApplicationIcon"
         >
         <meta-data
@@ -15,7 +15,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Automatically expands the Advanced Settings"
+            android:value="@string/xposeddescription"
             />
         <meta-data
             android:name="xposedminversion"

@@ -6,7 +6,7 @@
     
     <application
         android:allowBackup="true"
-        android:label="BetterBluetoothDeviceSort"
+        android:label="@string/appname"
         tools:ignore="MissingApplicationIcon"
         >
         <meta-data
@@ -15,7 +15,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Improves the sorting of the Bluetooth devices"
+            android:value="@string/xposeddesciption"
             />
         <meta-data
             android:name="xposedminversion"

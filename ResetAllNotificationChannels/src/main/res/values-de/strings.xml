@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appname">Alle Benachrichtigungskanäle zurücksetzen</string>
+    <string name="xposeddescription">Alle Benachrichtigungskanäle zurücksetzen: Vibrationen, Klingeltöne, Wichtigkeit usw.\nAchte darauf, das Modul nach dem Neustart zu deaktivieren.</string>
+</resources>
