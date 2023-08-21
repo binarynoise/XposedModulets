@@ -79,7 +79,7 @@ if (isKotlinLib || isKotlinAndroid) {
 }
 
 dependencies {
-    if(isAndroid || isAndroidLib) {
+    if (isAndroid || isAndroidLib) {
         implementation 'androidx.annotation:annotation:1.6.0'
         compileOnly "de.robv.android.xposed:api:82"
     }
