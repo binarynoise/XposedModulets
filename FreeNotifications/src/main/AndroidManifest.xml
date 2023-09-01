@@ -6,7 +6,7 @@
     
     <application
         android:allowBackup="true"
-        android:label="Free Notifications"
+        android:label="@string/appname"
         tools:ignore="MissingApplicationIcon"
         >
         <meta-data
@@ -15,7 +15,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Change all Notification settings, even for system apps"
+            android:value="@string/xposeddescription"
             />
         <meta-data
             android:name="xposedminversion"

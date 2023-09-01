@@ -1,0 +1,2 @@
+Sortiert Bluetooth-Geräte nach Namen, statt wonach auch immer sie sonst sortiert werden.
+Ist in der Einstellungs-App und in der Mediengeräte-Auswahl wirksam.
