@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.programminghoch10.MotionEventMod"
+    >
+
+    <application
+        android:icon="@android:drawable/ic_menu_edit"
+        android:label="MotionEventMod"
+        >
+
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true"
+            />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Disable touch input for some seconds after the stylus was in use."
+            />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="82"
+            />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/scope"
+            />
+
+    </application>
+
+</manifest>
