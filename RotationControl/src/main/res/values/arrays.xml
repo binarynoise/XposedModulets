@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scope">
+        <item>com.android.gallery3d</item>
+        <item>com.google.android.apps.photos</item>
+        <item>com.google.android.youtube</item>
+        <item>com.netflix.mediaclient</item>
+        <item>com.simplemobiletools.gallery.pro</item>
+        <item>com.simplemobiletools.gallery</item>
+        <item>org.jellyfin.mobile</item>
+    </string-array>
+</resources>
