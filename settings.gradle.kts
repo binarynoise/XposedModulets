@@ -27,7 +27,7 @@ include(":FreeNotifications")
 include(":MotionEventMod")
 include(":MuteSlf4jWarnings")
 include(":ResetAllNotificationChannels")
-
+include(":RotationControl")
 include(":reflection")
 include(":logger")
 
