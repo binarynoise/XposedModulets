@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "XposedModulets"
+include(":AntiBrightnessChange")
 include(":AutomaticAdvancedSettingsExpander")
 include(":BetterVerboseWiFiLogging")
 include(":BetterBluetoothDeviceSort")
