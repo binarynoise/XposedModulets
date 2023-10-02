@@ -3,7 +3,6 @@ package de.binarynoise.automaticadvancedsettingsexpander
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 import android.util.Log
-import androidx.annotation.Keep
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
@@ -11,7 +10,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 const val TAG = "AutomaticSettingsExpand"
 
-@Keep
 class Hook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         val packages = arrayOf(

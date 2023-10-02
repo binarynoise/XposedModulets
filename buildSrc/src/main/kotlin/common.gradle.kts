@@ -149,8 +149,13 @@ tasks.withType<JavaCompile> {
 
 if (isAndroid || isAndroidLib) {
     dependencies {
-        add("implementation", "androidx.annotation:annotation:1.6.0")
         add("compileOnly", "de.robv.android.xposed:api:82")
+    }
+}
+
+if(isKotlinLib || isKotlinAndroid) {
+    dependencies {
+        add("implementation", "org.jetbrains:annotations:24.0.1")
     }
 }
 
