@@ -38,7 +38,12 @@ class Hook : IXposedHookLoadPackage {
                 }
             }
             listOf(WifiEntry.getScanResultDescription, StandardWifiEntry.getScanResultDescription).forEach {
-                XposedBridge.hookMethod(it, hook)
+                try {
+                    XposedBridge.hookMethod(it, hook)
+                } catch (e: IllegalArgumentException) {
+                    // ignore IllegalArgumentException: Cannot hook abstract methods
+                    if (e.message?.contains("abstract") != true) throw e
+                }
             }
         }
         
