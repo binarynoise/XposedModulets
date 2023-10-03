@@ -2,6 +2,7 @@ import java.io.FileInputStream
 import java.util.*
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 
 val isAndroid = plugins.hasPlugin("com.android.application")
@@ -157,7 +158,7 @@ if (isAndroid) {
                 return@action
             }
             
-            val release = repository.createRelease(tagName).name(name).draft(true).create()
+            val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
             
             apks.forEach {
                 release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
