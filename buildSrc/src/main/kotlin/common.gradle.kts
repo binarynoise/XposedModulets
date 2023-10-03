@@ -113,9 +113,34 @@ if (isAndroid) {
         val token = properties["github_api_key"]
         check(token != null && token is String) { "github_api_key not provided in local.properties" }
         
-        dependsOn("assembleRelease")
+        val workingTreeCleanExec = providers.exec {
+            executable("git")
+            args("diff", "--quiet", "--exit-code", rootDir.absolutePath)
+            isIgnoreExitValue = true
+        }
+        val workingTreeClean = workingTreeCleanExec.result.orNull?.exitValue == 0
         
-        doFirst {
+        providers.exec {
+            executable("git")
+            args("fetch")
+            isIgnoreExitValue = true
+        }
+        
+        val allCommitsPushedExec = providers.exec {
+            executable("git")
+            args("diff", "--quiet", "--exit-code", "origin/main..main")
+            isIgnoreExitValue = true
+        }
+        val allCommitsPushed = allCommitsPushedExec.result.orNull?.exitValue == 0
+        
+        if (workingTreeClean && allCommitsPushed) {
+            dependsOn("assembleRelease")
+        }
+        
+        doFirst action@{
+            check(workingTreeClean) { "Commit all changes before creating release." }
+            check(allCommitsPushed) { "Sync remote before creating release." }
+            
             val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
             
             val outputs = packageRelease.outputs.files
@@ -129,7 +154,7 @@ if (isAndroid) {
             
             if (repository.getReleaseByTagName(tagName) != null) {
                 println("Release $name already exists")
-                return@doFirst
+                return@action
             }
             
             val release = repository.createRelease(tagName).name(name).draft(true).create()
@@ -158,7 +183,7 @@ if (isAndroid || isAndroidLib) {
     }
 }
 
-if(isKotlinLib || isKotlinAndroid) {
+if (isKotlinLib || isKotlinAndroid) {
     dependencies {
         add("implementation", "org.jetbrains:annotations:24.0.1")
     }
