@@ -23,7 +23,12 @@ val commitCountExec = providers.exec {
     executable("git")
     args("rev-list", "--count", "HEAD", projectDir.absolutePath)
 }
-val commitCount = commitCountExec.standardOutput.asText.get().trim().toInt()
+val buildSrcCommitCountExec = providers.exec {
+    executable("git")
+    args("rev-list", "--count", "HEAD", rootProject.file("buildSrc").absolutePath)
+}
+
+val commitCount = commitCountExec.standardOutput.asText.get().trim().toInt() + buildSrcCommitCountExec.standardOutput.asText.get().trim().toInt()
 
 val commitHashExec = providers.exec {
     executable("git")
