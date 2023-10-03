@@ -56,7 +56,7 @@ if (isAndroid || isAndroidLib) {
         
         defaultConfig {
             versionCode = commitCount
-            versionName = "$commitCount-$commitHash"
+            versionName = "$commitCount${if(workingTreeClean) "-" else "+"}$commitHash"
             
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "../proguard-rules.pro")
             if (isAndroidLib) {
