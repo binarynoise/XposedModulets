@@ -20,23 +20,10 @@ if (isKotlinAndroid) println("kotlin android")
 val javaVersion = JavaVersion.VERSION_17
 val javaVersionInt = javaVersion.majorVersion.toInt()
 
-val commitCountExec = providers.exec {
-    executable("git")
-    args("rev-list", "--count", "HEAD", projectDir.absolutePath)
-}
-val buildSrcCommitCountExec = providers.exec {
-    executable("git")
-    args("rev-list", "--count", "HEAD", rootProject.file("buildSrc").absolutePath)
-}
-
-val commitCount = commitCountExec.standardOutput.asText.get().trim().toInt() + buildSrcCommitCountExec.standardOutput.asText.get().trim().toInt()
-
-val commitHashExec = providers.exec {
-    executable("git")
-    args("rev-parse", "--short", "HEAD")
-}
-
-val commitHash = commitHashExec.standardOutput.asText.get().trim()
+val commitCount = getCommitCount()
+val commitHash = getCommitHash()
+val workingTreeClean = getWorkingTreeClean()
+val allCommitsPushed = getAllCommitsPushed()
 
 if (isAndroid || isAndroidLib) {
     val android = extensions.getByType<BaseExtension>()
@@ -113,26 +100,6 @@ if (isAndroid) {
         check(repo != null && repo is String) { "github_repo not provided in local.properties " }
         val token = properties["github_api_key"]
         check(token != null && token is String) { "github_api_key not provided in local.properties" }
-        
-        val workingTreeCleanExec = providers.exec {
-            executable("git")
-            args("diff", "--quiet", "--exit-code", rootDir.absolutePath)
-            isIgnoreExitValue = true
-        }
-        val workingTreeClean = workingTreeCleanExec.result.orNull?.exitValue == 0
-        
-        providers.exec {
-            executable("git")
-            args("fetch")
-            isIgnoreExitValue = true
-        }
-        
-        val allCommitsPushedExec = providers.exec {
-            executable("git")
-            args("diff", "--quiet", "--exit-code", "origin/main..main")
-            isIgnoreExitValue = true
-        }
-        val allCommitsPushed = allCommitsPushedExec.result.orNull?.exitValue == 0
         
         if (workingTreeClean && allCommitsPushed) {
             dependsOn("assembleRelease")
