@@ -43,13 +43,13 @@ if (isAndroid || isAndroidLib) {
             
             signingConfigs {
                 maybeCreate("release").apply {
-                    storeFile = rootProject.file(props["storeFile"].toString())
+                    storeFile = storeFile ?: rootProject.file(props["storeFile"].toString())
                     
                     check(storeFile != null && storeFile!!.exists()) { "keystore does not exist" }
                     
-                    storePassword = props["storePassword"].toString()
-                    keyAlias = props["keyAlias"].toString()
-                    keyPassword = props["keyPassword"].toString()
+                    storePassword = storePassword ?: props["storePassword"].toString()
+                    keyAlias = keyAlias ?: props["keyAlias"].toString()
+                    keyPassword = keyPassword ?: props["keyPassword"].toString()
                 }
             }
             defaultConfig {
