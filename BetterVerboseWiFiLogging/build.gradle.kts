@@ -4,16 +4,11 @@ plugins {
 }
 
 android {
-    val packageName = "de.binarynoise.betterVerboseWiFiLogging"
-    namespace = packageName
+    namespace = "de.binarynoise.betterVerboseWiFiLogging"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 30
         targetSdk = 33
-        compileSdk = 33
-        versionCode = 1
-        versionName = "1.0"
     }
 }
 

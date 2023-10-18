@@ -1,5 +1,8 @@
 import java.io.FileInputStream
 import java.util.*
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
@@ -11,11 +14,11 @@ val isJavaLib = plugins.hasPlugin("java-library")
 val isKotlinLib = plugins.hasPlugin("org.jetbrains.kotlin.jvm")
 val isKotlinAndroid = plugins.hasPlugin("org.jetbrains.kotlin.android")
 
-if (isAndroid) println("android")
-if (isAndroidLib) println("android lib")
-if (isJavaLib) println("java lib")
-if (isKotlinLib) println("kotlin lib")
-if (isKotlinAndroid) println("kotlin android")
+//if (isAndroid) println("android")
+//if (isAndroidLib) println("android lib")
+//if (isJavaLib) println("java lib")
+//if (isKotlinLib) println("kotlin lib")
+//if (isKotlinAndroid) println("kotlin android")
 
 val javaVersion = JavaVersion.VERSION_17
 val javaVersionInt = javaVersion.majorVersion.toInt()
@@ -28,7 +31,6 @@ val allCommitsPushed = getAllCommitsPushed()
 if (isAndroid || isAndroidLib) {
     val android = extensions.getByType<BaseExtension>()
     with(android) {
-        
         val propsFile = rootProject.file("keystore.properties")
         if (propsFile.exists()) {
             val props = Properties()
@@ -56,7 +58,7 @@ if (isAndroid || isAndroidLib) {
         
         defaultConfig {
             versionCode = commitCount
-            versionName = "$commitCount${if(workingTreeClean) "-" else "+"}$commitHash"
+            versionName = "$commitCount${if (workingTreeClean) "-" else "+"}$commitHash"
             
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "../proguard-rules.pro")
             if (isAndroidLib) {
@@ -85,6 +87,31 @@ if (isAndroid || isAndroidLib) {
             sourceCompatibility = javaVersion
             targetCompatibility = javaVersion
         }
+    }
+}
+
+if (isAndroid) {
+    val common = extensions.getByType<ApplicationExtension>()
+    with(common) {
+        compileSdk = 34
+        
+        dependenciesInfo {
+            includeInApk = false
+            includeInBundle = false
+        }
+        
+        lint {
+            disable += "DiscouragedApi"
+            disable += "ExpiredTargedSdkVersion"
+            disable += "OldTargetApi"
+        }
+    }
+}
+
+if (isAndroidLib) {
+    val common = extensions.getByType<LibraryExtension>()
+    with(common) {
+        compileSdk = 34
     }
 }
 
@@ -157,4 +184,4 @@ if (isKotlinLib || isKotlinAndroid) {
     }
 }
 
-println("applied common on $project")
+//println("applied common on $project")

@@ -4,16 +4,11 @@ plugins {
 }
 
 android {
-    val packageName = "de.binarynoise.dontResetIfBootedAndConnected"
-    namespace = packageName
+    namespace = "de.binarynoise.dontResetIfBootedAndConnected"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 30
         targetSdk = 33
-        compileSdk = 33
-        versionCode = 1
-        versionName = "1.0"
     }
 }
 

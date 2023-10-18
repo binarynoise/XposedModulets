@@ -4,16 +4,11 @@ plugins {
 }
 
 android {
-    val packageName = "de.binarynoise.freeNotifications"
-    namespace = packageName
+    namespace = "de.binarynoise.freeNotifications"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 26
         targetSdk = 33
-        compileSdk = 33
-        versionCode = 1
-        versionName = "1.0"
     }
 }
 

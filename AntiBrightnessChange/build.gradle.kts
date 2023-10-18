@@ -3,16 +3,11 @@ plugins {
 }
 
 android {
-    val packageName = "com.programminghoch10.AntiBrightnessChange"
-    namespace = packageName
+    namespace = "com.programminghoch10.AntiBrightnessChange"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 33
         targetSdk = 33
-        compileSdk = 33
-        versionCode = 1
-        versionName = "1.0"
     }
 }
 
