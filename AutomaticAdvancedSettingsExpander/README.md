@@ -16,4 +16,4 @@ in the LSPosed App.
 
 | `before`                                                                                                            | `after `                                                                                                          |
 |---------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------|
-| ![before](../metadata/de.binarynoise.AutomaticAdvancedSettingsExpander/en-US/images/phone-screenshots/1-before.png) | ![after](../metadata/de.binarynoise.AutomaticAdvancedSettingsExpander/en-US/images/phone-screenshots/2-after.png) |
+| ![before](../metadata/de.binarynoise.AutomaticAdvancedSettingsExpander/en-US/images/phoneScreenshots/1-before.png) | ![after](../metadata/de.binarynoise.AutomaticAdvancedSettingsExpander/en-US/images/phoneScreenshots/2-after.png) |
