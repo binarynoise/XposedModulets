@@ -2,5 +2,6 @@
 <resources>
     <string-array name="scope">
         <item>com.microsoft.office.onenote</item>
+        <item>com.steadfastinnovation.android.projectpapyrus</item>
     </string-array>
 </resources>
