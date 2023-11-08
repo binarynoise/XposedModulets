@@ -1,28 +1,24 @@
 package com.programminghoch10.MotionEventMod;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
-import androidx.annotation.Keep;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-@Keep
 public class XposedHook implements IXposedHookLoadPackage {
     private static final String TAG = BuildConfig.APPLICATION_ID.split("[.]")[2];
     private static final long hover_timeout = 1000L;
     private long hover_exit_timestamp = 0;
     
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
-        Log.d(TAG, "handleLoadPackage: hooking package " + lpparam.packageName);
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+//        Log.d(TAG, "handleLoadPackage: hooking package " + lpparam.packageName);
         XposedHelpers.findAndHookMethod(View.class, "dispatchTouchEvent", MotionEvent.class, new XC_MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            protected void beforeHookedMethod(MethodHookParam param) {
                 MotionEvent event = (MotionEvent) param.args[0];
                 //Log.d(TAG, "dispatchTouchEvent: event=" + event);
                 if (event.getToolType(0) == MotionEvent.TOOL_TYPE_STYLUS) return;
@@ -38,7 +34,7 @@ public class XposedHook implements IXposedHookLoadPackage {
         });
         XposedHelpers.findAndHookMethod(View.class, "dispatchHoverEvent", MotionEvent.class, new XC_MethodHook() {
             @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            protected void beforeHookedMethod(MethodHookParam param) {
                 MotionEvent event = (MotionEvent) param.args[0];
                 //Log.d(TAG, "dispatchHoverEvent: event=" + event);
                 switch (event.getAction()) {
