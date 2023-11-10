@@ -1,4 +1,4 @@
-@file:Suppress(/*"unused",*/ "MemberVisibilityCanBePrivate")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package de.binarynoise.logger
 
@@ -10,8 +10,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.reflect.KClass
 import android.os.BaseBundle
-import android.util.*
+import android.os.Build
+import android.util.Log
 import android.util.Log.getStackTraceString
+import android.util.SparseArray
+import android.util.SparseBooleanArray
+import android.util.SparseIntArray
+import android.util.SparseLongArray
 import android.view.View
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
@@ -19,11 +24,10 @@ import androidx.collection.forEach
 import androidx.core.util.forEach
 import androidx.core.util.isEmpty
 import androidx.core.view.children
-import de.binarynoise.logger.Logger.dump
 
 object Logger {
     
-    var DEBUG = false
+    var DEBUG = true
     
     fun log(message: CharSequence) {
         val callingClassTag = callingClassTag
@@ -151,14 +155,14 @@ object Logger {
                     this.forEach { (k, v) -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
                 }
             }
-            this is BaseBundle -> {
+            Build.VERSION.SDK_INT >= 21 && this is BaseBundle -> {
                 val keys = keySet()
                 if (keys.isNullOrEmpty()) {
                     println("[]")
                 } else {
                     println()
                     keys.forEach {
-                        get(it).dump(it, nextIndent, processed, forceInclude, forceIncludeClasses)
+                        @Suppress("DEPRECATION") get(it).dump(it, nextIndent, processed, forceInclude, forceIncludeClasses)
                     }
                 }
             }
