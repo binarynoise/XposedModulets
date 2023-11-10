@@ -4,11 +4,9 @@ plugins {
 }
 
 android {
-    val packageName = "de.binarynoise.Template"
-    namespace = packageName
+    namespace = "de.binarynoise.Template"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 21
         targetSdk = 33
     }
