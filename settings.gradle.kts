@@ -25,7 +25,9 @@ include(":BetterBluetoothDeviceSort")
 include(":DontResetIfBootedAndConnected")
 include(":FreeNotifications")
 include(":MotionEventMod")
+include(":MuteSlf4jWarnings")
 include(":ResetAllNotificationChannels")
+
 include(":reflection")
 include(":logger")
 

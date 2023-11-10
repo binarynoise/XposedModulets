@@ -17,13 +17,26 @@ class field(private val cls: Class<*>) {
     }
 }
 
-class method(private val cls: Class<*>) {
+class method(private val cls: Class<*>, private vararg val params: Class<*>) {
     operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Method {
-        return cls.declaredMethods.first { it.name == property.name }.makeAccessible()
+        return getMethod(property)
     }
     
     operator fun getValue(thisRef: Any?, property: KProperty<*>): Method {
-        return cls.declaredMethods.first { it.name == property.name }.makeAccessible()
+        return getMethod(property)
+    }
+    
+    private fun getMethod(property: KProperty<*>): Method {
+        val methods = mutableListOf<Method>()
+        var c: Class<*>? = cls
+        while (c != null) {
+            methods += c.declaredMethods
+            c = c.superclass
+        }
+        
+        return methods.filter { it.name == property.name }
+            .first { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
+            .makeAccessible()
     }
 }
 
