@@ -161,6 +161,16 @@ if (isAndroid) {
             println("Created release ${release.name}: ${release.htmlUrl}")
         }
     }
+    
+    android.packagingOptions {
+        resources.excludes += listOf(
+            "**/*.kotlin_builtins",
+            "**/*.kotlin_metadata",
+            "**/*.kotlin_module",
+            "/META-INF/com/android/build/gradle/app-metadata.properties",
+            "kotlin-tooling-metadata.json"
+        )
+    }
 }
 
 tasks.withType<KotlinCompile> {
