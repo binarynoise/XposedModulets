@@ -1,9 +1,19 @@
+import com.android.build.gradle.BaseExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.getByType
 import org.gradle.process.ExecOutput
 
 private fun Project.getCommitCountExec() = providers.exec {
     executable("git")
     args("rev-list", "--count", "HEAD", projectDir.absolutePath, rootProject.file("buildSrc").absolutePath)
+    
+    extensions.findByType<BaseExtension>()?.let {
+        val metadata = rootProject.file("metadata").resolve(it.namespace!!)
+        if (metadata.exists()) {
+            args(metadata)
+        }
+    }
 }
 
 private fun Project.getCommitHashExec() = providers.exec {
