@@ -1,7 +1,6 @@
 import java.io.FileInputStream
 import java.util.*
 import com.android.build.api.dsl.ApplicationExtension
-import com.android.build.api.dsl.CommonExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -45,6 +44,13 @@ if (isAndroid || isAndroidLib) {
                     storePassword = storePassword ?: props["storePassword"].toString()
                     keyAlias = keyAlias ?: props["keyAlias"].toString()
                     keyPassword = keyPassword ?: props["keyPassword"].toString()
+                    
+                    maybeCreate("debug").let { debug ->
+                        debug.storeFile = storeFile
+                        debug.storePassword = storePassword
+                        debug.keyAlias = keyAlias
+                        debug.keyPassword = keyPassword
+                    }
                 }
             }
             defaultConfig {
@@ -100,6 +106,10 @@ if (isAndroid) {
             includeInBundle = false
         }
         
+        buildFeatures {
+            buildConfig = true
+        }
+        
         lint {
             disable += "DiscouragedApi"
             disable += "ExpiredTargedSdkVersion"
@@ -118,56 +128,57 @@ if (isAndroidLib) {
 if (isAndroid) {
     val android = extensions.getByType<BaseExtension>()
     
-    tasks.create("createGithubRelease") {
-        val file = rootProject.file("local.properties")
-        val properties = Properties()
+    val properties = Properties()
+    val file = rootProject.file("local.properties")
+    if (file.exists()) {
         properties.load(file.inputStream())
-        
-        val repo = properties["github_repo"]
-        check(repo != null && repo is String) { "github_repo not provided in local.properties " }
-        val token = properties["github_api_key"]
-        check(token != null && token is String) { "github_api_key not provided in local.properties" }
-        
-        if (workingTreeClean && allCommitsPushed) {
-            dependsOn("assembleRelease")
-        }
-        
-        doFirst action@{
-            check(workingTreeClean) { "Commit all changes before creating release." }
-            check(allCommitsPushed) { "Sync remote before creating release." }
-            
-            val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
-            
-            val outputs = packageRelease.outputs.files
-            val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }!!.toList() }
-            
-            val github = GitHub.connectUsingOAuth(token)
-            val repository = github.getRepository(repo)
-            
-            val tagName = "${android.namespace}-v$commitCount"
-            val name = "${project.name}-v$commitCount"
-            
-            if (repository.getReleaseByTagName(tagName) != null) {
-                println("Release $name already exists")
-                return@action
-            }
-            
-            val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
-            
-            apks.forEach {
-                release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
-            }
-            
-            println("Created release ${release.name}: ${release.htmlUrl}")
-        }
     }
+    
+    val repo = properties["github_repo"]
+    val token = properties["github_api_key"]
+    
+    if (repo != null && repo is String && token != null && token is String) {
+        tasks.create("createGithubRelease") {
+            if (workingTreeClean && allCommitsPushed) {
+                dependsOn("assembleRelease")
+            }
+            
+            doFirst {
+                check(workingTreeClean) { "Commit all changes before creating release." }
+                check(allCommitsPushed) { "Sync remote before creating release." }
+                
+                val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
+                
+                val outputs = packageRelease.outputs.files
+                val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }!!.toList() }
+                
+                val github = GitHub.connectUsingOAuth(token)
+                val repository = github.getRepository(repo)
+                
+                val tagName = "${android.namespace}-v$commitCount"
+                val name = "${project.name}-v$commitCount"
+                
+                if (repository.getReleaseByTagName(tagName) != null) {
+                    println("Release $name already exists")
+                    return@doFirst
+                }
+                
+                val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
+                
+                apks.forEach {
+                    release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
+                }
+                
+                println("Created release ${release.name}: ${release.htmlUrl}")
+            }
+        }
+    } else println("missing github_repo or github_api_key")
     
     android.packagingOptions {
         resources.excludes += listOf(
             "**/*.kotlin_builtins",
             "**/*.kotlin_metadata",
             "**/*.kotlin_module",
-            "/META-INF/com/android/build/gradle/app-metadata.properties",
             "kotlin-tooling-metadata.json"
         )
     }

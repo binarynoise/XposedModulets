@@ -31,8 +31,7 @@ private fun Project.getAllCommitsPushedExec(): ExecOutput {
     }
 }
 
-fun Project.getCommitCount() =
-    getCommitCountExec().standardOutput.asText.get().trim().toInt()
+fun Project.getCommitCount() = getCommitCountExec().standardOutput.asText.get().trim().toInt()
 
 fun Project.getCommitHash() = getCommitHashExec().standardOutput.asText.get().trim()
 
