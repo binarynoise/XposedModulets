@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg1"
+   width="144"
+   height="144"
+   viewBox="0 0 144 144"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3-7-9">
+      <path
+         d="M 0,108 H 108 V 0 H 0 Z"
+         id="path3-5-1" />
+    </clipPath>
+  </defs>
+  <g
+     id="layer-MC0">
+    <title
+       id="title1-2">magnify</title>
+    <path
+       id="path2-5-7"
+       d="M 108,0 H 0 v 108 h 108 z"
+       style="display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:10;stroke-dasharray:none;stroke-opacity:1"
+       transform="matrix(1.3333333,0,0,-1.3333333,0,144)"
+       clip-path="url(#clipPath3-7-9)" />
+    <path
+       d="m 70.592599,80.890231 4.119052,-5.49207 c -1.14418,-0.858135 -2.574406,-1.373019 -4.119052,-1.373019 -1.544645,0 -2.974871,0.514884 -4.119051,1.373019 l 4.119051,5.49207 m 0,-20.595262 c -4.633934,0 -8.913172,1.533203 -12.357156,4.119053 l 2.059525,2.746035 c 2.860454,-2.151062 6.430299,-3.432545 10.297631,-3.432545 3.867332,0 7.437177,1.281483 10.297631,3.432545 l 2.059526,-2.746035 c -3.443985,-2.58585 -7.723223,-4.119053 -12.357157,-4.119053 m 0,6.865088 c -3.089289,0 -5.938299,1.01832 -8.238104,2.746034 l 2.059526,2.746035 c 1.716271,-1.292924 3.85589,-2.059526 6.178578,-2.059526 2.322688,0 4.462307,0.766602 6.178578,2.059526 l 2.059527,-2.746035 c -2.299805,-1.727714 -5.148815,-2.746034 -8.238105,-2.746034 z"
+       id="path1-5"
+       style="stroke-width:1.14418" />
+    <title
+       id="title1">wifi</title>
+  </g>
+</svg>
