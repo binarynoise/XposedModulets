@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="appname">Reset all Notification Channels</string>
-    <string name="xposeddescription">Reset all Notification Channels: vibrations, ringtones, importance etc.\nMake sure to disable the module after rebooting</string>
-</resources>

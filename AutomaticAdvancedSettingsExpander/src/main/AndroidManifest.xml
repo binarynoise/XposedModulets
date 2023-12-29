@@ -2,14 +2,14 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="@string/appname">
+    <application android:label="Automatic Advanced Settings Expander">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/xposeddescription"
+            android:value="Automatically expands the advanced settings in the Settings app"
             />
         <meta-data
             android:name="xposedminversion"

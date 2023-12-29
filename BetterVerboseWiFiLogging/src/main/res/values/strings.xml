@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="appname">Better verbose WiFi logging</string>
-    <string name="xposeddesciption">Makes the verbose Wi-Fi information more readable</string>
-</resources>

@@ -2,14 +2,14 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="@string/appname">
+    <application android:label="Free Notifications">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/xposeddescription"
+            android:value="Enable customization for all Notification Channels again"
             />
         <meta-data
             android:name="xposedminversion"

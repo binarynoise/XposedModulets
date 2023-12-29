@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="appname">Automatic Advanced Settings Expander</string>
-    <string name="xposeddescription">Automatically expands the advanced settings in the Settings app</string>
-</resources>
