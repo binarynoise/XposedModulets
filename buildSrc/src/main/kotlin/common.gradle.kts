@@ -130,7 +130,7 @@ if (isAndroidLib) {
 if (isAndroid) {
     val android = extensions.getByType<BaseExtension>()
     
-    tasks.create("createGithubRelease") {
+    tasks.register("createGithubRelease") {
         check(workingTreeClean) { "Commit all changes before creating release" }
         check(allCommitsPushed) { "Push to remote before creating release" }
         
