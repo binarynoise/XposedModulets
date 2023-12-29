@@ -13,7 +13,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Disable touch input for some seconds after the stylus was in use."
+            android:value="Disable touch input for some seconds after the stylus was in use"
             />
         <meta-data
             android:name="xposedminversion"

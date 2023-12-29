@@ -1,6 +1,6 @@
 # Better Verbose WiFi Logging
 
-This makes the verbose wifi information (enabled in the developer settings) more readable, adds some and hides some useless information.
+This makes the verbose Wi-Fi information (enabled in the developer settings) more readable, adds some and hides some useless information.
 
 *Before:*
 
@@ -20,7 +20,7 @@ Connected / 2422 MHz (3), bssid:aa:bb:cc:dd:ee:ff, standard=4, rssi=-35dBm, hasI
 ```
 
 This one is split into multiple lines: one for the general status info, one for _each_ network.  
-In parentheses you find the channel number because that is usually more interesting than the frequency itself.  
+In parentheses, you find the channel number because that is usually more interesting than the frequency itself.  
 Everything that has units now displays those units.  
-What you don't see that elements that belong together have no break spaces between them 
+What you don't see is that elements that belong together have no break spaces between them
 so that they are always displayed in one line next to each other.

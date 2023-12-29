@@ -1,1 +1,1 @@
-Sorts Bluetooth devices by name
+Sort Bluetooth devices by name

@@ -2,14 +2,14 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="slf4j mute">
+    <application android:label="MuteSlf4jWarnings">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="mute those annoying slf4j warnings"
+            android:value="Mute those annoying slf4j warnings"
             />
         <meta-data
             android:name="xposedminversion"

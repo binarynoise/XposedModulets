@@ -12,7 +12,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Force rotation for selected packages."
+            android:value="Force rotation for selected packages"
             />
         <meta-data
             android:name="xposedminversion"

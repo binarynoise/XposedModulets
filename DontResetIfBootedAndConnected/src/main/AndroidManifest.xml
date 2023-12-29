@@ -2,14 +2,14 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="DontResetIfBootedAndConnected">
+    <application android:label="Don'tResetIfBootedAndConnected">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="DontResetIfBootedAndConnected"
+            android:value="Don't reset if booted and connected"
             />
         <meta-data
             android:name="xposedminversion"

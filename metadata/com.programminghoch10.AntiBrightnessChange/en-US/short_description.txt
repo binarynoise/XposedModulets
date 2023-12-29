@@ -1,1 +1,1 @@
-Prevents selected apps from overwriting the screen brightness.
+Prevent selected apps from overwriting the screen brightness.

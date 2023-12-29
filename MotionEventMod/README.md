@@ -7,7 +7,7 @@ A simple XPosed mod to disable touch input for some seconds after the stylus was
 When using a stylus, usually the touch display is disabled.
 When putting the stylus aside, the touch display gets active again
 and your palm may activate the touch panel, flinging the page away.
-This makes continous writing impossible.
+This makes continuous writing impossible.
 
 This module disables touch input for some seconds after stylus usage
 to prevent the palm from flinging the page away

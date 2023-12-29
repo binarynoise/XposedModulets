@@ -9,7 +9,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Prevent apps from changing display brightness."
+            android:value="Prevent apps from changing display brightness"
             />
         <meta-data
             android:name="xposedminversion"
