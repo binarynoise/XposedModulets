@@ -139,42 +139,43 @@ if (isAndroid) {
     val repo = properties["github_repo"]
     val token = properties["github_api_key"]
     
-    if (repo != null && repo is String && token != null && token is String) {
-        tasks.create("createGithubRelease") {
-            if (workingTreeClean && allCommitsPushed) {
-                dependsOn("assembleRelease")
+    tasks.create("createGithubRelease") {
+        check(repo != null && repo is String) { "github_repo not provided in local.properties" }
+        check(token != null && token is String) { "github_api_key not provided in local.properties" }
+        
+        if (workingTreeClean && allCommitsPushed) {
+            dependsOn("assembleRelease")
+        }
+        
+        doFirst {
+            check(workingTreeClean) { "Commit all changes before creating release" }
+            check(allCommitsPushed) { "Push to remote before creating release" }
+            
+            val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
+            
+            val outputs = packageRelease.outputs.files
+            val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }!!.toList() }
+            
+            val github = GitHub.connectUsingOAuth(token)
+            val repository = github.getRepository(repo)
+            
+            val tagName = "${android.namespace}-v$commitCount"
+            val name = "${project.name}-v$commitCount"
+            
+            if (repository.getReleaseByTagName(tagName) != null) {
+                println("Release $name already exists")
+                return@doFirst
             }
             
-            doFirst {
-                check(workingTreeClean) { "Commit all changes before creating release." }
-                check(allCommitsPushed) { "Sync remote before creating release." }
-                
-                val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
-                
-                val outputs = packageRelease.outputs.files
-                val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }!!.toList() }
-                
-                val github = GitHub.connectUsingOAuth(token)
-                val repository = github.getRepository(repo)
-                
-                val tagName = "${android.namespace}-v$commitCount"
-                val name = "${project.name}-v$commitCount"
-                
-                if (repository.getReleaseByTagName(tagName) != null) {
-                    println("Release $name already exists")
-                    return@doFirst
-                }
-                
-                val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
-                
-                apks.forEach {
-                    release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
-                }
-                
-                println("Created release ${release.name}: ${release.htmlUrl}")
+            val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
+            
+            apks.forEach {
+                release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
             }
+            
+            println("Created release ${release.name}: ${release.htmlUrl}")
         }
-    } else println("missing github_repo or github_api_key")
+    }
     
     android.packagingOptions {
         resources.excludes += listOf(

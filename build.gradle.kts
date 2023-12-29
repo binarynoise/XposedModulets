@@ -38,12 +38,12 @@ tasks.create("clearAllDraftReleases") {
     properties.load(file.inputStream())
     
     val repo = properties["github_repo"]
-    check(repo != null && repo is String) { "github_repo not provided in local.properties " }
     val token = properties["github_api_key"]
-    check(token != null && token is String) { "github_api_key not provided in local.properties" }
-    
     
     doFirst {
+        check(repo != null && repo is String) { "github_repo not provided in local.properties" }
+        check(token != null && token is String) { "github_api_key not provided in local.properties" }
+        
         val github = GitHub.connectUsingOAuth(token)
         
         github.getRepository(repo).listReleases().filter { it.isDraft }.forEach { release ->
