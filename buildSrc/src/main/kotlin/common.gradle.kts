@@ -114,6 +114,8 @@ if (isAndroid) {
             disable += "DiscouragedApi"
             disable += "ExpiredTargedSdkVersion"
             disable += "OldTargetApi"
+            disable += "MissingApplicationIcon"
+            disable += "UnusedAttribute"
         }
     }
 }

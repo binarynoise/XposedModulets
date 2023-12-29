@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application
-        android:allowBackup="false"
-        android:label="@string/appname"
-        tools:ignore="DataExtractionRules,MissingApplicationIcon"
-        >
+    <application android:label="@string/appname">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
