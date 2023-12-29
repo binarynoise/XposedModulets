@@ -20,7 +20,7 @@ class Hook : IXposedHookLoadPackage {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 val msg = param.args[0] as String
                 if (msg.startsWith("SLF4J:")) {
-                    param.setResult(Unit)
+                    param.result = null // used to trigger returnEarly
                 }
             }
         }
