@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    
     <application
         android:icon="@android:drawable/ic_menu_edit"
         android:label="MotionEventMod"
         >
-
+        
         <meta-data
             android:name="xposedmodule"
             android:value="true"
@@ -23,7 +23,6 @@
             android:name="xposedscope"
             android:resource="@array/scope"
             />
-
     </application>
 
 </manifest>

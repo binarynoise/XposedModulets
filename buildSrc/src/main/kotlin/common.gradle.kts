@@ -181,7 +181,7 @@ if (isAndroid) {
             "**/*.kotlin_builtins",
             "**/*.kotlin_metadata",
             "**/*.kotlin_module",
-            "kotlin-tooling-metadata.json"
+            "kotlin-tooling-metadata.json",
         )
     }
 }

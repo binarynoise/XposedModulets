@@ -20,4 +20,5 @@
             android:resource="@array/scope"
             />
     </application>
+
 </manifest>
