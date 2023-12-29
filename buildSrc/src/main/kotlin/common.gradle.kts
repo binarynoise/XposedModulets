@@ -161,7 +161,9 @@ if (isAndroid) {
             val name = "${project.name}-v$commitCount"
             
             if (repository.getReleaseByTagName(tagName) != null) {
-                println("Release $name already exists")
+                doLast {
+                    println("Release $name already exists")
+                }
                 return@doFirst
             }
             
@@ -171,7 +173,9 @@ if (isAndroid) {
                 release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
             }
             
-            println("Created release ${release.name}: ${release.htmlUrl}")
+            doLast {
+                println("Created release ${release.name}: ${release.htmlUrl}")
+            }
         }
     }
     
