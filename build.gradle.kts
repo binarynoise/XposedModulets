@@ -148,6 +148,7 @@ allprojects {
         
         if (isAndroid) {
             val android = extensions.getByType<BaseExtension>()
+            var logString: String? = null
             
             tasks.register("createGithubRelease") {
                 check(workingTreeClean) { "Commit all changes before creating release" }
@@ -180,9 +181,7 @@ allprojects {
                     val name = "${project.name}-v$commitCount"
                     
                     if (repository.getReleaseByTagName(tagName) != null) {
-                        doLast {
-                            println("Release $name already exists")
-                        }
+                        logString = "Release $name already exists"
                         return@doFirst
                     }
                     
@@ -192,8 +191,12 @@ allprojects {
                         release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
                     }
                     
-                    doLast {
-                        println("Created release ${release.name}: ${release.htmlUrl}")
+                    logString = "Created release ${release.name}: ${release.htmlUrl}"
+                }
+                
+                @Suppress("DEPRECATION") gradle.buildFinished {
+                    if (logString != null) {
+                        println(logString)
                     }
                 }
             }
