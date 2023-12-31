@@ -259,7 +259,11 @@ tasks.create("clearAllDraftReleases") {
 //<editor-fold desc="Git">
 fun Project.getCommitCountExec() = providers.exec {
     executable("git")
-    args("rev-list", "--count", "HEAD", projectDir.absolutePath)
+    args("rev-list", "--count", "HEAD")
+    args(projectDir.absolutePath)
+    args(rootProject.file("gradle").absolutePath)
+    
+    rootProject.projectDir.listFiles { file -> file.isFile && file.extension != "md" }!!.forEach { args(it.absolutePath) }
     
     extensions.findByType<BaseExtension>()?.let {
         val metadata = rootProject.file("metadata").resolve(it.namespace!!)
