@@ -151,11 +151,6 @@ allprojects {
             var logString: String? = null
             
             tasks.register("createGithubRelease") {
-                check(workingTreeClean) { "Commit all changes before creating release" }
-                check(allCommitsPushed) { "Push to remote before creating release" }
-                
-                dependsOn("assembleRelease")
-                
                 val properties = Properties()
                 val file = rootProject.file("local.properties")
                 if (file.exists()) {
@@ -168,7 +163,14 @@ allprojects {
                 check(repo != null && repo is String) { "github_repo not provided in local.properties" }
                 check(token != null && token is String) { "github_api_key not provided in local.properties" }
                 
+                if (workingTreeClean && allCommitsPushed) {
+                    dependsOn("assembleRelease")
+                }
+                
                 doFirst {
+                    check(workingTreeClean) { "Commit all changes before creating release" }
+                    check(allCommitsPushed) { "Push to remote before creating release" }
+                    
                     val packageRelease = project.tasks.getByName<DefaultTask>("packageRelease")
                     
                     val outputs = packageRelease.outputs.files
