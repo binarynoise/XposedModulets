@@ -2,10 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application
-        android:icon="@android:drawable/ic_menu_rotate"
-        android:label="RotationControl"
-        >
+    <application android:label="RotationControl">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
