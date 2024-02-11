@@ -11,4 +11,7 @@ android {
         minSdk = 14
         targetSdk = 33
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }

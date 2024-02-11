@@ -12,6 +12,6 @@ android {
 }
 
 dependencies {
-    implementation("androidx.collection:collection-ktx:1.3.0")
+    implementation("androidx.collection:collection-ktx:1.4.0")
     implementation("androidx.core:core-ktx:1.12.0")
 }
