@@ -34,7 +34,7 @@ class method(private val cls: Class<*>, private vararg val params: Class<*>) {
             c = c.superclass
         }
         
-        return methods.filter { it.name == property.name }
+        return methods.filter { it.name == property.name.removeSuffix("Method") }
             .first { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
             .makeAccessible()
     }
