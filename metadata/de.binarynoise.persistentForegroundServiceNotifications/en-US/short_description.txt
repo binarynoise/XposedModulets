@@ -1,0 +1,1 @@
+Make notifications of foreground services persistent again
