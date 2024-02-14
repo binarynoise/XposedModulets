@@ -20,10 +20,6 @@ import android.util.SparseLongArray
 import android.view.View
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
-import androidx.collection.forEach
-import androidx.core.util.forEach
-import androidx.core.util.isEmpty
-import androidx.core.view.children
 
 object Logger {
     
@@ -91,43 +87,53 @@ object Logger {
             }
             //region SparseArrays
             this is SparseArray<*> -> {
-                if (this.isEmpty()) {
+                if (this.size() == 0) {
                     println("[]")
                 } else {
                     println()
-                    this.forEach { k, v -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                    for (index in 0 until size()) {
+                        valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                    }
                 }
             }
             this is SparseIntArray -> {
-                if (this.isEmpty()) {
+                if (this.size() == 0) {
                     println("[]")
                 } else {
                     println()
-                    this.forEach { k, v -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                    for (index in 0 until size()) {
+                        valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                    }
                 }
             }
             this is SparseLongArray -> {
-                if (this.isEmpty()) {
+                if (this.size() == 0) {
                     println("[]")
                 } else {
                     println()
-                    this.forEach { k, v -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                    for (index in 0 until size()) {
+                        valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                    }
                 }
             }
             this is SparseBooleanArray -> {
-                if (this.isEmpty()) {
+                if (this.size() == 0) {
                     println("[]")
                 } else {
                     println()
-                    this.forEach { k, v -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                    for (index in 0 until size()) {
+                        valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                    }
                 }
             }
             this is SparseArrayCompat<*> -> {
-                if (this.isEmpty) {
+                if (this.size() == 0) {
                     println("[]")
                 } else {
                     println()
-                    this.forEach { k, v -> v.dump(k.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                    for (index in 0 until size()) {
+                        valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                    }
                 }
             }
             //endregion
@@ -163,7 +169,9 @@ object Logger {
             }
             this is ViewGroup -> {
                 println()
-                children.forEachIndexed { view, i -> view.dump(i.toString(), nextIndent, processed, forceInclude, forceIncludeClasses) }
+                for (i in 0 until childCount) {
+                    getChildAt(i).dump(i.toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
+                }
             }
             forceInclude.none { it == this } && forceIncludeClasses.none { it.isInstance(this) } && listOf(
                 "android.content.Context",
@@ -237,8 +245,8 @@ object Logger {
     fun View.dump(indent: Int = 0) {
         println(" ".repeat(indent * 2) + this)
         if (this is ViewGroup) {
-            children.forEach {
-                it.dump(indent + 1)
+            for (i in 0 until childCount) {
+                getChildAt(i).dump(indent + 1)
             }
         }
     }
