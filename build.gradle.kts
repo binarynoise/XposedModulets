@@ -85,9 +85,12 @@ allprojects {
                     versionCode = commitCount
                     versionName = "$commitCount${if (workingTreeClean) "-" else "+"}$commitHash"
                     
-                    proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "../proguard-rules.pro")
                     if (isAndroidLib) {
+                        proguardFiles("../proguard-rules.pro", "./proguard-rules.pro")
                         consumerProguardFiles("consumer-rules.pro")
+                    } else {
+                        proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "../proguard-rules.pro")
+                        
                     }
                 }
                 
