@@ -6,6 +6,7 @@ import java.lang.reflect.Method
 import android.annotation.SuppressLint
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
+import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.mWifiInfoField
 import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
 import de.binarynoise.reflection.field
@@ -18,9 +19,16 @@ object Wrapper {
 }
 
 object BaseWifiTracker {
-    private val baseWiFiTrackerClass: Class<*> get() = classLoader.loadClass("$wifitrackerlib.BaseWifiTracker")
+    val baseWiFiTrackerClass: Class<*> = classLoader.loadClass("$wifitrackerlib.BaseWifiTracker")
     
-    fun isVerboseLoggingEnabled(): Boolean = baseWiFiTrackerClass.getDeclaredMethod("isVerboseLoggingEnabled").invoke(null) as Boolean
+    fun isVerboseLoggingEnabled(): Boolean {
+        if (Build.VERSION.SDK_INT < 34) return baseWiFiTrackerClass.getDeclaredMethod("isVerboseLoggingEnabled").invoke(null) as Boolean
+        else {
+            // that actually is the fix, the original code doesn't check for this either anymore
+            // https://cs.android.com/android/_/android/platform/frameworks/opt/net/wifi/+/main:libs/WifiTrackerLib/src/com/android/wifitrackerlib/Utils.java;l=529;bpv=0;bpt=0
+            return true
+        }
+    }
 }
 
 object Utils {

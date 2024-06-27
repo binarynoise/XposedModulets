@@ -1,6 +1,7 @@
 package de.binarynoise.betterVerboseWiFiLogging
 
 import android.annotation.SuppressLint
+import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.StandardWifiEntry.newGetScanResultDescription
 import de.binarynoise.betterVerboseWiFiLogging.Utils.wifiTrackerLibUtilsClass
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getNetworkCapabilityDescription
@@ -47,8 +48,13 @@ class Hook : IXposedHookLoadPackage {
             }
         }
         
+        val verboseMethod = if (Build.VERSION.SDK_INT < 34) {
+            XposedHelpers.findMethodExact(wifiTrackerLibUtilsClass, "getVerboseLoggingDescription", wifiEntryClass)
+        } else {
+            XposedHelpers.findMethodExact(wifiTrackerLibUtilsClass, "getVerboseSummary", wifiEntryClass)
+        }
         
-        XposedHelpers.findAndHookMethod(wifiTrackerLibUtilsClass, "getVerboseLoggingDescription", wifiEntryClass, object : MethodHook() {
+        XposedBridge.hookMethod(verboseMethod, object : MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
                 with(param) {
                     val wifiEntry = args[0]
