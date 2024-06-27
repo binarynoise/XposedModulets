@@ -10,6 +10,7 @@ import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getWifiInfoDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.newGetWifiInfoDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.wifiEntryClass
 import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
+import de.binarynoise.reflection.cast
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -66,9 +67,9 @@ class Hook : IXposedHookLoadPackage {
                     
                     result = listOf(
                         newGetWifiInfoDescription(wifiEntry),
-                        getNetworkCapabilityDescription.invoke(wifiEntry) as String?, // can stay as is
+                        getNetworkCapabilityDescription.invoke(wifiEntry)?.cast<String>()?.replace(":", ":\u00A0"), // can stay as is
                         newGetScanResultDescription(wifiEntry),
-                        getNetworkSelectionDescription.invoke(wifiEntry) as String?, // TODO
+                        getNetworkSelectionDescription.invoke(wifiEntry)?.cast<String?>(), // TODO
                     ).filterNot { it.isNullOrBlank() }.joinToString(",\n").trim()
                 }
             }
