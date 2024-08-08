@@ -1,0 +1,1 @@
+Prioritize open Wi-Fi networks in the Wi-Fi picker
