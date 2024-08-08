@@ -7,13 +7,14 @@ import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+import com.android.build.gradle.tasks.PackageAndroidArtifact
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:8.5.0")
+        classpath("com.android.tools.build:gradle:8.5.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
         classpath("org.kohsuke:github-api:1.321")
     }
@@ -215,6 +216,10 @@ allprojects {
                     "**/*.kotlin_module",
                     "kotlin-tooling-metadata.json",
                 )
+            }
+            
+            tasks.withType<PackageAndroidArtifact> {
+                doFirst { appMetadata.asFile.get().writeText("") }
             }
         }
         
