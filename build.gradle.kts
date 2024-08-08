@@ -137,7 +137,7 @@ allprojects {
                 
                 lint {
                     disable += "DiscouragedApi"
-                    disable += "ExpiredTargedSdkVersion"
+                    disable += "ExpiredTargetSdkVersion"
                     disable += "OldTargetApi"
                     disable += "MissingApplicationIcon"
                     disable += "UnusedAttribute"
