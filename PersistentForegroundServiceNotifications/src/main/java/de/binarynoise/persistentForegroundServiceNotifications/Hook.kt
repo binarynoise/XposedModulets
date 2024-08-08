@@ -15,7 +15,7 @@ import android.app.Notification.FLAG_ONLY_ALERT_ONCE
 import android.app.Notification.FLAG_SHOW_LIGHTS
 import android.service.notification.StatusBarNotification
 import de.binarynoise.logger.Logger.log
-import de.binarynoise.reflection.method
+import de.binarynoise.reflection.findDeclaredMethod
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -29,7 +29,7 @@ class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) = try {
         val statusBarNotificationClass = StatusBarNotification::class.java
-        val isNonDismissableMethod by method(statusBarNotificationClass)
+        val isNonDismissableMethod = statusBarNotificationClass.findDeclaredMethod("isNonDismissable")
         
         XposedBridge.hookMethod(isNonDismissableMethod, object : MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {

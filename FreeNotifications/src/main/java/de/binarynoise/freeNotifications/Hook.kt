@@ -2,7 +2,7 @@ package de.binarynoise.freeNotifications
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
-import de.binarynoise.reflection.field
+import de.binarynoise.reflection.findDeclaredField
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
@@ -15,7 +15,7 @@ class Hook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         val cls = NotificationChannel::class.java
         
-        val mBlockableSystem by field(cls)
+        val mBlockableSystem = cls.findDeclaredField("mBlockableSystem")
         
         val setToTrue = object : MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {

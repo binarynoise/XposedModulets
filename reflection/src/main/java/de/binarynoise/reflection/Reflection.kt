@@ -5,39 +5,28 @@ package de.binarynoise.reflection
 import java.lang.reflect.AccessibleObject
 import java.lang.reflect.Field
 import java.lang.reflect.Method
+import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class field(private val cls: Class<*>) {
-    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Field {
-        return cls.getDeclaredField(property.name.removeSuffix("Field")).makeAccessible()
+fun <T> Class<T>.findDeclaredMethod(name: String, vararg params: Class<*>): Method {
+    var c: Class<*>? = this
+    while (c != null) {
+        c.declaredMethods.filter { it.name == name }
+            .firstOrNull() { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
+            ?.let { return it.makeAccessible() }
+        c = c.superclass
     }
     
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): Field {
-        return cls.getDeclaredField(property.name.removeSuffix("Field")).makeAccessible()
-    }
+    throw NoSuchMethodException("$name(${params.joinToString { it.simpleName }})")
 }
 
-class method(private val cls: Class<*>, private vararg val params: Class<*>) {
-    operator fun getValue(thisRef: Nothing?, property: KProperty<*>): Method {
-        return getMethod(property)
+fun <T> Class<T>.findDeclaredField(name: String): Field {
+    var c: Class<*>? = this
+    while (c != null) {
+        c.declaredFields.filter { it.name == name }.firstOrNull()?.let { return it.makeAccessible() }
+        c = c.superclass
     }
-    
-    operator fun getValue(thisRef: Any?, property: KProperty<*>): Method {
-        return getMethod(property)
-    }
-    
-    private fun getMethod(property: KProperty<*>): Method {
-        val methods = mutableListOf<Method>()
-        var c: Class<*>? = cls
-        while (c != null) {
-            methods += c.declaredMethods
-            c = c.superclass
-        }
-        
-        return methods.filter { it.name == property.name.removeSuffix("Method") }
-            .first { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
-            .makeAccessible()
-    }
+    throw NoSuchFieldException(name)
 }
 
 fun <T : AccessibleObject> T.makeAccessible(): T = apply { isAccessible = true }

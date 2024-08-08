@@ -2,15 +2,14 @@
 
 package de.binarynoise.betterVerboseWiFiLogging
 
-import java.lang.reflect.Method
 import android.annotation.SuppressLint
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.mWifiInfoField
 import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
-import de.binarynoise.reflection.field
-import de.binarynoise.reflection.method
+import de.binarynoise.reflection.findDeclaredField
+import de.binarynoise.reflection.findDeclaredMethod
 
 const val wifitrackerlib = "com.android.wifitrackerlib"
 
@@ -203,7 +202,7 @@ val channelMap = mapOf(
 object WifiEntry {
     val wifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.WifiEntry")
     
-    val getWifiInfoDescription: Method by method(wifiEntryClass)
+    val getWifiInfoDescription = wifiEntryClass.findDeclaredMethod("getWifiInfoDescription")
     
     private const val CONNECTED_STATE_CONNECTED = 2
     fun newGetWifiInfoDescription(wifiEntry: Any): String {
@@ -228,19 +227,19 @@ object WifiEntry {
         }
     }
     
-    val getNetworkCapabilityDescription by method(wifiEntryClass)
-    val getNetworkSelectionDescription by method(wifiEntryClass)
+    val getNetworkCapabilityDescription = wifiEntryClass.findDeclaredMethod("getNetworkCapabilityDescription")
+    val getNetworkSelectionDescription = wifiEntryClass.findDeclaredMethod("getNetworkSelectionDescription")
     
-    val getScanResultDescription by method(wifiEntryClass) // -> StandardWifiEntry
+    val getScanResultDescription = wifiEntryClass.findDeclaredMethod("getScanResultDescription") // -> StandardWifiEntry
     
-    val getConnectedState by method(wifiEntryClass)
+    val getConnectedState = wifiEntryClass.findDeclaredMethod("getConnectedState")
     
-    val mWifiInfoField by field(wifiEntryClass)
+    val mWifiInfoField = wifiEntryClass.findDeclaredField("mWifiInfo")
 }
 
 object StandardWifiEntry {
     private val standardWifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.StandardWifiEntry")
-    val getScanResultDescription by method(WifiEntry.wifiEntryClass) // -> StandardWifiEntry
+    val getScanResultDescription = WifiEntry.wifiEntryClass.findDeclaredMethod("getScanResultDescription") // -> StandardWifiEntry
     
     fun newGetScanResultDescription(wifiEntry: Any): String {
         @Suppress("UNCHECKED_CAST") val mTargetScanResults = mTargetScanResultsField[wifiEntry] as ArrayList<ScanResult>
@@ -274,5 +273,5 @@ object StandardWifiEntry {
         }
     }
     
-    private val mTargetScanResultsField by field(standardWifiEntryClass)
+    private val mTargetScanResultsField = standardWifiEntryClass.findDeclaredField("mTargetScanResults")
 }

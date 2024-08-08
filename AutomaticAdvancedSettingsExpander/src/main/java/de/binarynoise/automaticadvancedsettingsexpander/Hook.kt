@@ -7,6 +7,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 const val TAG = "AutomaticSettingsExpand"
 
@@ -20,11 +21,10 @@ class Hook : IXposedHookLoadPackage {
         
         val classes = arrayOf("PreferenceGroup")
         
-        val hook = object : XC_MethodHook() {
+        val hook = object : MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                var expandedCount by param.args(0)
-                Log.d(TAG, "expandedCount would have been set to $expandedCount, but setting to Int.MAX_VALUE instead")
-                expandedCount = Int.MAX_VALUE
+                Log.d(TAG, "expandedCount would have been set to ${param.args[0]}, but setting to Int.MAX_VALUE instead")
+                param.args[0] = Int.MAX_VALUE
             }
         }
         
@@ -42,20 +42,6 @@ class Hook : IXposedHookLoadPackage {
                 } catch (_: Throwable) {
                 }
             }
-        }
-    }
-    
-    operator fun <T> Array<T>.invoke(index: Int): ArrayDelegate<T> {
-        return ArrayDelegate(this, index)
-    }
-    
-    class ArrayDelegate<T>(val array: Array<T>, val index: Int) : ReadWriteProperty<Any?, T> {
-        override fun getValue(thisRef: Any?, property: KProperty<*>): T {
-            return array[index]
-        }
-        
-        override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-            array[index] = value
         }
     }
 }
