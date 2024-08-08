@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scope">
+        <item>android</item>
+        <item>system</item>
+        <item>com.android.systemui</item>
+        <item>android.ext.services</item>
+    </string-array>
+</resources>
