@@ -14,8 +14,8 @@ import org.kohsuke.github.GitHub
 
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:8.5.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
+        classpath("com.android.tools.build:gradle:8.5.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.10")
         classpath("org.kohsuke:github-api:1.321")
     }
     
