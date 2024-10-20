@@ -1,6 +1,7 @@
-package de.binarynoise.ClassHunter
+package de.binarynoise.classHunter
 
 import android.util.Log
+import de.binarynoise.ClassHunter.BuildConfig
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -10,7 +11,7 @@ class Hook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         Log.i(TAG, "*".repeat(50))
         Log.i(TAG, "loading package: ${lpparam.packageName}")
-        Log.i(TAG, "hunting for ${BuildConfig.targetClass}")
+        Log.i(TAG, "hunting for ${BuildConfig.targetClass.joinToString()}")
         
         val classLoaders = mutableSetOf<ClassLoader>()
         
@@ -28,30 +29,31 @@ class Hook : IXposedHookLoadPackage {
         
         Log.i(TAG, "currently known classloaders:")
         classLoaders.forEach {
-            Log.d(TAG, "${it.toObjectString()}" + " - " + it.toString())
+            Log.v(TAG, "${it.toObjectString()} - $it")
             
-            try {
-                val cls = Class.forName(BuildConfig.targetClass, false, it)
-                Log.w(TAG, " - found class: ${cls.name}")
-                
-                Log.i(TAG, " - methods:")
-                cls.declaredMethods.forEach {
-                    Log.d(TAG, "  - ${it.returnType.name} ${it.name}(${it.parameters.joinToString(", ") { it.name + " " + it.type.name }})")
+            BuildConfig.targetClass.forEach { className ->
+                try {
+                    val cls = Class.forName(className, false, it)
+                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by $it")
+                    
+                    Log.i(TAG, " - methods:")
+                    cls.declaredMethods.forEach { m ->
+                        Log.v(TAG, "  - ${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})")
+                    }
+                    
+                    Log.i(TAG, " - fields:")
+                    cls.declaredFields.forEach { f ->
+                        Log.v(TAG, "  - ${f.type.name} ${f.name}")
+                    }
+                } catch (_: Throwable) {
                 }
-                
-                Log.i(TAG, " - fields:")
-                cls.declaredFields.forEach {
-                    Log.d(TAG, "  - ${it.type.name} ${it.name}")
-                }
-            } catch (_: Throwable) {
-            
             }
         }
     }
     
     private fun collectParents(classLoader: ClassLoader, name: String, classLoaders: MutableSet<ClassLoader>) {
         generateSequence(classLoader) { it.parent }.forEach {
-            Log.d(TAG, name + " - ${it.toObjectString()}")
+            Log.v(TAG, name + " - ${it.toObjectString()}")
             classLoaders.add(it)
         }
     }

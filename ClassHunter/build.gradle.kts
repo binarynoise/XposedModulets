@@ -10,7 +10,13 @@ android {
         minSdk = 26
         targetSdk = 33
         
-        buildConfigField("String", "targetClass", """"..."""")
+        val file = File(projectDir, "targetClass.txt")
+        if (!file.exists()) {
+            file.createNewFile()
+        }
+        val classes = file.readLines().filterNot { it.startsWith("#") }
+        buildConfigField("String[]", "targetClass", classes.joinToString("\", \"", "{\"", "\"}"))
+        versionNameSuffix = classes.joinToString(", ", " (", ")")
     }
     
     buildFeatures {
@@ -18,5 +24,4 @@ android {
     }
 }
 
-dependencies {
-}
+dependencies {}
