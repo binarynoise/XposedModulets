@@ -1,6 +1,5 @@
 package de.binarynoise.betterVerboseWiFiLogging
 
-import android.annotation.SuppressLint
 import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.StandardWifiEntry.newGetScanResultDescription
 import de.binarynoise.betterVerboseWiFiLogging.Utils.wifiTrackerLibUtilsClass
@@ -17,7 +16,6 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-@SuppressLint("PrivateApi")
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {

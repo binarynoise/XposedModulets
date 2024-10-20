@@ -1,13 +1,11 @@
 package de.binarynoise.ClassHunter
 
-import android.annotation.SuppressLint
 import android.util.Log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 const val TAG = "Hook"
 
-@SuppressLint("PrivateApi", "MissingPermission")
 class Hook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         Log.i(TAG, "*".repeat(50))

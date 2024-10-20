@@ -1,6 +1,5 @@
 package de.binarynoise.freeNotifications
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import de.binarynoise.reflection.findDeclaredField
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -9,7 +8,6 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-@SuppressLint("PrivateApi", "MissingPermission")
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {

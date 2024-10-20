@@ -93,7 +93,6 @@ allprojects {
                         consumerProguardFiles("consumer-rules.pro")
                     } else {
                         proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "../proguard-rules.pro")
-                        
                     }
                 }
                 
@@ -138,8 +137,10 @@ allprojects {
                 lint {
                     disable += "DiscouragedApi"
                     disable += "ExpiredTargetSdkVersion"
-                    disable += "OldTargetApi"
                     disable += "MissingApplicationIcon"
+                    disable += "MissingPermission"
+                    disable += "OldTargetApi"
+                    disable += "PrivateApi"
                     disable += "UnusedAttribute"
                 }
             }

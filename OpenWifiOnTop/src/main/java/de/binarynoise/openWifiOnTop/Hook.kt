@@ -1,6 +1,5 @@
 package de.binarynoise.openWifiOnTop
 
-import android.annotation.SuppressLint
 import de.binarynoise.reflection.cast
 import de.binarynoise.reflection.findDeclaredField
 import de.binarynoise.reflection.findDeclaredMethod
@@ -10,7 +9,6 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-@SuppressLint("PrivateApi", "MissingPermission")
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {

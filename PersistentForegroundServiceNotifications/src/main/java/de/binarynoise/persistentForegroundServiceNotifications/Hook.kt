@@ -1,6 +1,5 @@
 package de.binarynoise.persistentForegroundServiceNotifications
 
-import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.Notification.FLAG_AUTO_CANCEL
 import android.app.Notification.FLAG_BUBBLE
@@ -24,7 +23,6 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 val FLAG_NO_DISMISS = XposedHelpers.getStaticIntField(Notification::class.java, "FLAG_NO_DISMISS")
 
-@SuppressLint("PrivateApi", "MissingPermission")
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) = try {

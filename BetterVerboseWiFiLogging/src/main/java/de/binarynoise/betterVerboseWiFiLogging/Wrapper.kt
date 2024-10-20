@@ -1,8 +1,5 @@
-@file:SuppressLint("PrivateApi")
-
 package de.binarynoise.betterVerboseWiFiLogging
 
-import android.annotation.SuppressLint
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiInfo
 import android.os.Build
