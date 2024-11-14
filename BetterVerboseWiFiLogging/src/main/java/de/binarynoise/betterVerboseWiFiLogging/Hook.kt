@@ -8,7 +8,6 @@ import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getNetworkSelectionDesc
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getWifiInfoDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.newGetWifiInfoDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.wifiEntryClass
-import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
 import de.binarynoise.reflection.cast
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedBridge
@@ -19,7 +18,7 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        classLoader = lpparam.classLoader
+        Wrapper.classLoader = lpparam.classLoader
         
         XposedBridge.hookMethod(getWifiInfoDescription, object : MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
