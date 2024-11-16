@@ -12,5 +12,5 @@ android {
 }
 
 dependencies {
-    debugImplementation("androidx.collection:collection:1.4.3")
+    debugImplementation("androidx.collection:collection:1.4.5")
 }

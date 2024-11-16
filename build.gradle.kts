@@ -6,7 +6,6 @@ import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.gradle.BaseExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import com.android.build.gradle.tasks.PackageAndroidArtifact
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.kohsuke.github.GHReleaseBuilder
@@ -14,8 +13,8 @@ import org.kohsuke.github.GitHub
 
 buildscript {
     dependencies {
-        classpath("com.android.tools.build:gradle:8.5.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.10")
+        classpath("com.android.tools.build:gradle:8.7.2")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21")
         classpath("org.kohsuke:github-api:1.321")
     }
     
@@ -241,7 +240,7 @@ allprojects {
         
         if (isKotlinLib || isKotlinAndroid) {
             dependencies {
-                add("implementation", "org.jetbrains:annotations:24.1.0")
+                add("implementation", "org.jetbrains:annotations:26.0.1")
             }
         }
     }
