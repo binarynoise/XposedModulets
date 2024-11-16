@@ -17,6 +17,15 @@ A collection of small Xposed Modules.
 | [ResetAllNotificationChannels](ResetAllNotificationChannels)                         | [@binarynoise](https://github.com/binarynoise)             | Reset all Notification Channels: vibrations, ringtones, importance etc. | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=resetAllNotificationChannels) [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/de.binarynoise.resetAllNotificationChannels)           |
 | [RotationControl](RotationControl)                                                   | [@programminghoch10](https://github.com/programminghoch10) | Force rotation for selected packages                                    | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=RotationControl) [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.programminghoch10.RotationControl)                              |
 
-# License
+## License
 
 These modules are licensed under the [European Union Public Licence (EUPL) v. 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
+
+---
+<a href="https://star-history.com/#binarynoise/XposedModulets&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date" />
+ </picture>
+</a>
