@@ -1,13 +1,21 @@
 package de.binarynoise.classHunter
 
+import java.security.SecureClassLoader
+import android.os.Build
 import android.util.Log
+import dalvik.system.BaseDexClassLoader
+import dalvik.system.DelegateLastClassLoader
+import dalvik.system.PathClassLoader
 import de.binarynoise.ClassHunter.BuildConfig
 import de.robv.android.xposed.IXposedHookLoadPackage
+import de.robv.android.xposed.IXposedHookZygoteInit
+import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 const val TAG = "Hook"
 
-class Hook : IXposedHookLoadPackage {
+class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         Log.i(TAG, "*".repeat(50))
         Log.i(TAG, "loading package: ${lpparam.packageName}")
@@ -34,16 +42,25 @@ class Hook : IXposedHookLoadPackage {
             BuildConfig.targetClass.forEach { className ->
                 try {
                     val cls = Class.forName(className, false, it)
-                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by $it")
+                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by ${it.toObjectString()}")
+                    
+                    Log.i(TAG, " - constructors:")
+                    cls.declaredConstructors.map { c -> "${c.name}(${c.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
+                        .sorted()
+                        .forEach { c ->
+                            Log.v(TAG, "  - $it")
+                        }
                     
                     Log.i(TAG, " - methods:")
-                    cls.declaredMethods.forEach { m ->
-                        Log.v(TAG, "  - ${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})")
-                    }
+                    cls.declaredMethods.map { m -> "${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
+                        .sorted()
+                        .forEach { m ->
+                            Log.v(TAG, "  - $it")
+                        }
                     
                     Log.i(TAG, " - fields:")
-                    cls.declaredFields.forEach { f ->
-                        Log.v(TAG, "  - ${f.type.name} ${f.name}")
+                    cls.declaredFields.map { f -> "${f.type.name} ${f.name}" }.sorted().forEach { f ->
+                        Log.v(TAG, "  - $it")
                     }
                 } catch (_: Throwable) {
                 }
@@ -52,9 +69,69 @@ class Hook : IXposedHookLoadPackage {
     }
     
     private fun collectParents(classLoader: ClassLoader, name: String, classLoaders: MutableSet<ClassLoader>) {
-        generateSequence(classLoader) { it.parent }.forEach {
+        classLoaders.addAll(generateSequence(classLoader) { it.parent }.onEach {
             Log.v(TAG, name + " - ${it.toObjectString()}")
-            classLoaders.add(it)
+        })
+    }
+    
+    override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
+        val classLoaderClasses = mutableSetOf<Class<*>>(
+            ClassLoader::class.java,
+            SecureClassLoader::class.java,
+//            URLClassLoader::class.java,
+            BaseDexClassLoader::class.java,
+//            PathClassLoader::class.java,
+//            InMemoryDexClassLoader::class.java,
+//            DexClassLoader::class.java,
+            ClassLoader.getSystemClassLoader()::class.java, // BootClassLoader
+        )
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+            classLoaderClasses.add(DelegateLastClassLoader::class.java)
+        }
+        
+        try {
+            classLoaderClasses.add(Class.forName("android.app.LoadedApk\$WarningContextClassLoader", false, null))
+        } catch (_: Throwable) {
+        }
+        
+        val targetClassesShortName = BuildConfig.targetClass.map { it.substringAfterLast(".") }.toSet()
+        
+        classLoaderClasses.forEach {
+            val loadClassHook = object : MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val cls = param.result as? Class<*> ?: return
+                    
+                    if (cls.name.substringAfterLast(".") in targetClassesShortName) {
+                        Log.i(TAG, "Maybe found class: ${cls.name} by ${param.thisObject.toObjectString()}")
+                    }
+                }
+            }
+            var loadNewClassloaderHook: MethodHook? = null
+            loadNewClassloaderHook = object : MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    if (param.thisObject !is PathClassLoader) {
+                        Log.v(TAG, "Created a new ClassLoader: ${param.thisObject.toObjectString()} ${param.thisObject}")
+                    }
+                    
+                    val cls: Class<*> = param.thisObject::class.java
+                    if (cls !in classLoaderClasses) {
+                        Log.i(TAG, "Found a new ClassLoader class: ${cls}, created by ${cls.classLoader}")
+                    }
+                    try {
+                        
+                        XposedBridge.hookAllConstructors(it, loadNewClassloaderHook)
+                        XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
+                    } catch (_: Throwable) {
+                    }
+                }
+            }
+            
+            try {
+                XposedBridge.hookAllConstructors(it, loadNewClassloaderHook)
+                XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
+            } catch (_: Throwable) {
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ android {
         if (!file.exists()) {
             file.createNewFile()
         }
-        val classes = file.readLines().filterNot { it.startsWith("#") }
+        val classes = file.readLines().filterNot { it.startsWith("#") || it.isBlank() }
         buildConfigField("String[]", "targetClass", classes.joinToString("\", \"", "{\"", "\"}"))
         versionNameSuffix = classes.joinToString(", ", " (", ")")
     }
