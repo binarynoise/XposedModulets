@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    kotlin("android")
+    alias(libs.plugins.buildlogic.android.library)
+    alias(libs.plugins.buildlogic.kotlin.android)
 }
 
 android {
@@ -12,5 +12,5 @@ android {
 }
 
 dependencies {
-    debugImplementation("androidx.collection:collection:1.4.5")
+    debugImplementation(libs.androidx.collection)
 }

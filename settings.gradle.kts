@@ -1,23 +1,44 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
-        gradlePluginPortal()
-        google()
+        google {
+            content {
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+                includeGroupAndSubgroups("androidx")
+            }
+        }
         mavenCentral()
+        gradlePluginPortal()
     }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
+        google {
+            content {
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+                includeGroupAndSubgroups("androidx")
+            }
+        }
+        maven("https://api.xposed.info/") {
+            content {
+                includeGroup("de.robv.android.xposed")
+            }
+        }
         mavenCentral()
-        maven("https://jitpack.io")
-        maven("https://api.xposed.info/")
+//        maven("https://jitpack.io")
+//        gradlePluginPortal()
     }
 }
 
+
 rootProject.name = "XposedModulets"
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 include(":AntiBrightnessChange")
 include(":AutomaticAdvancedSettingsExpander")
 include(":BetterVerboseWiFiLogging")
@@ -32,6 +53,8 @@ include(":PersistentForegroundServiceNotifications")
 include(":ResetAllNotificationChannels")
 include(":RotationControl")
 include(":reflection")
+include(":libxposed")
+include(":libxposed:compat")
 include(":logger")
 
 include(":template")
