@@ -8,7 +8,7 @@ collectionKtx = "1.5.0"
 githubApi = "1.321"
 hiddenapibypass = "5.0"
 jebrainsAnnotations = "26.0.2"
-kotlin = "2.1.0"
+kotlin = "2.1.20"
 xposed = "82"
 
 [libraries]
@@ -42,3 +42,4 @@ buildlogic-jvm = { id = "common.jvm" }
 buildlogic-kotlin-android = { id = "common.kotlin.android" }
 buildlogic-kotlin-jvm = { id = "common.kotlin.jvm" }
 buildlogic-kotlin-multiplatform = { id = "common.kotlin.multiplatform" }
+buildlogic-github = { id = "common.github" }
