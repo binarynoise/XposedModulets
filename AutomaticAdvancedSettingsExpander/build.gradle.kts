@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    alias(libs.plugins.buildlogic.android.application)
     kotlin("android")
 }
 
@@ -12,7 +12,7 @@ android {
     }
     
     signingConfigs {
-        create("release") {
+        maybeCreate("release").apply {
             keyAlias = "automaticadvancedsettingsexpander"
         }
     }
