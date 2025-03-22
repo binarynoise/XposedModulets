@@ -29,7 +29,6 @@ class CommonAndroidApplication : Plugin<Project> {
             commonAndroid.apply(target)
             
             extensions.configure<ApplicationExtension> {
-                
                 defaultConfig {
                     versionCode = getCommitCount()
                 }
@@ -121,7 +120,6 @@ class CommonAndroidLibrary : Plugin<Project> {
     private val commonAndroid = CommonAndroid()
     
     override fun apply(target: Project) {
-        
         with(target) {
             with(pluginManager) {
                 apply("com.android.library")
@@ -153,8 +151,8 @@ private class CommonAndroid : Plugin<Project> {
                 compileSdkVersion(35)
                 
                 dependencies {
-                    add("implementation", libs.androidx.annotation)
-                    add("implementation", libs.xposed.api)
+//                    add("implementation", libs.androidx.annotation)
+                    add("compileOnly", libs.xposed.api)
                 }
                 
                 buildTypes {
@@ -169,8 +167,10 @@ private class CommonAndroid : Plugin<Project> {
                 lintOptions {
                     disable += "DiscouragedApi"
                     disable += "ExpiredTargetSdkVersion"
-                    disable += "OldTargetApi"
                     disable += "MissingApplicationIcon"
+                    disable += "MissingPermission"
+                    disable += "OldTargetApi"
+                    disable += "PrivateApi"
                     disable += "UnusedAttribute"
                 }
                 
@@ -240,7 +240,6 @@ private class CommonKotlin : Plugin<Project> {
         }
     }
 }
-
 
 class CommonJvm : Plugin<Project> {
     override fun apply(target: Project) {

@@ -12,6 +12,7 @@ private fun Project.getCommitCountExec() = providers.exec {
     args("rev-list", "--count", "HEAD")
     args(projectDir.absolutePath)
     args(rootProject.file("gradle").absolutePath)
+    args(rootProject.file("build-logic"))
     
     rootProject.projectDir.listFiles { file -> file.isFile && file.extension != "md" }!!.forEach { args(it.absolutePath) }
     

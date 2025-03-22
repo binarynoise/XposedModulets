@@ -30,7 +30,6 @@ dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.kotlin.gradlePlugin)
-//    compileOnly(libs.ksp.gradlePlugin)
     implementation(libs.github.api)
     
     // Hack to make the libs accessor work
@@ -40,29 +39,33 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("commonAndroidApplicationPlugin") {
+        register("commonAndroidApplicationPlugin") {
             id = "common.android.application"
             implementationClass = "CommonAndroidApplication"
         }
-        create("commonAndroidLibraryPlugin") {
+        register("commonAndroidLibraryPlugin") {
             id = "common.android.library"
             implementationClass = "CommonAndroidLibrary"
         }
-        create("commonKotlinAndroidPlugin") {
+        register("commonKotlinAndroidPlugin") {
             id = "common.kotlin.android"
             implementationClass = "CommonKotlinAndroid"
         }
-        create("commonKotlinJvmPlugin") {
+        register("commonKotlinJvmPlugin") {
             id = "common.kotlin.jvm"
             implementationClass = "CommonKotlinJvm"
         }
-        create("commonKotlinMultiplatformPlugin") {
+        register("commonKotlinMultiplatformPlugin") {
             id = "common.kotlin.multiplatform"
             implementationClass = "CommonKotlinMultiplatform"
         }
-        create("commonJvmPlugin") {
+        register("commonJvmPlugin") {
             id = "common.jvm"
             implementationClass = "CommonJvm"
+        }
+        register("commonGithubPlugin") {
+            id = "common.github"
+            implementationClass = "GithubPlugin"
         }
     }
 }
