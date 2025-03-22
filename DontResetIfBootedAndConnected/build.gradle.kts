@@ -12,6 +12,4 @@ android {
     }
 }
 
-dependencies {
-
-}
+dependencies {}
