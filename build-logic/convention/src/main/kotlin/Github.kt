@@ -1,50 +1,74 @@
+@file:Suppress("unused")
+
+import java.util.*
 import buildlogic.git.getAllCommitsPushed
 import buildlogic.git.getCommitCount
 import buildlogic.git.getWorkingTreeClean
 import com.android.build.api.dsl.ApplicationExtension
+import org.gradle.BuildAdapter
+import org.gradle.BuildResult
 import org.gradle.api.DefaultTask
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.api.Transformer
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Provider
 import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.TaskAction
 import org.gradle.kotlin.dsl.*
 import org.gradle.work.DisableCachingByDefault
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
 
+abstract class GithubPlugin : Plugin<Project> {
+    
+    override fun apply(target: Project) {
+        with(target) {
+            tasks.register<GithubClearReleaseTask>("githubClearReleases")
+            subprojects {
+                afterEvaluate {
+                    if (extensions.findByType<ApplicationExtension>() != null) {
+                        tasks.register<GithubCreateReleaseTask>("githubCreateRelease")
+                    }
+                }
+            }
+            
+        }
+    }
+}
+
 @DisableCachingByDefault
-abstract class GithubCreateReleaseTask : DefaultTask() {
+abstract class GithubCreateReleaseTask : Github() {
+    
+    private val debug = true
+    
+    @Input
+    val commitCount = project.getCommitCount()
+    
+    @Input
+    val workingTreeClean = project.getWorkingTreeClean()
+    
+    @Input
+    val allCommitsPushed = project.getAllCommitsPushed()
     
     init {
-        notCompatibleWithConfigurationCache("needs to talk to GitHub")
+        if (debug || (workingTreeClean && allCommitsPushed)) {
+            dependsOn("packageRelease")
+        }
     }
-    
-    @get:Input
-    abstract val repo: String
-    
-    @get:Input
-    abstract val token: String
     
     @TaskAction
     fun createRelease() {
-        val commitCount = project.getCommitCount()
-        val workingTreeClean = project.getWorkingTreeClean()
-        val allCommitsPushed = project.getAllCommitsPushed()
-        
         val android = project.extensions.getByType<ApplicationExtension>()
         
-        if (workingTreeClean && allCommitsPushed) {
-            dependsOn("assembleRelease")
+        if (!debug) {
+            check(workingTreeClean) { "Commit all changes before creating release" }
+            check(allCommitsPushed) { "Push to remote before creating release" }
         }
         
-        check(workingTreeClean) { "Commit all changes before creating release" }
-        check(allCommitsPushed) { "Push to remote before creating release" }
-        
-        val packageRelease = project.tasks.getByName("packageRelease")
-        
-        val outputs = packageRelease.outputs.files
-        val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }!!.toList() }
-        
-        val github = GitHub.connectUsingOAuth(token)
-        val repository = github.getRepository(repo)
+        val github = GitHub.connectUsingOAuth(token.get())
+        val repository = github.getRepository(repo.get())
         
         val tagName = "${android.namespace}-v$commitCount"
         val name = "${project.name}-v$commitCount"
@@ -58,39 +82,60 @@ abstract class GithubCreateReleaseTask : DefaultTask() {
         
         val release = repository.createRelease(tagName).name(name).draft(true).makeLatest(GHReleaseBuilder.MakeLatest.FALSE).create()
         
+        val packageRelease = project.tasks.getByName("packageRelease")
+        val outputs = packageRelease.outputs.files
+        val apks = outputs.filter { it.isDirectory }.flatMap { it.listFiles { file -> file.extension == "apk" }.asList() }
         apks.forEach {
             release.uploadAsset("${project.name}-v$commitCount.apk", it.inputStream(), "application/vnd.android.package-archive")
         }
         
-        doLast {
-            project.logger.info("Created release ${release.name}: ${release.htmlUrl}")
-        }
+        val logString = "Created release ${release.name}: ${release.htmlUrl}"
+        
+        project.gradle.addBuildListener(object : BuildAdapter() {
+            override fun buildFinished(result: BuildResult) {
+                println(logString)
+            }
+        })
     }
 }
 
 @DisableCachingByDefault
-abstract class GithubClearReleaseTask : DefaultTask() {
+abstract class GithubClearReleaseTask : Github() {
+    
+    @TaskAction
+    fun clearReleases() {
+        val github = GitHub.connectUsingOAuth(token.get())
+        val repository = github.getRepository(repo.get())
+        
+        repository.listReleases().filter { it.isDraft }.forEach { release ->
+            val name = release.name
+            release.delete()
+            println("Deleted release $name")
+        }
+    }
+}
+
+abstract class Github : DefaultTask() {
     
     init {
         notCompatibleWithConfigurationCache("needs to talk to GitHub")
     }
     
-    @get:Input
-    abstract val repo: String
+    @get:InputFile
+    abstract val configurationFile: RegularFileProperty
     
-    @get:Input
-    abstract val token: String
+    @Input
+    val properties: Provider<Properties> = configurationFile.map { Properties().apply { load(it.asFile.inputStream()) } }
     
-    @TaskAction
-    fun clearReleases() {
-        
-        val github = GitHub.connectUsingOAuth(token)
-        val repository = github.getRepository(repo)
-        
-        repository.listReleases().filter { it.isDraft }.forEach { release ->
-            val name = release.name
-            release.delete()
-            project.logger.info("Deleted release $name")
+    @Input
+    val repo: Provider<String?> = properties.map<String?>(PropertyFileTransformer("github_repo"))
+    
+    @Input
+    val token: Provider<String> = properties.map<String?>(PropertyFileTransformer("github_api_key"))
+    
+    class PropertyFileTransformer(val key: String) : Transformer<String?, Properties> {
+        override fun transform(`in`: Properties): String? {
+            return `in`[key]?.toString()
         }
     }
 }
