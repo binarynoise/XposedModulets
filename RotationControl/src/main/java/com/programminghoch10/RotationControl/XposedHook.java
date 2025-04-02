@@ -1,6 +1,8 @@
 package com.programminghoch10.RotationControl;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.pm.ActivityInfo;
 import android.view.Window;
 
@@ -24,7 +26,15 @@ public class XposedHook implements IXposedHookLoadPackage {
                 "generateLayout", "com.android.internal.policy.DecorView", new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
-                        ((Activity) ((Window) param.thisObject).getContext()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                        Context context = ((Window) param.thisObject).getContext();
+                        
+                        while (context instanceof ContextWrapper) {
+                            if (context instanceof Activity activity) {
+                                activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR);
+                                return;
+                            }
+                            context = ((ContextWrapper) context).getBaseContext();
+                        }
                     }
                 }
         );
