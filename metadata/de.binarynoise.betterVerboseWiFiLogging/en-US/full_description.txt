@@ -1,4 +1,5 @@
-Makes the verbose Wi-Fi information (enabled in the developer settings) more readable, adds some and hides some useless information.
+This Xposed module makes the verbose Wi-Fi information (enabled in the developer settings) more readable,
+adds some and hides some useless information.
 
 Without the module, it is all one long line that gets wrapped at your screen to make it fit.
 
