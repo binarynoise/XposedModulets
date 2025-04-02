@@ -5,8 +5,6 @@ package de.binarynoise.reflection
 import java.lang.reflect.AccessibleObject
 import java.lang.reflect.Field
 import java.lang.reflect.Method
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 
 fun <T> Class<T>.findDeclaredMethod(name: String, vararg params: Class<*>): Method {
     var c: Class<*>? = this
@@ -23,7 +21,7 @@ fun <T> Class<T>.findDeclaredMethod(name: String, vararg params: Class<*>): Meth
 fun <T> Class<T>.findDeclaredField(name: String): Field {
     var c: Class<*>? = this
     while (c != null) {
-        c.declaredFields.filter { it.name == name }.firstOrNull()?.let { return it.makeAccessible() }
+        c.declaredFields.firstOrNull { it.name == name }?.let { return it.makeAccessible() }
         c = c.superclass
     }
     throw NoSuchFieldException(name)
