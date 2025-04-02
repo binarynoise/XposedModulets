@@ -1,6 +1,7 @@
 # Better Verbose WiFi Logging
 
-This makes the verbose Wi-Fi information (enabled in the developer settings) more readable, adds some and hides some useless information.
+This Xposed module makes the verbose Wi-Fi information (enabled in the developer settings) more readable,
+adds some and hides some useless information.
 
 *Before:*
 

@@ -1,2 +1,2 @@
-Sort Bluetooth devices by name instead of whatever they are otherwise sorted by.
+This Xposed module sorts Bluetooth devices by name instead of last connected to get a stable order.
 Takes effect in the settings app and the media device picker.

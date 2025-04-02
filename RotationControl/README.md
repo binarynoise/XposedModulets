@@ -1,3 +1,3 @@
 # RotationControl
 
-This will force full sensor rotation on selected packages.
+This Xposed module forces full sensor rotation on selected packages.
