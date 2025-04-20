@@ -1,0 +1,2 @@
+This XPosed module adds more animation scale multipliers
+to the animation scale configuration in the development options.
