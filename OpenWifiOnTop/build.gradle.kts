@@ -1,6 +1,6 @@
 plugins {
     alias(libs.plugins.buildlogic.android.application)
-    kotlin("android")
+    alias(libs.plugins.buildlogic.kotlin.android)
 }
 
 android {
