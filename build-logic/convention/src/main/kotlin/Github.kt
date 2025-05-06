@@ -41,7 +41,7 @@ abstract class GithubPlugin : Plugin<Project> {
 @DisableCachingByDefault
 abstract class GithubCreateReleaseTask : Github() {
     
-    private val debug = true
+    private val debug = false
     
     @Input
     val commitCount = project.getCommitCount()
