@@ -1,0 +1,3 @@
+Allow all apps to be launched twice side-by-side in a split screen.
+
+Undefined behaviour ahead!
