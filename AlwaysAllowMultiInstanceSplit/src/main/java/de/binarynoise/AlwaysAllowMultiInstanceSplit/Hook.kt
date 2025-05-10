@@ -1,6 +1,7 @@
 package de.binarynoise.AlwaysAllowMultiInstanceSplit
 
 import android.content.pm.ActivityInfo
+import android.os.Build
 import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodReplacement
@@ -17,11 +18,20 @@ class Hook : IXposedHookLoadPackage {
         when (lpparam.packageName) {
             "com.android.systemui" -> {
                 try {
-                    val cls = Class.forName("com.android.wm.shell.common.MultiInstanceHelper", false, lpparam.classLoader)
-                    XposedBridge.hookAllMethods(cls, "supportsMultiInstanceSplit", XC_MethodReplacement.returnConstant(true))
-                    log("Hooked com.android.wm.shell.common.MultiInstanceHelper::supportsMultiInstanceSplit")
+                    val method = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) XposedHelpers.findMethodExact(
+                        Class.forName("com.android.wm.shell.common.MultiInstanceHelper", false, lpparam.classLoader),
+                        "supportsMultiInstanceSplit",
+                        String::class.java
+                    )
+                    else XposedHelpers.findMethodExact(
+                        Class.forName("com.android.wm.shell.splitscreen.SplitScreenController", false, lpparam.classLoader),
+                        "supportMultiInstancesSplit",
+                        String::class.java
+                    )
+                    XposedBridge.hookMethod(method, XC_MethodReplacement.returnConstant(true))
+                    log("Hooked ${method.declaringClass.name}::${method.name}")
                 } catch (e: Throwable) {
-                    log("Failed to hook com.android.wm.shell.common.MultiInstanceHelper::supportsMultiInstanceSplit", e)
+                    log("Failed to hook supportsMultiInstanceSplit", e)
                 }
             }
             "android" -> {
