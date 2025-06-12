@@ -5,6 +5,7 @@ androidTools = "31.9.0"
 androidxAnnotation = "1.9.1"
 collection = "1.5.0"
 collectionKtx = "1.5.0"
+libsu = "6.0.0"
 githubApi = "1.321"
 hiddenapibypass = "5.0"
 jebrainsAnnotations = "26.0.2"
@@ -24,6 +25,7 @@ jebtrains-annotations = { module = "org.jetbrains:annotations", version.ref = "j
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
 
 [plugins]

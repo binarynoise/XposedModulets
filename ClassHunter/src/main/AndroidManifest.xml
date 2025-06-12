@@ -2,7 +2,23 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="ClassHunter">
+    <application
+        android:label="ClassHunter"
+        android:theme="@android:style/Theme.DeviceDefault.Settings"
+        >
+        <activity
+            android:name="de.binarynoise.classHunter.SetScopeActivity"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
         <meta-data
             android:name="xposedmodule"
             android:value="true"

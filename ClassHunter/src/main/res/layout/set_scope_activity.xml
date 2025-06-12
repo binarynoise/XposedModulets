@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="12dp"
+    tools:context="de.binarynoise.classHunter.SetScopeActivity"
+    >
+    
+    <Button
+        android:text="Set Scope"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/set_scope_button"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:textAllCaps="false"
+        />
+    
+    <Button
+        android:text="Reboot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/reboot_button"
+        style="@android:style/Widget.DeviceDefault.Button"
+        android:textAllCaps="false"
+        />
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/log"
+            />
+    </ScrollView>
+
+
+</LinearLayout>

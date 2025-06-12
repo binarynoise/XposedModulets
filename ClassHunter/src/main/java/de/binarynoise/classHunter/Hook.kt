@@ -1,10 +1,13 @@
 package de.binarynoise.classHunter
 
+import java.net.URLClassLoader
 import java.security.SecureClassLoader
 import android.os.Build
 import android.util.Log
 import dalvik.system.BaseDexClassLoader
 import dalvik.system.DelegateLastClassLoader
+import dalvik.system.DexClassLoader
+import dalvik.system.InMemoryDexClassLoader
 import dalvik.system.PathClassLoader
 import de.binarynoise.ClassHunter.BuildConfig
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -36,31 +39,31 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
         collectParents(bootClassLoader, "bootClassLoader", classLoaders)
         
         Log.i(TAG, "currently known classloaders:")
-        classLoaders.forEach {
-            Log.v(TAG, "${it.toObjectString()} - $it")
+        classLoaders.forEach { classLoader ->
+            Log.v(TAG, "${classLoader.toObjectString()} - $classLoader")
             
             BuildConfig.targetClass.forEach { className ->
                 try {
-                    val cls = Class.forName(className, false, it)
-                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by ${it.toObjectString()}")
+                    val cls = Class.forName(className, false, classLoader)
+                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by ${cls.toObjectString()}")
                     
                     Log.i(TAG, " - constructors:")
                     cls.declaredConstructors.map { c -> "${c.name}(${c.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
                         .sorted()
                         .forEach { c ->
-                            Log.v(TAG, "  - $it")
+                            Log.v(TAG, "  - $c")
                         }
                     
                     Log.i(TAG, " - methods:")
                     cls.declaredMethods.map { m -> "${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
                         .sorted()
                         .forEach { m ->
-                            Log.v(TAG, "  - $it")
+                            Log.v(TAG, "  - $m")
                         }
                     
                     Log.i(TAG, " - fields:")
                     cls.declaredFields.map { f -> "${f.type.name} ${f.name}" }.sorted().forEach { f ->
-                        Log.v(TAG, "  - $it")
+                        Log.v(TAG, "  - $f")
                     }
                 } catch (_: Throwable) {
                 }
@@ -78,11 +81,11 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
         val classLoaderClasses = mutableSetOf<Class<*>>(
             ClassLoader::class.java,
             SecureClassLoader::class.java,
-//            URLClassLoader::class.java,
+            URLClassLoader::class.java,
             BaseDexClassLoader::class.java,
-//            PathClassLoader::class.java,
-//            InMemoryDexClassLoader::class.java,
-//            DexClassLoader::class.java,
+            PathClassLoader::class.java,
+            InMemoryDexClassLoader::class.java,
+            DexClassLoader::class.java,
             ClassLoader.getSystemClassLoader()::class.java, // BootClassLoader
         )
         
@@ -107,8 +110,7 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                     }
                 }
             }
-            var loadNewClassloaderHook: MethodHook? = null
-            loadNewClassloaderHook = object : MethodHook() {
+            val loadNewClassloaderHook = object : MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     if (param.thisObject !is PathClassLoader) {
                         Log.v(TAG, "Created a new ClassLoader: ${param.thisObject.toObjectString()} ${param.thisObject}")
@@ -119,9 +121,9 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
                         Log.i(TAG, "Found a new ClassLoader class: ${cls}, created by ${cls.classLoader}")
                     }
                     try {
-                        
-                        XposedBridge.hookAllConstructors(it, loadNewClassloaderHook)
-                        XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
+                        // Will hang the device:
+                        // XposedBridge.hookAllConstructors(it, loadNewClassloaderHook) 
+                        // XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
                     } catch (_: Throwable) {
                     }
                 }
@@ -133,6 +135,8 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
             } catch (_: Throwable) {
             }
         }
+        
+        Log.i(TAG, "Zygote looking for ${targetClassesShortName.joinToString()} in ${classLoaderClasses.size} ClassLoader classes")
     }
 }
 

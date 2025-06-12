@@ -24,4 +24,7 @@ android {
     }
 }
 
-dependencies {}
+dependencies {
+    implementation(libs.libsu.core)
+    implementation(projects.logger)
+}
