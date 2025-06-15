@@ -7,7 +7,7 @@ android {
     namespace = "de.binarynoise.AlwaysAllowMultiInstanceSplit"
     
     defaultConfig {
-        minSdk = 35
+        minSdk = 33
         targetSdk = 35
     }
 }
