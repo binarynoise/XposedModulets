@@ -56,6 +56,7 @@ include(":PersistentForegroundServiceNotifications")
 include(":PreventAudioFocus")
 include(":ResetAllNotificationChannels")
 include(":RotationControl")
+include(":UpsideWifi")
 include(":reflection")
 include(":logger")
 
