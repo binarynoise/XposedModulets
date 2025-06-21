@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name" translatable="false">UpsideWifi</string>
+    <string name="xposed_description">Turn the WiFi icon upside down!</string>
+</resources>
