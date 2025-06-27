@@ -52,6 +52,11 @@ class SetScopeActivity : Activity() {
                     
                     log(list, "packages: ${packages.size}")
                     
+                    log(list, "enabling module...")
+                    Shell.cmd("""sqlite3 $lsposedDB "UPDATE modules SET enabled=1 WHERE mid=$mid;"""").exec().let { result ->
+                        check(result.isSuccess) { "Error:\n${result.err.joinToString("\n")}" }
+                    }
+                    
                     log(list, "clearing scope...")
                     Shell.cmd("""sqlite3 $lsposedDB "delete from scope where mid=$mid";""").exec().let { result ->
                         check(result.isSuccess) { "Error:\n${result.err.joinToString("\n")}" }
