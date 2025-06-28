@@ -1,1 +1,1 @@
-This XPosed Module turns the statusbar WiFi icon upside down.
+This Xposed Module turns the statusbar WiFi icon upside down.
