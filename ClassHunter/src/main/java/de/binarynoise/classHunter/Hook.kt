@@ -11,74 +11,41 @@ import dalvik.system.InMemoryDexClassLoader
 import dalvik.system.PathClassLoader
 import de.binarynoise.ClassHunter.BuildConfig
 import de.robv.android.xposed.IXposedHookLoadPackage
-import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XposedBridge
+import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 const val TAG = "Hook"
 
-class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
+class Hook : IXposedHookLoadPackage {
+    
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        Log.i(TAG, "*".repeat(50))
-        Log.i(TAG, "loading package: ${lpparam.packageName}")
-        Log.i(TAG, "hunting for ${BuildConfig.targetClass.joinToString()}")
-        
-        val classLoaders = mutableSetOf<ClassLoader>()
+        Log.d(TAG, "handleLoadPackage: ${lpparam.packageName}")
         
         val packageClassLoader: ClassLoader = lpparam.classLoader
-        collectParents(packageClassLoader, "packageClassLoader", classLoaders)
+        tryFindClass(packageClassLoader, "packageClassLoader", lpparam.packageName)
         
         val moduleClassLoader: ClassLoader = this::class.java.classLoader!!
-        collectParents(moduleClassLoader, "moduleClassLoader", classLoaders)
+        tryFindClass(moduleClassLoader, "moduleClassLoader", lpparam.packageName)
         
         val systemClassLoader: ClassLoader = ClassLoader.getSystemClassLoader()
-        collectParents(systemClassLoader, "systemClassLoader", classLoaders)
+        tryFindClass(systemClassLoader, "systemClassLoader", lpparam.packageName)
         
-        val bootClassLoader = classLoaders.find { it.javaClass.simpleName == "BootClassLoader" }!!
-        collectParents(bootClassLoader, "bootClassLoader", classLoaders)
-        
-        Log.i(TAG, "currently known classloaders:")
-        classLoaders.forEach { classLoader ->
-            Log.v(TAG, "${classLoader.toObjectString()} - $classLoader")
-            
-            BuildConfig.targetClass.forEach { className ->
-                try {
-                    val cls = Class.forName(className, false, classLoader)
-                    Log.i(TAG, " - found class: ${cls.name} in package ${lpparam.packageName} by ${cls.toObjectString()}")
-                    
-                    Log.i(TAG, " - constructors:")
-                    cls.declaredConstructors.map { c -> "${c.name}(${c.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
-                        .sorted()
-                        .forEach { c ->
-                            Log.v(TAG, "  - $c")
-                        }
-                    
-                    Log.i(TAG, " - methods:")
-                    cls.declaredMethods.map { m -> "${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
-                        .sorted()
-                        .forEach { m ->
-                            Log.v(TAG, "  - $m")
-                        }
-                    
-                    Log.i(TAG, " - fields:")
-                    cls.declaredFields.map { f -> "${f.type.name} ${f.name}" }.sorted().forEach { f ->
-                        Log.v(TAG, "  - $f")
-                    }
-                } catch (_: Throwable) {
+        XposedHelpers.findAndHookMethod(ClassLoader::class.java, "loadClass", String::class.java, Boolean::class.java, object : MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam) {
+                with(param) {
+                    val cls = result as? Class<*>? ?: return
+                    if (!cls.isAssignableFrom(ClassLoader::class.java)) return
+                    Log.i(TAG, "loadClass afterHookedMethod: loaded new classLoader class: ${cls.name}")
                 }
             }
-        }
-    }
-    
-    private fun collectParents(classLoader: ClassLoader, name: String, classLoaders: MutableSet<ClassLoader>) {
-        classLoaders.addAll(generateSequence(classLoader) { it.parent }.onEach {
-            Log.v(TAG, name + " - ${it.toObjectString()}")
         })
-    }
-    
-    override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
-        val classLoaderClasses = mutableSetOf<Class<*>>(
+        
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        @Suppress("RemoveExplicitTypeArguments") //
+        val classLoaderClasses = mutableSetOf<Class<out ClassLoader>>(
             ClassLoader::class.java,
             SecureClassLoader::class.java,
             URLClassLoader::class.java,
@@ -94,49 +61,90 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
         }
         
         try {
-            classLoaderClasses.add(Class.forName("android.app.LoadedApk\$WarningContextClassLoader", false, null))
+            @Suppress("UNCHECKED_CAST") // 
+            classLoaderClasses.add(Class.forName("android.app.LoadedApk\$WarningContextClassLoader", false, null) as Class<out ClassLoader>)
         } catch (_: Throwable) {
         }
         
-        val targetClassesShortName = BuildConfig.targetClass.map { it.substringAfterLast(".") }.toSet()
+        // prevent nested classloader logs
+        val constructorLock: ThreadLocal<Int> = ThreadLocal.withInitial { 0 }
         
-        classLoaderClasses.forEach {
-            val loadClassHook = object : MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    val cls = param.result as? Class<*> ?: return
-                    
-                    if (cls.name.substringAfterLast(".") in targetClassesShortName) {
-                        Log.i(TAG, "Maybe found class: ${cls.name} by ${param.thisObject.toObjectString()}")
-                    }
-                }
-            }
-            val loadNewClassloaderHook = object : MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    if (param.thisObject !is PathClassLoader) {
-                        Log.v(TAG, "Created a new ClassLoader: ${param.thisObject.toObjectString()} ${param.thisObject}")
-                    }
-                    
-                    val cls: Class<*> = param.thisObject::class.java
-                    if (cls !in classLoaderClasses) {
-                        Log.i(TAG, "Found a new ClassLoader class: ${cls}, created by ${cls.classLoader}")
-                    }
-                    try {
-                        // Will hang the device:
-                        // XposedBridge.hookAllConstructors(it, loadNewClassloaderHook) 
-                        // XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
-                    } catch (_: Throwable) {
-                    }
-                }
-            }
-            
+        classLoaderClasses.forEach { classLoaderClass ->
             try {
-                XposedBridge.hookAllConstructors(it, loadNewClassloaderHook)
-                XposedBridge.hookAllMethods(it, "loadClass", loadClassHook)
+                XposedBridge.hookAllConstructors(classLoaderClass, object : MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        constructorLock.set(constructorLock.get()!! + 1)
+                    }
+                    
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        constructorLock.set(constructorLock.get()!! - 1)
+                        if (constructorLock.get()!! > 0) return
+                        constructorLock.remove()
+                        with(param) {
+                            val newClassLoader = thisObject as? ClassLoader? ?: return
+                            val string = newClassLoader.toString()
+                            
+                            val ignored = arrayOf(
+                                "dalvik.system.PathClassLoader[null]",
+                                "dalvik.system.PathClassLoader[DexPathList[[],nativeLibraryDirectories=[/system/lib64, /system_ext/lib64]]]",
+                                "LspModuleClassLoader[instantiating]",
+                            )
+                            if (string !in ignored) {
+                                Log.v(TAG, "ClassLoader constructor: created new classLoader: ${newClassLoader.toObjectString()} $string")
+                            }
+                            
+                            tryFindClass(newClassLoader, "constructor", lpparam.packageName)
+                            
+                        }
+                    }
+                })
+//                Log.v(TAG, "initZygote: hooked constructor of ${classLoaderClass.name}")
+            } catch (_: NoSuchMethodError) {
+            } catch (_: NoSuchMethodException) {
+            } catch (t: Throwable) {
+                Log.w(TAG, "initZygote: failed to hook constructor of ${classLoaderClass.name}", t)
+            }
+        }
+    }
+    
+    fun tryFindClass(classLoader: ClassLoader, classLoaderName: String, packageName: String) {
+        BuildConfig.targetClass.forEach { className ->
+            try {
+                val cls = Class.forName(className, false, classLoader)
+                logClass(cls, classLoaderName, classLoader, packageName)
             } catch (_: Throwable) {
             }
         }
+    }
+    
+    private fun logClass(cls: Class<*>, classLoaderName: String, classLoader: ClassLoader, packageName: String) {
+        val lines = mutableListOf<String>()
+        lines.add("*".repeat(150))
         
-        Log.i(TAG, "Zygote looking for ${targetClassesShortName.joinToString()} in ${classLoaderClasses.size} ClassLoader classes")
+        lines.add("found class: ${cls.name} in package $packageName by $classLoaderName: ${classLoader.toObjectString()} - $classLoader")
+        
+        lines.add(" - constructors:")
+        cls.declaredConstructors.map { c -> "${c.name}(${c.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
+            .sorted()
+            .forEach { c ->
+                lines.add("   - $c")
+            }
+        
+        lines.add(" - methods:")
+        cls.declaredMethods.map { m -> "${m.returnType.name} ${m.name}(${m.parameters.joinToString(", ") { p -> p.name + " " + p.type.name }})" }
+            .sorted()
+            .forEach { m ->
+                lines.add("   - $m")
+            }
+        
+        lines.add(" - fields:")
+        cls.declaredFields.map { f -> "${f.type.name} ${f.name}" }.sorted().forEach { f ->
+            lines.add("   - $f")
+        }
+        
+        lines.forEach {
+            Log.i(TAG, it)
+        }
     }
 }
 
