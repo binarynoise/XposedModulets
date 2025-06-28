@@ -1,12 +1,15 @@
+name: Build & Upload APKs
 
 on:
   push:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-
     - name: Setup Java
       uses: actions/setup-java@v4
       with:
@@ -34,8 +37,43 @@ jobs:
     - name: Compile
       run: ./gradlew assembleDebug
 
-    - name: Upload Result
+    - name: Upload Result (all APKs)
       uses: actions/upload-artifact@v4
       with:
+        name: all-apks.zip
         path: '*/build/outputs/apk/debug/*-debug.apk'
+        if-no-files-found: error
+
+    - name: Find APKs and set matrix
+      id: find_apks
+      run: |
+        set -euo pipefail
+        apks=$(find . -type f -path "*/build/outputs/apk/debug/*-debug.apk" -printf '{"path":"%p","name":"%f"},' | sed 's/,$//' | awk '{print "[" $0 "]"}')
+        if [ -z "$apks" ] || [ "$apks" = "[]" ]; then
+          echo "No APKs found!"
+          exit 1
+        fi
+        echo "artifact_paths=$apks" >> $GITHUB_OUTPUT
+        cat $GITHUB_OUTPUT
+
+    outputs:
+      artifact-paths: ${{ steps.find_apks.outputs.artifact_paths }}
+
+  upload_individual_apks:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        apk: ${{ fromJson(needs.build.outputs.artifact-paths) }}
+    steps:
+    - name: Download all-apks artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: all-apks.zip
+
+    - name: Upload single APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.apk.name }}
+        path: ${{ matrix.apk.path }}
         if-no-files-found: error
