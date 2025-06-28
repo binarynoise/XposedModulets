@@ -1,6 +1,6 @@
 [versions]
 androidDesugarJdkLibs = "2.1.5"
-androidGradlePlugin = "8.9.2"
+androidGradlePlugin = "8.10.1"
 androidTools = "31.9.0"
 androidxAnnotation = "1.9.1"
 collection = "1.5.0"
@@ -9,7 +9,7 @@ libsu = "6.0.0"
 githubApi = "1.321"
 hiddenapibypass = "5.0"
 jebrainsAnnotations = "26.0.2"
-kotlin = "2.1.21"
+kotlin = "2.2.0"
 xposed = "82"
 
 [libraries]
