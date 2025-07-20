@@ -1,0 +1,1 @@
+Verbesserte ausführliche WiFi-Protokollierung
