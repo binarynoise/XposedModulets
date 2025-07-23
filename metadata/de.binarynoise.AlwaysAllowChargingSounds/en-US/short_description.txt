@@ -1,0 +1,1 @@
+Always allow charging sounds, even in DnD mode.

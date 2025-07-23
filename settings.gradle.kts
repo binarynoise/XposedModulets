@@ -39,6 +39,7 @@ dependencyResolutionManagement {
 rootProject.name = "XposedModulets"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+include(":AlwaysAllowChargingSounds")
 include(":AlwaysAllowMultiInstanceSplit")
 include(":AnimationScaleMod")
 include(":AntiBrightnessChange")
