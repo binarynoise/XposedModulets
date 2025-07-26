@@ -17,6 +17,7 @@ class Hook : IXposedHookLoadPackage {
             override fun replaceHookedMethod(param: MethodHookParam): Boolean {
                 val userId = param.args[0] as Int
                 val context = XposedHelpers.getObjectField(param.thisObject, "mContext") as Context
+                // charging_sounds_enabled comes from Settings.Secure.CHARGING_SOUNDS_ENABLED which is @hide
                 return XposedHelpers.callStaticMethod(
                     Settings.Secure::class.java, "getIntForUser", context.contentResolver, "charging_sounds_enabled", 1, userId
                 ) != 0
