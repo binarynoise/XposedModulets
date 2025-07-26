@@ -1,2 +1,2 @@
-Always allow charging sound and vibration, 
+Always allow charging feedback, 
 even when the device is set into Do-not-Disturb mode.

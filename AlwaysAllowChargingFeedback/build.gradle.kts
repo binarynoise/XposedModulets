@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "de.binarynoise.AlwaysAllowChargingSounds"
+    namespace = "de.binarynoise.AlwaysAllowChargingFeedback"
     
     defaultConfig {
         minSdk = 28

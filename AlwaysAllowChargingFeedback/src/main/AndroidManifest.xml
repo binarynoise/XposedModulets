@@ -2,14 +2,14 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="AlwaysAllowChargingSounds">
+    <application android:label="AlwaysAllowChargingFeedback">
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Always allow charging sounds, even in DnD mode."
+            android:value="Always allow charging feedback, even in DnD mode."
             />
         <meta-data
             android:name="xposedminversion"

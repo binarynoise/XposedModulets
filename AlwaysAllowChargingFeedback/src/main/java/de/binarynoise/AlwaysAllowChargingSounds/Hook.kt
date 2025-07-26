@@ -1,4 +1,4 @@
-package de.binarynoise.AlwaysAllowChargingSounds
+package de.binarynoise.AlwaysAllowChargingFeedback
 
 import android.content.Context
 import android.provider.Settings
