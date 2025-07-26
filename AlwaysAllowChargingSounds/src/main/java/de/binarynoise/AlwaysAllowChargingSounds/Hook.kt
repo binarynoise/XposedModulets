@@ -10,6 +10,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class Hook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (lpparam.packageName != "android") return
+        
         val NotifierClass = XposedHelpers.findClass("com.android.server.power.Notifier", lpparam.classLoader)
         XposedHelpers.findAndHookMethod(NotifierClass, "isChargingFeedbackEnabled", Int::class.java, object : XC_MethodReplacement() {
             override fun replaceHookedMethod(param: MethodHookParam): Boolean {
