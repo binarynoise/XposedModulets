@@ -5,6 +5,7 @@ A collection of small Xposed Modules.
 <!--@formatter:off-->
 | Module | Author | Description | Releases |
 |-|-|-|-|
+| [AlwaysAllowChargingSounds](AlwaysAllowChargingSounds) | [@binarynoise](https://github.com/binarynoise) | Always allow charging sounds, even in DnD mode | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=AlwaysAllowChargingSounds) |
 | [AlwaysAllowMultiInstanceSplit](AlwaysAllowMultiInstanceSplit) | [@binarynoise](https://github.com/binarynoise) & [@programminghoch10](https://github.com/programminghoch10) | Allow all apps to be launched twice in a split screen | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=AnimationScaleMod) |
 | [AnimationScaleMod](AnimationScaleMod) | [@programminghoch10](https://github.com/programminghoch10) | Add more animation scale multipliers | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=AnimationScaleMod) |
 | [AntiBrightnessChange](AntiBrightnessChange) | [@programminghoch10](https://github.com/programminghoch10) | Prevent apps from changing display brightness | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=AntiBrightnessChange) [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.programminghoch10.AntiBrightnessChange) |
