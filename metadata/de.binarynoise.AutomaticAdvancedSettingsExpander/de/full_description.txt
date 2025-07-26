@@ -1,0 +1,11 @@
+Erweitert automatisch die erweiterten Einstellungen in der Einstellungen-App, indem es setInitialExpandedChildrenCount in PreferenceGroup einhakt. Ich hasse es, sie jedes Mal selbst zu erweitern.
+
+Sollte auf allen Android-Versionen funktionieren, bei denen die Einstellungen-App eine der folgenden Funktionen verwendet:
+
+* androidx.preference.PreferenceGroup
+* android.preference.PreferenceGroup
+* android.support.v7.preference.PreferenceGroup
+
+Bitte melde, wo es nicht mehr funktioniert, damit ich die minSdkVersion bearbeiten oder fehlende Klassen hinzufügen kann.
+
+Dies ist ein xposed Modul <a href="https://github.com/Xposed-Modules-Repo/de.binarynoise.automaticadvancedsettingsexpander" target="_blank" rel="noindex nofollow noopener">Teil der LSPosed Module Repo</a>.

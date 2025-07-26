@@ -1,0 +1,5 @@
+Macht die ausführlichen Wi-Fi-Informationen (die in den Entwicklereinstellungen aktiviert sind) besser lesbar, und es werden einige nutzlose Informationen hinzugefügt und versteckt.
+
+Ohne das Modul ist alles eine einzige lange Zeile, die auf deinem Bildschirm umgebrochen wird, damit sie passt.
+
+Mit dem Modul wird sie in mehrere Zeilen aufgeteilt: eine für die allgemeinen Statusinformationen und eine für <em>jedes</em> Netzwerk. In Klammern steht die Kanalnummer, denn die ist meist interessanter als die Frequenz selbst. Alles, was Einheiten hat, zeigt diese jetzt an. Was du nicht siehst, ist, dass Elemente, die zusammengehören, keine Zwischenräume haben, sodass sie immer in einer Zeile nebeneinander angezeigt werden.
