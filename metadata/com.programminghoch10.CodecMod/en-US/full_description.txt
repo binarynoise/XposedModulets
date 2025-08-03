@@ -1,0 +1,3 @@
+This Module allows you to selectively disable codecs on your android device.
+Every encoder and decoder is listed and can be selectively disabled at choice.
+Supports all codecs reported by Android through the MediaCodecList API.
