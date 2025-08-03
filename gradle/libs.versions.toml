@@ -11,6 +11,7 @@ hiddenapibypass = "5.0"
 jebrainsAnnotations = "26.0.2"
 kotlin = "2.2.0"
 xposed = "82"
+preference = "1.2.1"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -27,6 +28,7 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

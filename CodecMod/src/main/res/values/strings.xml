@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CodecMod</string>
+    <string name="title_activity_settings">CodecMod Settings</string>
+    <string name="hardware_accelerated">Hardware-accelerated: %b</string>
+    <string name="software_only">Software-only: %b</string>
+    <string name="supported_types">Supported MIME-Types: %s</string>
+    <string name="alias">Alias: %b</string>
+    <string name="vendor">Vendor: %b</string>
+</resources>
