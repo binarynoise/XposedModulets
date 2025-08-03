@@ -4,7 +4,7 @@ import static android.content.Context.MODE_WORLD_READABLE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.MediaCodecInfo;
+import android.os.Build;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,15 +26,15 @@ public class CodecStore {
         this.sharedPreferences = new XSharedPreferences(BuildConfig.APPLICATION_ID, PREFERENCES);
     }
     
-    static String getKey(MediaCodecInfo mediaCodecInfo) {
+    static String getKey(MediaCodecInfoWrapper mediaCodecInfo) {
         return "codec_" + mediaCodecInfo.getCanonicalName();
     }
     
-    boolean getCodecPreference(MediaCodecInfo mediaCodecInfo) {
+    boolean getCodecPreference(MediaCodecInfoWrapper mediaCodecInfo) {
         return sharedPreferences.getBoolean(getKey(mediaCodecInfo), DEFAULT_VALUE);
     }
     
-    boolean setCodecPreference(MediaCodecInfo mediaCodecInfo, boolean enabled) {
+    boolean setCodecPreference(MediaCodecInfoWrapper mediaCodecInfo, boolean enabled) {
         boolean success = false;
         if (REMOVE_DEFAULT_VALUE_FROM_CONFIG && enabled == DEFAULT_VALUE) {
             success = sharedPreferences.edit().remove(getKey(mediaCodecInfo)).commit();
@@ -47,17 +47,24 @@ public class CodecStore {
         return success;
     }
     
-    void registerOnCodecPreferenceChangedListener(MediaCodecInfo mediaCodecInfo, OnCodecPreferenceChangedListener onCodecPreferenceChangedListener) {
+    void registerOnCodecPreferenceChangedListener(MediaCodecInfoWrapper mediaCodecInfo, OnCodecPreferenceChangedListener onCodecPreferenceChangedListener) {
         OnCodecPreferenceChangedListenerMeta listener = new OnCodecPreferenceChangedListenerMeta();
         listener.mediaCodecInfo = mediaCodecInfo;
         listener.callback = onCodecPreferenceChangedListener;
         receivers.add(listener);
     }
     
-    private void dispatchOnCodecPreferenceChanged(MediaCodecInfo mediaCodecInfo, boolean enabled) {
-        receivers.stream()
-                .filter(r -> getKey(r.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
-                .forEach(r -> r.callback.onCodecPreferenceChanged(enabled));
+    private void dispatchOnCodecPreferenceChanged(MediaCodecInfoWrapper mediaCodecInfo, boolean enabled) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            receivers.stream()
+                    .filter(r -> getKey(r.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
+                    .forEach(r -> r.callback.onCodecPreferenceChanged(enabled));
+        } else {
+            for (OnCodecPreferenceChangedListenerMeta receiver : receivers) {
+                if (getKey(receiver.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
+                    receiver.callback.onCodecPreferenceChanged(enabled);
+            }
+        }
     }
     
     interface OnCodecPreferenceChangedListener {
@@ -65,7 +72,7 @@ public class CodecStore {
     }
     
     private class OnCodecPreferenceChangedListenerMeta {
-        MediaCodecInfo mediaCodecInfo;
+        MediaCodecInfoWrapper mediaCodecInfo;
         OnCodecPreferenceChangedListener callback;
     }
     

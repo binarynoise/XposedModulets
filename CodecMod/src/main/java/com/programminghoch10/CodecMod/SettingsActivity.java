@@ -1,8 +1,8 @@
 package com.programminghoch10.CodecMod;
 
 import android.app.ActionBar;
-import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentActivity;
@@ -11,6 +11,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class SettingsActivity extends FragmentActivity {
     @Override
@@ -42,8 +44,17 @@ public class SettingsActivity extends FragmentActivity {
             CodecStore codecStore = new CodecStore(getContext());
             PreferenceCategory decodersPreferenceCategory = findPreference("category_decoders");
             PreferenceCategory encodersPreferenceCategory = findPreference("category_encoders");
-            MediaCodecList mediaCodecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
-            for (MediaCodecInfo mediaCodecInfo : mediaCodecList.getCodecInfos()) {
+            
+            List<MediaCodecInfoWrapper> mediaCodecs = new LinkedList<>();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                MediaCodecList mediaCodecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
+                for (android.media.MediaCodecInfo mediaCodecInfo : mediaCodecList.getCodecInfos())
+                    mediaCodecs.add(new MediaCodecInfoWrapper(mediaCodecInfo));
+            } else {
+                for (int i = 0; i < MediaCodecList.getCodecCount(); i++)
+                    mediaCodecs.add(new MediaCodecInfoWrapper(MediaCodecList.getCodecInfoAt(i)));
+            }
+            for (MediaCodecInfoWrapper mediaCodecInfo : mediaCodecs) {
                 if (mediaCodecInfo.isAlias() && !SHOW_ALIASES) continue;
                 SwitchPreference preference = new SwitchPreference(getContext());
                 preference.setPersistent(false);
@@ -55,17 +66,21 @@ public class SettingsActivity extends FragmentActivity {
                 });
                 preference.setTitle(mediaCodecInfo.getName()
                         + (mediaCodecInfo.getName().equals(mediaCodecInfo.getCanonicalName()) ? "" : " (" + mediaCodecInfo.getCanonicalName() + ")"));
-                preference.setSummary(
-                        String.format(getString(R.string.hardware_accelerated), mediaCodecInfo.isHardwareAccelerated())
-                                + "\n" +
-                                String.format(getString(R.string.software_only), mediaCodecInfo.isSoftwareOnly())
-                                + "\n" +
-                                String.format(getString(R.string.supported_types), Arrays.toString(mediaCodecInfo.getSupportedTypes())) +
-                                (SHOW_ALIASES ? "\n" +
-                                        String.format(getString(R.string.alias), mediaCodecInfo.isAlias()) : "")
-                                + "\n" +
-                                String.format(getString(R.string.vendor), mediaCodecInfo.isVendor())
-                );
+                StringBuilder summaryBuilder = new StringBuilder();
+                summaryBuilder.append(String.format(getString(R.string.supported_types), Arrays.toString(mediaCodecInfo.getSupportedTypes())));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    summaryBuilder.append("\n");
+                    summaryBuilder.append(String.format(getString(R.string.hardware_accelerated), mediaCodecInfo.isHardwareAccelerated()));
+                    summaryBuilder.append("\n");
+                    summaryBuilder.append(String.format(getString(R.string.software_only), mediaCodecInfo.isSoftwareOnly()));
+                    if (SHOW_ALIASES) {
+                        summaryBuilder.append("\n");
+                        summaryBuilder.append(String.format(getString(R.string.alias), mediaCodecInfo.isAlias()));
+                    }
+                    summaryBuilder.append("\n");
+                    summaryBuilder.append(String.format(getString(R.string.vendor), mediaCodecInfo.isVendor()));
+                }
+                preference.setSummary(summaryBuilder);
                 PreferenceCategory preferenceCategory = mediaCodecInfo.isEncoder() ? encodersPreferenceCategory : decodersPreferenceCategory;
                 preferenceCategory.addPreference(preference);
                 preference.setChecked(codecStore.getCodecPreference(mediaCodecInfo));

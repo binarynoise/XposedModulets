@@ -6,7 +6,7 @@ android {
     namespace = "com.programminghoch10.CodecMod"
     
     defaultConfig {
-        minSdk = 29
+        minSdk = 16
         targetSdk = 35
     }
 }
