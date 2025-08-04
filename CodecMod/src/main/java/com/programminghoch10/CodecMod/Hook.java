@@ -20,19 +20,11 @@ public class Hook implements IXposedHookLoadPackage {
     
     MediaCodecInfo[] getFilteredMediaCodecInfos(MediaCodecInfo[] unfilteredMediaCodecInfos) {
         CodecStore codecStore = new CodecStore();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return Arrays.stream(unfilteredMediaCodecInfos)
-                    .filter(mediaCodecInfo ->
-                            codecStore.getCodecPreference(new MediaCodecInfoWrapper(mediaCodecInfo))
-                    )
-                    .toArray(MediaCodecInfo[]::new);
-        }
-        LinkedList<MediaCodecInfo> filteredMediaCodecs = new LinkedList<>();
-        for (MediaCodecInfo mediaCodecInfo : unfilteredMediaCodecInfos) {
-            if (codecStore.getCodecPreference(new MediaCodecInfoWrapper(mediaCodecInfo)))
-                filteredMediaCodecs.add(mediaCodecInfo);
-        }
-        return filteredMediaCodecs.toArray(new MediaCodecInfo[0]);
+        return Arrays.stream(unfilteredMediaCodecInfos)
+                .map(MediaCodecInfoWrapper::new)
+                .filter(codecStore::getCodecPreference)
+                .map(MediaCodecInfoWrapper::getOriginalMediaCodecInfo)
+                .toArray(MediaCodecInfo[]::new);
     }
     
     // helper function, only to be used on <LOLLIPOP
@@ -42,7 +34,7 @@ public class Hook implements IXposedHookLoadPackage {
         final int codecCount = (int) XposedBridge.invokeOriginalMethod(XposedHelpers.findMethodExact(MediaCodecList.class, "getCodecCount"), null, null);
         for (int i = 0; i < codecCount; i++)
             mediaCodecs.add((MediaCodecInfo) XposedBridge.invokeOriginalMethod(XposedHelpers.findMethodExact(MediaCodecList.class, "getCodecInfoAt"), null, new Object[]{i}));
-        return getFilteredMediaCodecInfos(mediaCodecs.toArray(new MediaCodecInfo[0]));
+        return getFilteredMediaCodecInfos(mediaCodecs.toArray(MediaCodecInfo[]::new));
     }
     
     @Override

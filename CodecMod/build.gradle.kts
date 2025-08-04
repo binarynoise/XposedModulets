@@ -9,7 +9,11 @@ android {
         minSdk = 16
         targetSdk = 35
     }
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
 }
 dependencies {
     implementation(libs.androidx.preference)
+    coreLibraryDesugaring(libs.android.desugarJdkLibs)
 }

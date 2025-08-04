@@ -1,5 +1,6 @@
 package com.programminghoch10.CodecMod;
 
+import android.media.MediaCodecInfo;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
@@ -8,13 +9,17 @@ import androidx.annotation.RequiresApi;
  * drop in replacement for MediaCodecInfo
  * with compatibility checks for older SDKs
  *
- * @see android.media.MediaCodecInfo
+ * @see MediaCodecInfo
  */
 public class MediaCodecInfoWrapper {
-    private final android.media.MediaCodecInfo mediaCodecInfo;
+    private final MediaCodecInfo mediaCodecInfo;
     
-    MediaCodecInfoWrapper(android.media.MediaCodecInfo mediaCodecInfo) {
+    MediaCodecInfoWrapper(MediaCodecInfo mediaCodecInfo) {
         this.mediaCodecInfo = mediaCodecInfo;
+    }
+    
+    public MediaCodecInfo getOriginalMediaCodecInfo() {
+        return mediaCodecInfo;
     }
     
     public String getCanonicalName() {

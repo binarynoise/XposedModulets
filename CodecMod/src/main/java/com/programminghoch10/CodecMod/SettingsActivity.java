@@ -45,12 +45,14 @@ public class SettingsActivity extends FragmentActivity {
             PreferenceCategory decodersPreferenceCategory = findPreference("category_decoders");
             PreferenceCategory encodersPreferenceCategory = findPreference("category_encoders");
             
-            List<MediaCodecInfoWrapper> mediaCodecs = new LinkedList<>();
+            List<MediaCodecInfoWrapper> mediaCodecs;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 MediaCodecList mediaCodecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
-                for (android.media.MediaCodecInfo mediaCodecInfo : mediaCodecList.getCodecInfos())
-                    mediaCodecs.add(new MediaCodecInfoWrapper(mediaCodecInfo));
+                mediaCodecs = Arrays.stream(mediaCodecList.getCodecInfos())
+                        .map(MediaCodecInfoWrapper::new)
+                        .toList();
             } else {
+                mediaCodecs = new LinkedList<>();
                 for (int i = 0; i < MediaCodecList.getCodecCount(); i++)
                     mediaCodecs.add(new MediaCodecInfoWrapper(MediaCodecList.getCodecInfoAt(i)));
             }
