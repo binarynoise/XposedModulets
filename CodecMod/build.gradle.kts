@@ -8,6 +8,7 @@ android {
     defaultConfig {
         minSdk = 16
         targetSdk = 35
+        multiDexEnabled = true
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
