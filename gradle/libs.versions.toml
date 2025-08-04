@@ -11,6 +11,7 @@ hiddenapibypass = "5.0"
 jebrainsAnnotations = "26.0.2"
 kotlin = "2.2.0"
 xposed = "82"
+preference = "1.2.1"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -19,6 +20,7 @@ android-tools-common = { module = "com.android.tools:common", version.ref = "and
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
 androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collectionKtx" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "githubApi" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 jebtrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jebrainsAnnotations" }
