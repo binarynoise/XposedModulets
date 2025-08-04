@@ -8,7 +8,7 @@ android {
     
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 35
         
         val file = File(projectDir, "targetClass.txt")
         if (!file.exists()) {
