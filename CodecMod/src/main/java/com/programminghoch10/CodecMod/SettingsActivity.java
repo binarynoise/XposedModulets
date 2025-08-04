@@ -35,7 +35,6 @@ public class SettingsActivity extends FragmentActivity {
     
     public static class SettingsFragment extends PreferenceFragmentCompat {
         private static final boolean SHOW_ALIASES = true;
-        CodecStore codecStore = null;
         
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {

@@ -20,6 +20,7 @@ android-tools-common = { module = "com.android.tools:common", version.ref = "and
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
 androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collectionKtx" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "githubApi" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 jebtrains-annotations = { module = "org.jetbrains:annotations", version.ref = "jebrainsAnnotations" }
@@ -28,7 +29,6 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
-androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

@@ -85,6 +85,5 @@ public class Hook implements IXposedHookLoadPackage {
                 }
             });
         }
-        
     }
 }

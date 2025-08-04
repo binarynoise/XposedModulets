@@ -37,16 +37,16 @@ public class CodecStore {
     }
     
     boolean setCodecPreference(MediaCodecInfoWrapper mediaCodecInfo, boolean enabled) {
-        boolean success = false;
+        boolean success;
         if (REMOVE_DEFAULT_VALUE_FROM_CONFIG && enabled == DEFAULT_VALUE) {
             success = sharedPreferences.edit().remove(getKey(mediaCodecInfo)).commit();
         } else {
             success = sharedPreferences.edit().putBoolean(getKey(mediaCodecInfo), enabled).commit();
         }
         if (!success)
-            return success;
+            return false;
         dispatchOnCodecPreferenceChanged(mediaCodecInfo, enabled);
-        return success;
+        return true;
     }
     
     void registerOnCodecPreferenceChangedListener(MediaCodecInfoWrapper mediaCodecInfo, OnCodecPreferenceChangedListener onCodecPreferenceChangedListener) {
@@ -77,5 +77,4 @@ public class CodecStore {
         MediaCodecInfoWrapper mediaCodecInfo;
         OnCodecPreferenceChangedListener callback;
     }
-    
 }

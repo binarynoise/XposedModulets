@@ -13,6 +13,7 @@ android {
         isCoreLibraryDesugaringEnabled = true
     }
 }
+
 dependencies {
     implementation(libs.androidx.preference)
     coreLibraryDesugaring(libs.android.desugarJdkLibs)

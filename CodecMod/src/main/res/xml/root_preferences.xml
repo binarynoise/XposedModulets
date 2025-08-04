@@ -1,8 +1,11 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <PreferenceCategory
         app:key="category_decoders"
-        app:title="Decoders" />
+        app:title="Decoders"
+        />
     <PreferenceCategory
         app:key="category_encoders"
-        app:title="Encoders" />
+        app:title="Encoders"
+        />
 </PreferenceScreen>
