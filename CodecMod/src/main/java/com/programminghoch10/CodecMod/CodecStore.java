@@ -2,6 +2,7 @@ package com.programminghoch10.CodecMod;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -18,6 +19,7 @@ public class CodecStore {
     SharedPreferences sharedPreferences;
     List<OnCodecPreferenceChangedListenerMeta> receivers = new LinkedList<>();
     
+    @SuppressLint("WorldReadableFiles")
     CodecStore(Context context) {
         this.sharedPreferences = context.getSharedPreferences(PREFERENCES, MODE_WORLD_READABLE);
     }
@@ -71,7 +73,7 @@ public class CodecStore {
         void onCodecPreferenceChanged(boolean value);
     }
     
-    private class OnCodecPreferenceChangedListenerMeta {
+    private static class OnCodecPreferenceChangedListenerMeta {
         MediaCodecInfoWrapper mediaCodecInfo;
         OnCodecPreferenceChangedListener callback;
     }

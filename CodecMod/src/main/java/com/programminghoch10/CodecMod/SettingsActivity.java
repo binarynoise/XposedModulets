@@ -41,7 +41,7 @@ public class SettingsActivity extends FragmentActivity {
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
             //getPreferenceManager().setSharedPreferencesName("codecs");
-            CodecStore codecStore = new CodecStore(getContext());
+            CodecStore codecStore = new CodecStore(requireContext());
             PreferenceCategory decodersPreferenceCategory = findPreference("category_decoders");
             PreferenceCategory encodersPreferenceCategory = findPreference("category_encoders");
             
@@ -58,7 +58,7 @@ public class SettingsActivity extends FragmentActivity {
             }
             for (MediaCodecInfoWrapper mediaCodecInfo : mediaCodecs) {
                 if (mediaCodecInfo.isAlias() && !SHOW_ALIASES) continue;
-                SwitchPreference preference = new SwitchPreference(getContext());
+                SwitchPreference preference = new SwitchPreference(requireContext());
                 preference.setPersistent(false);
                 preference.setDefaultValue(CodecStore.DEFAULT_VALUE);
                 preference.setKey(CodecStore.getKey(mediaCodecInfo));

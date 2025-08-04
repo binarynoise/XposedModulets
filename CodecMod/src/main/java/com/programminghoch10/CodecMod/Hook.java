@@ -1,5 +1,6 @@
 package com.programminghoch10.CodecMod;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.media.MediaCodecInfo;
 import android.media.MediaCodecList;
@@ -28,6 +29,7 @@ public class Hook implements IXposedHookLoadPackage {
     }
     
     // helper function, only to be used on <LOLLIPOP
+    @SuppressLint("UseRequiresApi")
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     MediaCodecInfo[] getFilteredMediaCodecInfos() throws InvocationTargetException, IllegalAccessException {
         List<MediaCodecInfo> mediaCodecs = new LinkedList<>();
@@ -40,10 +42,6 @@ public class Hook implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (lpparam.packageName.equals(BuildConfig.APPLICATION_ID)) return;
-        if (lpparam.packageName.equals("android")) {
-            // system-wide hooking not implemented
-            return;
-        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             XposedHelpers.findAndHookMethod(MediaCodecList.class, "getCodecInfos", new XC_MethodReplacement() {
                 @Override
