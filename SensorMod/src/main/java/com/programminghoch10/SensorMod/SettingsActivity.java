@@ -40,8 +40,8 @@ public class SettingsActivity extends FragmentActivity {
         @SuppressLint("WorldReadableFiles")
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey);
             PreferenceManager preferenceManager = getPreferenceManager();
+            setPreferenceScreen(preferenceManager.createPreferenceScreen(requireContext()));
             preferenceManager.setSharedPreferencesName("sensors");
             preferenceManager.setSharedPreferencesMode(MODE_WORLD_READABLE);
             PreferenceScreen preferenceScreen = getPreferenceScreen();
