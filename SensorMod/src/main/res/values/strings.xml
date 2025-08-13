@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SensorMod</string>
+    <string name="description">This Module allows you to selectively disable sensors.</string>
+    <string name="title_activity_settings">SensorMod Settings</string>
+</resources>
