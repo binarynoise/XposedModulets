@@ -1,7 +1,7 @@
 package com.programminghoch10.VolumeStepsIncrease
 
 import android.util.Log
-import com.programminghoch10.VolumeStepsIncrease.Common.Companion.streams
+import com.programminghoch10.VolumeStepsIncrease.Common.streams
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
