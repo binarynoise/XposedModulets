@@ -59,6 +59,7 @@ include(":PreventAudioFocus")
 include(":ResetAllNotificationChannels")
 include(":RotationControl")
 include(":UpsideWifi")
+include(":VolumeStepsIncrease")
 include(":reflection")
 include(":logger")
 
