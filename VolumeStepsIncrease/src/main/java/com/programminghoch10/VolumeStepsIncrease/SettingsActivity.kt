@@ -5,9 +5,9 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
-import com.programminghoch10.VolumeStepsIncrease.Common.Companion.defaultStreamValues
-import com.programminghoch10.VolumeStepsIncrease.Common.Companion.getMaxVolumeSteps
-import com.programminghoch10.VolumeStepsIncrease.Common.Companion.streams
+import com.programminghoch10.VolumeStepsIncrease.Common.defaultStreamValues
+import com.programminghoch10.VolumeStepsIncrease.Common.getMaxVolumeSteps
+import com.programminghoch10.VolumeStepsIncrease.Common.streams
 
 class SettingsActivity : FragmentActivity() {
     
