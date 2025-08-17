@@ -20,6 +20,10 @@
             android:value="true"
             />
         <meta-data
+            android:name="xposeddescription"
+            android:value="@string/description"
+            />
+        <meta-data
             android:name="xposedminversion"
             android:value="93"
             />

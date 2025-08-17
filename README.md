@@ -22,6 +22,7 @@ A collection of small Xposed Modules.
 | [ResetAllNotificationChannels](ResetAllNotificationChannels) | [@binarynoise](https://github.com/binarynoise) | Reset all Notification Channels: vibrations, ringtones, importance etc. | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=resetAllNotificationChannels) [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/de.binarynoise.resetAllNotificationChannels) |
 | [RotationControl](RotationControl) | [@programminghoch10](https://github.com/programminghoch10) | Force rotation for selected packages | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=RotationControl) [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.programminghoch10.RotationControl) |
 | [UpsideWifi](UpsideWifi) | [@programminghoch10](https://github.com/programminghoch10) | Turn the WiFi icon upside down | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=UpsideWifi) |
+| [VolumeStepsIncrease](VolumeStepsIncrease) | [@programminghoch10](https://github.com/programminghoch10) | Increase the amount of volume steps | [GitHub](https://github.com/binarynoise/XposedModulets/releases?q=VolumeStepsIncrease) |
 <!--@formatter:on-->
 
 ## License

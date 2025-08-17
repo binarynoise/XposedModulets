@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">VolumeStepsIncrease</string>
     <string name="title_activity_settings">Volume Steps Configuration</string>
+    <string name="description">Increase the amount of volume steps.</string>
 </resources>
