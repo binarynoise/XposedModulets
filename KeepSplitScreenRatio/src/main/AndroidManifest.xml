@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    <application android:label="KeepSplitScreenRatio">
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true"
+            />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Keep the split screen ratio, when switching one of the split apps."
+            />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="53"
+            />
+        <meta-data
+            android:name="xposedscope"
+            android:resource="@array/scope"
+            />
+    </application>
+
+</manifest>
