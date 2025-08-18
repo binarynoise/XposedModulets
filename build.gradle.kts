@@ -24,9 +24,3 @@ plugins {
     
     alias(libs.plugins.buildlogic.github)
 }
-
-allprojects {
-    tasks.withType<Github> {
-        configurationFile = rootProject.file("github.properties")
-    }
-}

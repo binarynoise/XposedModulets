@@ -39,14 +39,18 @@ dependencyResolutionManagement {
 rootProject.name = "XposedModulets"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+include(":logger")
+include(":reflection")
+include(":template")
+
 include(":AlwaysAllowChargingFeedback")
 include(":AlwaysAllowMultiInstanceSplit")
 include(":AnimationScaleMod")
 include(":AntiBrightnessChange")
 include(":AutomaticAdvancedSettingsExpander")
-include(":BetterAnimationScaling")
-include(":BetterVerboseWiFiLogging")
 include(":BetterBluetoothDeviceSort")
+include(":BetterVerboseWiFiLogging")
 include(":ClassHunter")
 include(":CodecMod")
 include(":DontResetIfBootedAndConnected")
@@ -59,7 +63,3 @@ include(":PreventAudioFocus")
 include(":ResetAllNotificationChannels")
 include(":RotationControl")
 include(":UpsideWifi")
-include(":reflection")
-include(":logger")
-
-include(":template")

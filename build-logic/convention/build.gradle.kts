@@ -34,7 +34,7 @@ dependencies {
     
     // Hack to make the libs accessor work
     // https://github.com/gradle/gradle/issues/15383
-    compileOnly(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+    compileOnly(files(libs::class.java.superclass.protectionDomain.codeSource.location))
 }
 
 gradlePlugin {

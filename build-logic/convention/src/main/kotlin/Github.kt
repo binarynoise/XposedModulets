@@ -124,14 +124,18 @@ abstract class Github : DefaultTask() {
     @get:InputFile
     abstract val configurationFile: RegularFileProperty
     
+    init {
+        configurationFile = project.rootProject.file("github.properties")
+    }
+    
     @Input
     val properties: Provider<Properties> = configurationFile.map { Properties().apply { load(it.asFile.inputStream()) } }
     
     @Input
-    val repo: Provider<String?> = properties.map<String?>(PropertyFileTransformer("github_repo"))
+    val repo: Provider<String> = properties.map(PropertyFileTransformer("github_repo"))
     
     @Input
-    val token: Provider<String> = properties.map<String?>(PropertyFileTransformer("github_api_key"))
+    val token: Provider<String> = properties.map(PropertyFileTransformer("github_api_key"))
     
     class PropertyFileTransformer(val key: String) : Transformer<String?, Properties> {
         override fun transform(`in`: Properties): String? {
