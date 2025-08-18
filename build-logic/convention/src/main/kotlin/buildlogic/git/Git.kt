@@ -10,11 +10,17 @@ import org.gradle.process.ExecOutput
 private fun Project.getCommitCountExec() = providers.exec {
     executable("git")
     args("rev-list", "--count", "HEAD")
-    args(projectDir.absolutePath)
-    args(rootProject.file("gradle").absolutePath)
+    args(projectDir)
+    args(rootProject.file("gradle"))
     args(rootProject.file("build-logic"))
     
-    rootProject.projectDir.listFiles { file -> file.isFile && file.extension != "md" }!!.forEach { args(it.absolutePath) }
+    args(rootProject.file("build.gradle.kts"))
+    args(rootProject.file("settings.gradle.kts"))
+    args(rootProject.file("gradle.properties"))
+    args(rootProject.file("proguard-rules.pro"))
+    
+    args(rootProject.file("gradlew"))
+    args(rootProject.file("gradlew.bat"))
     
     extensions.findByType<BaseExtension>()?.let {
         val metadata = rootProject.file("metadata").resolve(it.namespace ?: "-")

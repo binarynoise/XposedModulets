@@ -74,9 +74,13 @@ abstract class GithubCreateReleaseTask : Github() {
         val name = "${project.name}-v$commitCount"
         
         if (repository.getReleaseByTagName(tagName) != null) {
-            doLast {
-                project.logger.warn("Release $name already exists")
-            }
+            val logString = "Release $name already exists"
+            
+            project.gradle.addBuildListener(object : BuildAdapter() {
+                override fun buildFinished(result: BuildResult) {
+                    println(logString)
+                }
+            })
             return
         }
         
