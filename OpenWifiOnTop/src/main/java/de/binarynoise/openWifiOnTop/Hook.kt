@@ -1,13 +1,10 @@
 package de.binarynoise.openWifiOnTop
 
-import de.binarynoise.logger.Logger.log
 import de.binarynoise.reflection.cast
 import de.binarynoise.reflection.findDeclaredMethod
 import de.robv.android.xposed.IXposedHookLoadPackage
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 class Hook : IXposedHookLoadPackage {
     
@@ -18,7 +15,7 @@ class Hook : IXposedHookLoadPackage {
         val isPrimary = WifiEntryClass.findDeclaredMethod("isPrimaryNetwork")
         val WIFI_PICKER_COMPARATOR = XposedHelpers.getStaticObjectField(WifiEntryClass, "WIFI_PICKER_COMPARATOR").cast<Comparator<Any>>()
         
-        val comparator: (Any, Any) -> Int = { a, b ->
+        val comparator: Comparator<Any> = Comparator { a, b ->
             val aPrimary = isPrimary.invoke(a) as Boolean
             val bPrimary = isPrimary.invoke(b) as Boolean
             
@@ -45,28 +42,6 @@ class Hook : IXposedHookLoadPackage {
             else WIFI_PICKER_COMPARATOR.compare(a, b)
         }
         
-        val WifiPickerTrackerClass = lpparam.classLoader.loadClass("com.android.wifitrackerlib.WifiPickerTracker")
-        
-        try {
-            XposedHelpers.findAndHookMethod(WifiPickerTrackerClass, "getWifiEntries", object : MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) = with(param) {
-                    result.cast<MutableList<*>>().sortWith(comparator)
-                }
-            })
-            log("handleLoadPackage: hooked getWifiEntries")
-        } catch (t: Throwable) {
-            XposedBridge.log(t)
-        }
-        
-        try {
-            XposedBridge.hookAllMethods(WifiPickerTrackerClass, "updateWifiEntries", object : MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam): Unit = with(param) {
-                    XposedHelpers.getObjectField(thisObject, "mWifiEntries").cast<MutableList<*>>().sortWith(comparator)
-                }
-            })
-            log("handleLoadPackage: hooked updateWifiEntries")
-        } catch (t: Throwable) {
-            XposedBridge.log(t)
-        }
+        XposedHelpers.setStaticObjectField(WifiEntryClass, "WIFI_PICKER_COMPARATOR", comparator)
     }
 }
