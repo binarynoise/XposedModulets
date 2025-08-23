@@ -31,9 +31,9 @@ class SettingsActivity : FragmentActivity() {
         
         @SuppressLint("WorldReadableFiles")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
+            setPreferencesFromResource(R.xml.root_preferences, rootKey)
             val preferenceCategory = findPreference<PreferenceCategory>("category_rotation_mode")!!
             val context = requireContext()
             
@@ -49,6 +49,8 @@ class SettingsActivity : FragmentActivity() {
                     true
                 }
                 preferenceCategory.addPreference(preference)
+                if (rotationMode in rewriteLockedOrientation.keys) preference.dependency = "rewrite_locked_orientations"
+                if (rotationMode in rewriteSensorOrientation.keys) preference.dependency = "rewrite_sensor_orientations"
             }
         }
     }
