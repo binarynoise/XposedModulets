@@ -21,8 +21,16 @@ class XposedHook : IXposedHookLoadPackage {
             Int::class.java,
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
+                    val originalRotationMode = ROTATION_MODE.entries.find { it.value == param.args[0] } ?: ROTATION_MODE.SCREEN_ORIENTATION_UNSET
                     val sharedPreferences: SharedPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, SHARED_PREFERENCES_NAME)
-                    val selectedRotationMode = ROTATION_MODE.entries.find { sharedPreferences.getBoolean(it.key, false) } ?: ROTATION_MODE_DEFAULT
+                    var selectedRotationMode = ROTATION_MODE.entries.find { sharedPreferences.getBoolean(it.key, false) } ?: ROTATION_MODE_DEFAULT
+                    if (selectedRotationMode == ROTATION_MODE.SCREEN_ORIENTATION_UNSET) selectedRotationMode = originalRotationMode
+                    if (sharedPreferences.getBoolean("rewrite_locked_orientations", false)) {
+                        selectedRotationMode = rewriteLockedOrientation.get(selectedRotationMode) ?: selectedRotationMode
+                    }
+                    if (sharedPreferences.getBoolean("rewrite_sensor_orientations", false)) {
+                        selectedRotationMode = rewriteSensorOrientation.get(selectedRotationMode) ?: selectedRotationMode
+                    }
                     if (selectedRotationMode == ROTATION_MODE.SCREEN_ORIENTATION_UNSET) return
                     param.args[0] = selectedRotationMode.value
                 }
