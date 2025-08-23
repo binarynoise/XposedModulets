@@ -1,6 +1,9 @@
 package com.programminghoch10.RotationControl
 
+import android.app.Application
 import android.content.pm.ActivityInfo
+
+val context = Class.forName("android.app.ActivityThread").getMethod("currentApplication").invoke(null) as Application
 
 enum class ROTATION_MODE(val key: String, val value: Int, val title: String, val summary: String) {
     // yoinked from https://developer.android.com/reference/android/R.attr.html#screenOrientation
@@ -8,132 +11,103 @@ enum class ROTATION_MODE(val key: String, val value: Int, val title: String, val
     SCREEN_ORIENTATION_UNSET(
         "UNSET",
         -2,
-        "UNSET",
-        "Do not override screen orientation. " +
-                "You might as well disable the module instead of using this option.",
+        context.getString(R.string.screen_orientation_unset_title),
+        context.getString(R.string.screen_orientation_unset_summary),
     ),
     SCREEN_ORIENTATION_UNSPECIFIED(
         "UNSPECIFIED",
         ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED,
-        "UNSPECIFIED",
-        "No preference specified: " +
-                "let the system decide the best orientation. " +
-                "This will either be the orientation selected by the activity below, " +
-                "or the user's preferred orientation if this activity is the bottom of a task. " +
-                "If the user explicitly turned off sensor based orientation " +
-                "through settings sensor based device rotation will be ignored. " +
-                "If not by default sensor based orientation will be taken into account " +
-                "and the orientation will changed based on how the user rotates the device.",
+        context.getString(R.string.screen_orientation_unspecified_title),
+        context.getString(R.string.screen_orientation_unspecified_summary),
     ),
     SCREEN_ORIENTATION_LANDSCAPE(
         "LANDSCAPE",
         ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE,
-        "LANDSCAPE",
-        "Would like to have the screen in a landscape orientation: " +
-                "that is, with the display wider than it is tall, ignoring sensor data.",
+        context.getString(R.string.screen_orientation_landscape_title),
+        context.getString(R.string.screen_orientation_landscape_summary),
     ),
     SCREEN_ORIENTATION_PORTRAIT(
         "PORTRAIT",
         ActivityInfo.SCREEN_ORIENTATION_PORTRAIT,
-        "PORTRAIT",
-        "Would like to have the screen in a portrait orientation: " +
-                "that is, with the display taller than it is wide, ignoring sensor data.",
+        context.getString(R.string.screen_orientation_portrait_title),
+        context.getString(R.string.screen_orientation_portrait_summary),
     ),
     SCREEN_ORIENTATION_USER(
         "USER",
         ActivityInfo.SCREEN_ORIENTATION_USER,
-        "USER",
-        "Use the user's current preferred orientation of the handset.",
+        context.getString(R.string.screen_orientation_user_title),
+        context.getString(R.string.screen_orientation_user_summary),
     ),
     SCREEN_ORIENTATION_BEHIND(
         "BEHIND",
         ActivityInfo.SCREEN_ORIENTATION_BEHIND,
-        "BEHIND",
-        "Keep the screen in the same orientation as whatever is behind this activity.",
+        context.getString(R.string.screen_orientation_behind_title),
+        context.getString(R.string.screen_orientation_behind_summary),
     ),
     SCREEN_ORIENTATION_SENSOR(
         "SENSOR",
         ActivityInfo.SCREEN_ORIENTATION_SENSOR,
-        "SENSOR",
-        "Orientation is determined by a physical orientation sensor: " +
-                "the display will rotate based on how the user moves the device. " +
-                "Ignores user's setting to turn off sensor-based rotation.",
+        context.getString(R.string.screen_orientation_sensor_title),
+        context.getString(R.string.screen_orientation_sensor_summary),
     ),
     SCREEN_ORIENTATION_NOSENSOR(
         "NOSENSOR",
         ActivityInfo.SCREEN_ORIENTATION_NOSENSOR,
-        "NOSENSOR",
-        "Always ignore orientation determined by orientation sensor: " +
-                "the display will not rotate when the user moves the device.",
+        context.getString(R.string.screen_orientation_nosensor_title),
+        context.getString(R.string.screen_orientation_nosensor_summary),
     ),
     SCREEN_ORIENTATION_SENSOR_LANDSCAPE(
         "SENSOR_LANDSCAPE",
         ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE,
-        "SENSOR_LANDSCAPE",
-        "Would like to have the screen in landscape orientation, " +
-                "but can use the sensor to change which direction the screen is facing. ",
+        context.getString(R.string.screen_orientation_sensor_landscape_title),
+        context.getString(R.string.screen_orientation_sensor_landscape_summary),
     ),
     SCREEN_ORIENTATION_SENSOR_PORTRAIT(
         "SENSOR_PORTRAIT",
         ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT,
-        "SENSOR_PORTRAIT",
-        "Would like to have the screen in portrait orientation, " +
-                "but can use the sensor to change which direction the screen is facing.",
+        context.getString(R.string.screen_orientation_sensor_portrait_title),
+        context.getString(R.string.screen_orientation_sensor_portrait_summary),
     ),
     SCREEN_ORIENTATION_REVERSE_LANDSCAPE(
         "REVERSE_LANDSCAPE",
         ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE,
-        "REVERSE_LANDSCAPE",
-        "Would like to have the screen in landscape orientation, " +
-                "turned in the opposite direction from normal landscape.",
+        context.getString(R.string.screen_orientation_reverse_landscape_title),
+        context.getString(R.string.screen_orientation_reverse_landscape_summary),
     ),
     SCREEN_ORIENTATION_REVERSE_PORTRAIT(
         "REVERSE_PORTRAIT",
         ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT,
-        "REVERSE_PORTRAIT",
-        "Would like to have the screen in portrait orientation, " +
-                "turned in the opposite direction from normal portrait.",
+        context.getString(R.string.screen_orientation_reverse_portrait_title),
+        context.getString(R.string.screen_orientation_reverse_portrait_summary),
     ),
     SCREEN_ORIENTATION_FULL_SENSOR(
         "FULL_SENSOR",
         ActivityInfo.SCREEN_ORIENTATION_FULL_SENSOR,
-        "FULL_SENSOR",
-        "Orientation is determined by a physical orientation sensor: " +
-                "the display will rotate based on how the user moves the device. " +
-                "This allows any of the 4 possible rotations, " +
-                "regardless of what the device will normally do " +
-                "(for example some devices won't normally use 180 degree rotation).",
+        context.getString(R.string.screen_orientation_full_sensor_title),
+        context.getString(R.string.screen_orientation_full_sensor_summary),
     ),
     SCREEN_ORIENTATION_USER_LANDSCAPE(
         "USER_LANDSCAPE",
         ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE,
-        "USER_LANDSCAPE",
-        "Would like to have the screen in landscape orientation, " +
-                "but if the user has enabled sensor-based rotation " +
-                "then we can use the sensor to change which direction the screen is facing.",
+        context.getString(R.string.screen_orientation_user_landscape),
+        context.getString(R.string.screen_orientation_user_landscape_summary),
     ),
     SCREEN_ORIENTATION_USER_PORTRAIT(
         "USER_PORTRAIT",
         ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT,
-        "USER_PORTRAIT",
-        "Would like to have the screen in portrait orientation, " +
-                "but if the user has enabled sensor-based rotation " +
-                "then we can use the sensor to change which direction the screen is facing.",
+        context.getString(R.string.screen_orientation_user_portrait_title),
+        context.getString(R.string.screen_orientation_user_portrait_summary),
     ),
     SCREEN_ORIENTATION_FULL_USER(
         "FULL_USER",
         ActivityInfo.SCREEN_ORIENTATION_FULL_USER,
-        "FULL_USER",
-        "Respect the user's sensor-based rotation preference, " +
-                "but if sensor-based rotation is enabled " +
-                "then allow the screen to rotate in all 4 possible directions " +
-                "regardless of what the device will normally do " +
-                "(for example some devices won't normally use 180 degree rotation).",
+        context.getString(R.string.screen_orientation_full_user_title),
+        context.getString(R.string.screen_orientation_full_user_summary),
     ),
     SCREEN_ORIENTATION_LOCKED(
         "LOCKED",
         ActivityInfo.SCREEN_ORIENTATION_LOCKED,
-        "LOCKED",
-        "Screen is locked to its current rotation, whatever that is.",
+        context.getString(R.string.screen_orientation_locked_title),
+        context.getString(R.string.screen_orientation_locked_summary),
     ),
 }
