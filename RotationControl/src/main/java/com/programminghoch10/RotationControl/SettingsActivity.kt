@@ -7,7 +7,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 
-val ROTATION_MODE_DEFAULT = ROTATION_MODE.SCREEN_ORIENTATION_FULL_SENSOR
+val ROTATION_MODE_DEFAULT = ROTATION_MODE.SCREEN_ORIENTATION_SENSOR
 const val SHARED_PREFERENCES_NAME = "rotation_mode"
 
 class SettingsActivity : FragmentActivity() {
