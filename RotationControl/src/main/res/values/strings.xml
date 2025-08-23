@@ -2,9 +2,9 @@
     <string name="app_name">RotationControl</string>
     <string name="description">Force rotation for selected packages</string>
     <string name="title_activity_settings">RotationControl Configuration</string>
-    <string name="category_rotation_mode">Rotation Mode</string>
+    <string name="category_rotation_mode">Forced Rotation Mode</string>
     <string name="screen_orientation_unset_title">UNSET</string>
-    <string name="screen_orientation_unset_summary">Do not override screen orientation. You might as well disable the module instead of using this option.</string>
+    <string name="screen_orientation_unset_summary">Do not override screen orientation. Use this option if you only want to use the rewrite functionality above.</string>
     <string name="screen_orientation_unspecified_title">UNSPECIFIED</string>
     <string name="screen_orientation_unspecified_summary">No preference specified: let the system decide the best orientation. This will either be the orientation selected by the activity below, or the user\'s preferred orientation if this activity is the bottom of a task. If the user explicitly turned off sensor based orientation through settings sensor based device rotation will be ignored. If not by default sensor based orientation will be taken into account and the orientation will changed based on how the user rotates the device.</string>
     <string name="screen_orientation_landscape_title">LANDSCAPE</string>
@@ -37,4 +37,9 @@
     <string name="screen_orientation_full_user_summary">Respect the user\'s sensor-based rotation preference, but if sensor-based rotation is enabled then allow the screen to rotate in all 4 possible directions regardless of what the device will normally do (for example some devices won\'t normally use 180 degree rotation).</string>
     <string name="screen_orientation_locked_title">LOCKED</string>
     <string name="screen_orientation_locked_summary">Screen is locked to its current rotation, whatever that is.</string>
+    <string name="rewrite_locked_orientations_title">Rewrite to sensor orientation</string>
+    <string name="rewrite_locked_orientations_summary">Rewrite locked orientations to sensor orientations.</string>
+    <string name="rewrite_sensor_orientation_title">Force full sensor rotation</string>
+    <string name="rewrite_sensor_orientations_summary">Rewrite sensor orientations to full sensor orientations.</string>
+    <string name="category_rewrite">Rewrite Options</string>
 </resources>

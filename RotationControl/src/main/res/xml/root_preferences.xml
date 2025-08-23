@@ -1,6 +1,23 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory
+        app:title="@string/category_rewrite">
+        <SwitchPreference
+            app:key="rewrite_locked_orientations"
+            app:title="@string/rewrite_locked_orientations_title"
+            app:summary="@string/rewrite_locked_orientations_summary"
+            app:defaultValue="false"
+            app:disableDependentsState="true" />
+        
+        <SwitchPreference
+            app:key="rewrite_sensor_orientations"
+            app:title="@string/rewrite_sensor_orientation_title"
+            app:summary="@string/rewrite_sensor_orientations_summary"
+            app:defaultValue="false"
+            app:disableDependentsState="true" />
+    </PreferenceCategory>
+    
+    <PreferenceCategory
         app:title="@string/category_rotation_mode"
         app:key="category_rotation_mode" />
 
