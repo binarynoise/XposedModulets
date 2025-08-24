@@ -1,4 +1,4 @@
-<PreferenceScreen
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+    <Preference app:summary="@string/restart_required" />
+
 </PreferenceScreen>
