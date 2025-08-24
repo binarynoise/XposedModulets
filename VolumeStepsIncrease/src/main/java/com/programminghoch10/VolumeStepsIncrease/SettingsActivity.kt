@@ -11,7 +11,6 @@ import androidx.preference.SeekBarPreference
 import androidx.preference.children
 import com.programminghoch10.VolumeStepsIncrease.Common.SHARED_PREFERENCES_NAME
 import com.programminghoch10.VolumeStepsIncrease.Common.STREAMS
-import com.programminghoch10.VolumeStepsIncrease.Common.STREAM_NAMES
 import com.programminghoch10.VolumeStepsIncrease.Common.getModuleDefaultVolumeSteps
 import com.programminghoch10.VolumeStepsIncrease.Common.getModuleMaxVolumeSteps
 import com.programminghoch10.VolumeStepsIncrease.Common.getModuleMinVolumeSteps
@@ -38,22 +37,21 @@ class SettingsActivity : FragmentActivity() {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             
-            for (stream in STREAM_NAMES) {
-                val streamInt = STREAMS[stream]!!
+            for (stream in STREAMS) {
                 val preference = SeekBarPreference(requireContext())
-                preference.key = getPreferenceKey(streamInt)
-                preference.title = stream.replace("STREAM_", "")
-                preference.min = getModuleMinVolumeSteps(streamInt)
-                preference.max = getModuleMaxVolumeSteps(streamInt)
-                preference.setDefaultValue(getModuleDefaultVolumeSteps(streamInt))
+                preference.key = getPreferenceKey(stream.value)
+                preference.title = stream.key.replace("STREAM_", "")
+                preference.min = getModuleMinVolumeSteps(stream.value)
+                preference.max = getModuleMaxVolumeSteps(stream.value)
+                preference.setDefaultValue(getModuleDefaultVolumeSteps(stream.value))
                 preference.showSeekBarValue = true
                 preference.updatesContinuously = true
                 preference.setOnPreferenceChangeListener { preference, newValue ->
-                    val factor = (newValue as Int).toDouble() / getSystemMaxVolumeSteps(streamInt)
+                    val factor = (newValue as Int).toDouble() / getSystemMaxVolumeSteps(stream.value)
                     preference.summary = arrayOf(
                         "factor=${factor.round(1)}x ",
-                        //"systemMin=${getSystemMinVolumeSteps(streamInt)} ",
-                        "systemMax=${getSystemMaxVolumeSteps(streamInt)} ",
+                        //"systemMin=${getSystemMinVolumeSteps(stream.value)} ",
+                        "systemMax=${getSystemMaxVolumeSteps(stream.value)} ",
                     ).joinToString(" ")
                     true
                 }
