@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceGroup
+import androidx.preference.children
 
 val ROTATION_MODE_DEFAULT = ROTATION_MODE.SCREEN_ORIENTATION_SENSOR
 const val SHARED_PREFERENCES_NAME = "rotation_mode"
@@ -52,6 +54,13 @@ class SettingsActivity : FragmentActivity() {
                 if (rotationMode in rewriteLockedOrientation.keys) preference.dependency = "rewrite_locked_orientations"
                 if (rotationMode in rewriteSensorOrientation.keys) preference.dependency = "rewrite_sensor_orientations"
             }
+            
+            preferenceScreen.setIconSpaceReservedRecursive()
+        }
+        
+        private fun Preference.setIconSpaceReservedRecursive(iconSpaceReserved: Boolean = false) {
+            this.isIconSpaceReserved = iconSpaceReserved
+            if (this is PreferenceGroup) this.children.forEach { it.setIconSpaceReservedRecursive(iconSpaceReserved) }
         }
     }
 }
