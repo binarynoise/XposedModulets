@@ -3,4 +3,5 @@
     <string name="app_name">VolumeStepsIncrease</string>
     <string name="title_activity_settings">Volume Steps Configuration</string>
     <string name="description">Increase the amount of volume steps.</string>
+    <string name="restart_required">A restart is required to apply the new values!</string>
 </resources>
