@@ -12,8 +12,6 @@ object Common {
     
     val STREAMS = StockValues::class.java.declaredFields.filter { it.name.startsWith("STREAM_") }.associate { it.name to it.getInt(null) }
     
-    val STREAM_NAMES = STREAMS.keys
-    
     val systemPropertyToStream = mapOf(
         "ro.config.vc_call_vol_steps" to STREAM_VOICE_CALL,
         "ro.config.media_vol_steps" to STREAM_MUSIC,
