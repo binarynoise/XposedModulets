@@ -5,6 +5,7 @@ Disable various system sounds.
 - Disable (regionally) forced camera sound
 - Disable shutter sound
 - Disable screenshot sound
+- Disable charging sound and vibration
 
 ## Forced camera sound
 

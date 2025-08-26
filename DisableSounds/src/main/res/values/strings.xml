@@ -8,4 +8,7 @@
     <string name="disable_shutter_sounds_title">Disable shutter sounds</string>
     <string name="disable_shutter_sounds_description">Disable shutter, focus and video recording sounds.</string>
     <string name="disable_shutter_sounds_description_on">Some apps using the old Camera API might not be muted. The screenshot sound might be muted too.</string>
+    <string name="disable_charging_sounds">Disable charging sounds</string>
+    <string name="disable_charging_feedback">Disable charging feedback</string>
+    <string name="disable_charging_feedback_summary">Also disable charging vibration.</string>
 </resources>
