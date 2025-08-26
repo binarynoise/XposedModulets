@@ -4,22 +4,22 @@ androidGradlePlugin = "8.11.1"
 androidTools = "31.12.1"
 androidxAnnotation = "1.9.1"
 collection = "1.5.0"
-collectionKtx = "1.5.0"
-libsu = "6.0.0"
+core = "1.17.0"
 githubApi = "1.329"
 hiddenapibypass = "6.1"
 jebrainsAnnotations = "26.0.2"
 kotlin = "2.2.10"
-xposed = "82"
+libsu = "6.0.0"
 preference = "1.2.1"
+xposed = "82"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePlugin" }
 android-tools-common = { module = "com.android.tools:common", version.ref = "androidTools" }
 androidx-annotation = { module = "androidx.annotation:annotation", version.ref = "androidxAnnotation" }
-androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
-androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collectionKtx" }
+androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collection" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "githubApi" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
@@ -42,8 +42,8 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 # Plugins defined by this project
 buildlogic-android-application = { id = "common.android.application" }
 buildlogic-android-library = { id = "common.android.library" }
+buildlogic-github = { id = "common.github" }
 buildlogic-jvm = { id = "common.jvm" }
 buildlogic-kotlin-android = { id = "common.kotlin.android" }
 buildlogic-kotlin-jvm = { id = "common.kotlin.jvm" }
 buildlogic-kotlin-multiplatform = { id = "common.kotlin.multiplatform" }
-buildlogic-github = { id = "common.github" }

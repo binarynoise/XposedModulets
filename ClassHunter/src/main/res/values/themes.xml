@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme"/>
+    
+    <style name="AppTheme" />
+    
     <style name="AppTheme.Edge2EdgeFix">
         <item name="android:fitsSystemWindows">true</item>
     </style>

@@ -1,10 +1,7 @@
 package de.binarynoise.automaticadvancedsettingsexpander
 
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
 import android.util.Log
 import de.robv.android.xposed.IXposedHookLoadPackage
-import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook

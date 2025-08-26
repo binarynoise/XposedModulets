@@ -19,7 +19,8 @@ class Hook : IXposedHookLoadPackage {
                     log("called getMostRecentlyConnectedDevices")
                     with(param) {
                         if (throwable != null || result == null) return
-                        @Suppress("UNCHECKED_CAST") val unsorted = result as MutableList<BluetoothDevice>
+                        @Suppress("UNCHECKED_CAST")
+                        val unsorted = result as MutableList<BluetoothDevice>
                         log("${unsorted.size} devices")
                         
                         val mAdapterService = XposedHelpers.getObjectField(param.thisObject, "mAdapterService")

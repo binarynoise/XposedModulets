@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.programminghoch10.UpsideWifi">
+    package="com.programminghoch10.UpsideWifi"
+    >
     
     <application
-        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
-        tools:ignore="AllowBackup">
+        android:label="@string/app_name"
+        tools:ignore="AllowBackup"
+        >
         <meta-data
             android:name="xposedmodule"
-            android:value="true"/>
+            android:value="true"
+            />
         <meta-data
             android:name="xposeddescription"
-            android:value="@string/xposed_description"/>
+            android:value="@string/xposed_description"
+            />
         <meta-data
             android:name="xposedminversion"
-            android:value="30"/>
+            android:value="30"
+            />
         <meta-data
             android:name="xposedscope"
-            android:resource="@array/scope"/>
+            android:resource="@array/scope"
+            />
     </application>
 
 </manifest>

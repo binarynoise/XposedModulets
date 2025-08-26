@@ -239,7 +239,8 @@ object StandardWifiEntry {
     val getScanResultDescription = WifiEntry.wifiEntryClass.findDeclaredMethod("getScanResultDescription") // -> StandardWifiEntry
     
     fun newGetScanResultDescription(wifiEntry: Any): String {
-        @Suppress("UNCHECKED_CAST") val mTargetScanResults = mTargetScanResultsField[wifiEntry] as ArrayList<ScanResult>
+        @Suppress("UNCHECKED_CAST")
+        val mTargetScanResults = mTargetScanResultsField[wifiEntry] as ArrayList<ScanResult>
         val mWifiInfo = mWifiInfoField[wifiEntry] as WifiInfo?
         if (mTargetScanResults.isEmpty()) return ""
         return mTargetScanResults.sortedBy { it.frequency }.joinToString(",\n ", "[", "]") {

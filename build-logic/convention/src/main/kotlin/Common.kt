@@ -148,10 +148,10 @@ private class CommonAndroid : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             extensions.configure<BaseExtension> {
-                compileSdkVersion(35)
+                compileSdkVersion(36)
                 
                 dependencies {
-//                    add("implementation", libs.androidx.annotation)
+                    add("implementation", libs.androidx.annotation)
                     add("compileOnly", libs.xposed.api)
                 }
                 

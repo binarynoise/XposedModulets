@@ -20,16 +20,11 @@ public class SettingsActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.settings, new SettingsFragment())
-                    .commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.settings, new SettingsFragment()).commit();
         }
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(
-                    getSupportFragmentManager().getBackStackEntryCount() > 0
-            );
+            actionBar.setDisplayHomeAsUpEnabled(getSupportFragmentManager().getBackStackEntryCount() > 0);
         }
     }
     
@@ -47,9 +42,7 @@ public class SettingsActivity extends FragmentActivity {
             List<MediaCodecInfoWrapper> mediaCodecs;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 MediaCodecList mediaCodecList = new MediaCodecList(MediaCodecList.ALL_CODECS);
-                mediaCodecs = Arrays.stream(mediaCodecList.getCodecInfos())
-                        .map(MediaCodecInfoWrapper::new)
-                        .toList();
+                mediaCodecs = Arrays.stream(mediaCodecList.getCodecInfos()).map(MediaCodecInfoWrapper::new).toList();
             } else {
                 mediaCodecs = new LinkedList<>();
                 for (int i = 0; i < MediaCodecList.getCodecCount(); i++)
@@ -62,11 +55,13 @@ public class SettingsActivity extends FragmentActivity {
                 preference.setDefaultValue(CodecStore.DEFAULT_VALUE);
                 preference.setKey(CodecStore.getKey(mediaCodecInfo));
                 preference.setOnPreferenceChangeListener((p, n) -> codecStore.setCodecPreference(mediaCodecInfo, (Boolean) n));
-                codecStore.registerOnCodecPreferenceChangedListener(mediaCodecInfo, value -> {
-                    if (preference.isChecked() != value) preference.setChecked(value);
-                });
-                preference.setTitle(mediaCodecInfo.getName()
-                        + (mediaCodecInfo.getName().equals(mediaCodecInfo.getCanonicalName()) ? "" : " (" + mediaCodecInfo.getCanonicalName() + ")"));
+                codecStore.registerOnCodecPreferenceChangedListener(
+                    mediaCodecInfo, value -> {
+                        if (preference.isChecked() != value) preference.setChecked(value);
+                    }
+                );
+                preference.setTitle(mediaCodecInfo.getName() //
+                    + (mediaCodecInfo.getName().equals(mediaCodecInfo.getCanonicalName()) ? "" : " (" + mediaCodecInfo.getCanonicalName() + ")"));
                 StringBuilder summaryBuilder = new StringBuilder();
                 summaryBuilder.append(String.format(getString(R.string.supported_types), Arrays.toString(mediaCodecInfo.getSupportedTypes())));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {

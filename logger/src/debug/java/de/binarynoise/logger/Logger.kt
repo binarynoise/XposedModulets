@@ -20,6 +20,8 @@ import android.util.SparseLongArray
 import android.view.View
 import android.view.ViewGroup
 import androidx.collection.SparseArrayCompat
+import androidx.core.util.isEmpty
+import androidx.core.util.size
 
 object Logger {
     
@@ -87,41 +89,41 @@ object Logger {
             }
             //region SparseArrays
             this is SparseArray<*> -> {
-                if (this.size() == 0) {
+                if (this.isEmpty()) {
                     println("[]")
                 } else {
                     println()
-                    for (index in 0 until size()) {
+                    for (index in 0 until size) {
                         valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
                     }
                 }
             }
             this is SparseIntArray -> {
-                if (this.size() == 0) {
+                if (this.isEmpty()) {
                     println("[]")
                 } else {
                     println()
-                    for (index in 0 until size()) {
+                    for (index in 0 until size) {
                         valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
                     }
                 }
             }
             this is SparseLongArray -> {
-                if (this.size() == 0) {
+                if (this.isEmpty()) {
                     println("[]")
                 } else {
                     println()
-                    for (index in 0 until size()) {
+                    for (index in 0 until size) {
                         valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
                     }
                 }
             }
             this is SparseBooleanArray -> {
-                if (this.size() == 0) {
+                if (this.isEmpty()) {
                     println("[]")
                 } else {
                     println()
-                    for (index in 0 until size()) {
+                    for (index in 0 until size) {
                         valueAt(index).dump(keyAt(index).toString(), nextIndent, processed, forceInclude, forceIncludeClasses)
                     }
                 }
@@ -259,9 +261,9 @@ object Logger {
             return run {
                 val lineNumber = stackTraceElement.lineNumber
                 val file = stackTraceElement.fileName ?: "unknown"
-            //                val substringAfterLast = proc.substringAfterLast(":", missingDelimiterValue = "x")
-            //                val proc = if (substringAfterLast != "x") "$substringAfterLast:" else ""
-            //                val thread = Thread.currentThread().name
+                // val substringAfterLast = proc.substringAfterLast(":", missingDelimiterValue = "x")
+                // val proc = if (substringAfterLast != "x") "$substringAfterLast:" else ""
+                // val thread = Thread.currentThread().name
                 simpleClassName.padEnd(30) + "." + (" ($file:$lineNumber)").padStart(40)
             }
         }

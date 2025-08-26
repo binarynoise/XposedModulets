@@ -1,4 +1,3 @@
-
 package com.programminghoch10.AnimationScaleMod;
 
 import android.content.res.XModuleResources;
@@ -12,15 +11,11 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources;
 
 public class ScaleHook implements IXposedHookInitPackageResources, IXposedHookZygoteInit {
     private static final String PACKAGE_SETTINGS = "com.android.settings";
-    private final static String[] arrayResourceNames = {
-            "window_animation",
-            "transition_animation",
-            "animator_duration",
-    };
+    private final static String[] arrayResourceNames = { "window_animation", "transition_animation", "animator_duration", };
     private static String modulePath = null;
     
     @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (!resparam.packageName.equals(PACKAGE_SETTINGS)) return;
         XResources resources = resparam.res;
         XModuleResources moduleResources = XModuleResources.createInstance(modulePath, resources);
@@ -36,8 +31,7 @@ public class ScaleHook implements IXposedHookInitPackageResources, IXposedHookZy
     }
     
     @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) {
         modulePath = startupParam.modulePath;
     }
-    
 }

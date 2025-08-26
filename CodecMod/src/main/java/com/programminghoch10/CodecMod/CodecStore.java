@@ -16,8 +16,8 @@ public class CodecStore {
     static final boolean DEFAULT_VALUE = true;
     private static final boolean REMOVE_DEFAULT_VALUE_FROM_CONFIG = true;
     private static final String PREFERENCES = "codecs";
-    SharedPreferences sharedPreferences;
-    List<OnCodecPreferenceChangedListenerMeta> receivers = new LinkedList<>();
+    private final SharedPreferences sharedPreferences;
+    private final List<OnCodecPreferenceChangedListenerMeta> receivers = new LinkedList<>();
     
     @SuppressLint("WorldReadableFiles")
     CodecStore(Context context) {
@@ -43,13 +43,15 @@ public class CodecStore {
         } else {
             success = sharedPreferences.edit().putBoolean(getKey(mediaCodecInfo), enabled).commit();
         }
-        if (!success)
-            return false;
+        if (!success) return false;
         dispatchOnCodecPreferenceChanged(mediaCodecInfo, enabled);
         return true;
     }
     
-    void registerOnCodecPreferenceChangedListener(MediaCodecInfoWrapper mediaCodecInfo, OnCodecPreferenceChangedListener onCodecPreferenceChangedListener) {
+    void registerOnCodecPreferenceChangedListener(
+        MediaCodecInfoWrapper mediaCodecInfo,
+        OnCodecPreferenceChangedListener onCodecPreferenceChangedListener
+    ) {
         OnCodecPreferenceChangedListenerMeta listener = new OnCodecPreferenceChangedListenerMeta();
         listener.mediaCodecInfo = mediaCodecInfo;
         listener.callback = onCodecPreferenceChangedListener;
@@ -59,12 +61,11 @@ public class CodecStore {
     private void dispatchOnCodecPreferenceChanged(MediaCodecInfoWrapper mediaCodecInfo, boolean enabled) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             receivers.stream()
-                    .filter(r -> getKey(r.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
-                    .forEach(r -> r.callback.onCodecPreferenceChanged(enabled));
+                .filter(r -> getKey(r.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
+                .forEach(r -> r.callback.onCodecPreferenceChanged(enabled));
         } else {
             for (OnCodecPreferenceChangedListenerMeta receiver : receivers) {
-                if (getKey(receiver.mediaCodecInfo).equals(getKey(mediaCodecInfo)))
-                    receiver.callback.onCodecPreferenceChanged(enabled);
+                if (getKey(receiver.mediaCodecInfo).equals(getKey(mediaCodecInfo))) receiver.callback.onCodecPreferenceChanged(enabled);
             }
         }
     }

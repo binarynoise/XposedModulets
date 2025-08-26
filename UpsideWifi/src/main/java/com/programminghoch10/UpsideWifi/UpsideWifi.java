@@ -13,20 +13,22 @@ public class UpsideWifi implements IXposedHookInitPackageResources {
     ImageView wifiIndicator;
     
     @Override
-    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) throws Throwable {
+    public void handleInitPackageResources(XC_InitPackageResources.InitPackageResourcesParam resparam) {
         if (!resparam.packageName.equals(PACKAGE_SYSTEMUI)) {
             return;
         }
-        String layoutName =
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE ? "new_status_bar_wifi_group" :
-                        (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? "status_bar_wifi_group" : "signal_cluster_view");
-        resparam.res.hookLayout(PACKAGE_SYSTEMUI, "layout", layoutName, new XC_LayoutInflated() {
-            @SuppressLint("DiscouragedApi")
-            @Override
-            public void handleLayoutInflated(LayoutInflatedParam liparam) throws Throwable {
-                wifiIndicator = liparam.view.findViewById(liparam.res.getIdentifier("wifi_signal", "id", PACKAGE_SYSTEMUI));
-                wifiIndicator.setRotation(180);
+        String layoutName = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+            ? "new_status_bar_wifi_group"
+            : (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P ? "status_bar_wifi_group" : "signal_cluster_view");
+        resparam.res.hookLayout(
+            PACKAGE_SYSTEMUI, "layout", layoutName, new XC_LayoutInflated() {
+                @SuppressLint("DiscouragedApi")
+                @Override
+                public void handleLayoutInflated(LayoutInflatedParam liparam) {
+                    wifiIndicator = liparam.view.findViewById(liparam.res.getIdentifier("wifi_signal", "id", PACKAGE_SYSTEMUI));
+                    wifiIndicator.setRotation(180);
+                }
             }
-        });
+        );
     }
 }

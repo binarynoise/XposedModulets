@@ -12,5 +12,6 @@ android {
 }
 
 dependencies {
-    debugImplementation(libs.androidx.collection)
+    debugImplementation(libs.androidx.collection.ktx)
+    debugImplementation(libs.androidx.core.ktx)
 }

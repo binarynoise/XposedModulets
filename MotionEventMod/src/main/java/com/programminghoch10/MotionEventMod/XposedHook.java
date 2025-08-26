@@ -16,37 +16,40 @@ public class XposedHook implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
 //        Log.d(TAG, "handleLoadPackage: hooking package " + lpparam.packageName);
-        XposedHelpers.findAndHookMethod(View.class, "dispatchTouchEvent", MotionEvent.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                MotionEvent event = (MotionEvent) param.args[0];
-                //Log.d(TAG, "dispatchTouchEvent: event=" + event);
-                if (event.getToolType(0) == MotionEvent.TOOL_TYPE_STYLUS) return;
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_MOVE:
-                        if (hover_exit_timestamp + hover_timeout > System.currentTimeMillis())
-                            param.setResult(true);
-                        break;
+        XposedHelpers.findAndHookMethod(
+            View.class, "dispatchTouchEvent", MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    MotionEvent event = (MotionEvent) param.args[0];
+                    //Log.d(TAG, "dispatchTouchEvent: event=" + event);
+                    if (event.getToolType(0) == MotionEvent.TOOL_TYPE_STYLUS) return;
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_MOVE:
+                            if (hover_exit_timestamp + hover_timeout > System.currentTimeMillis()) param.setResult(true);
+                            break;
+                    }
                 }
             }
-        });
-        XposedHelpers.findAndHookMethod(View.class, "dispatchHoverEvent", MotionEvent.class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) {
-                MotionEvent event = (MotionEvent) param.args[0];
-                //Log.d(TAG, "dispatchHoverEvent: event=" + event);
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_HOVER_ENTER:
-                        //Log.d(TAG, "dispatchHoverEvent: Hover enter");
-                        break;
-                    case MotionEvent.ACTION_HOVER_EXIT:
-                        hover_exit_timestamp = System.currentTimeMillis();
-                        //Log.d(TAG, "dispatchHoverEvent: Hover exit");
-                        break;
+        );
+        XposedHelpers.findAndHookMethod(
+            View.class, "dispatchHoverEvent", MotionEvent.class, new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    MotionEvent event = (MotionEvent) param.args[0];
+                    //Log.d(TAG, "dispatchHoverEvent: event=" + event);
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_HOVER_ENTER:
+                            //Log.d(TAG, "dispatchHoverEvent: Hover enter");
+                            break;
+                        case MotionEvent.ACTION_HOVER_EXIT:
+                            hover_exit_timestamp = System.currentTimeMillis();
+                            //Log.d(TAG, "dispatchHoverEvent: Hover exit");
+                            break;
+                    }
                 }
             }
-        });
+        );
     }
 }

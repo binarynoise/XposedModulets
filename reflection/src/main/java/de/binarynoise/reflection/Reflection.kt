@@ -10,7 +10,7 @@ fun <T> Class<T>.findDeclaredMethod(name: String, vararg params: Class<*>): Meth
     var c: Class<*>? = this
     while (c != null) {
         c.declaredMethods.filter { it.name == name }
-            .firstOrNull() { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
+            .firstOrNull { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
             ?.let { return it.makeAccessible() }
         c = c.superclass
     }
