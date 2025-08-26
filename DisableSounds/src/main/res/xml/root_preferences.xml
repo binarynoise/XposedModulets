@@ -2,6 +2,12 @@
 <PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
+        app:key="shutter"
+        app:title="@string/disable_shutter_sounds_title"
+        app:summary="@string/disable_shutter_sounds_description"
+        app:summaryOn="@string/disable_shutter_sounds_description_on"
+        />
+    <SwitchPreference
         app:key="screenshot"
         app:title="@string/disable_screenshot_sound_title"
         app:summary="@string/disable_screenshot_sound_description"

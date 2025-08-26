@@ -3,6 +3,9 @@
     <string name="title_activity_settings">DisableSounds Configuration</string>
     <string name="app_name">DisableSounds</string>
     <string name="description">Disable various system sounds</string>
+    <string name="disable_shutter_sounds_title">Disable shutter sounds</string>
+    <string name="disable_shutter_sounds_description">Disable shutter, focus and video recording sounds.</string>
+    <string name="disable_shutter_sounds_description_on">Some apps using the old Camera API might not be muted. On Android 13 and older the screenshot sound might be muted too.</string>
     <string name="disable_screenshot_sound_title">Disable screenshot sound</string>
     <string name="disable_screenshot_sound_description">@null</string>
 </resources>
