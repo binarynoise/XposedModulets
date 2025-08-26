@@ -2,6 +2,7 @@
 <resources>
     <string-array name="scope">
         <item>android</item>
+        <item>com.android.systemui</item>
         <item>org.lineageos.aperture</item>
     </string-array>
 </resources>

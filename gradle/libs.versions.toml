@@ -10,6 +10,7 @@ githubApi = "1.330"
 hiddenapibypass = "6.1"
 jebrainsAnnotations = "26.0.2-1"
 kotlin = "2.2.20"
+kotlinxCoroutinesGuava = "1.10.2"
 libsu = "6.0.0"
 preference = "1.2.1"
 xposed = "82"
@@ -30,6 +31,7 @@ jebtrains-annotations = { module = "org.jetbrains:annotations", version.ref = "j
 kotlin-bom = { module = "org.jetbrains.kotlin:kotlin-bom", version.ref = "kotlin" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
+kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
 xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
 
