@@ -10,6 +10,10 @@ android {
         minSdk = 17
         targetSdk = 36
     }
+    
+    lint {
+        disable += "ObsoleteSdkInt"
+    }
 }
 
 dependencies {

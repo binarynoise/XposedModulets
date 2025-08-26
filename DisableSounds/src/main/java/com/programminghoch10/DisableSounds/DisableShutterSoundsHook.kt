@@ -1,6 +1,5 @@
 package com.programminghoch10.DisableSounds
 
-import android.annotation.SuppressLint
 import android.media.MediaActionSound
 import android.os.Build
 import de.robv.android.xposed.IXposedHookLoadPackage
@@ -10,7 +9,6 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class DisableShutterSoundsHook : IXposedHookLoadPackage {
-    @SuppressLint("ObsoleteSdkInt")
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam?) {
         val sharedPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, SHARED_PREFERENCES_NAME)
         if (!sharedPreferences.getBoolean("shutter", false)) return
