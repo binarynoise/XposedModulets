@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="disable_shutter_sounds_description_on">Some apps using the old Camera API might not be muted.</string>
+</resources>
