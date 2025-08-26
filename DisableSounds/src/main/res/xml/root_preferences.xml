@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
         app:iconSpaceReserved="false"
+        app:key="shutter"
+        app:summary="@string/disable_shutter_sounds_description"
+        app:summaryOn="@string/disable_shutter_sounds_description_on"
+        app:title="@string/disable_shutter_sounds_title"
+        />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
         app:key="screenshot"
         app:summary="@string/disable_screenshot_sounds_description"
         app:title="@string/disable_screenshot_sounds_title"

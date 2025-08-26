@@ -5,4 +5,7 @@
     <string name="description">Disable various system sounds</string>
     <string name="disable_screenshot_sounds_title">Disable screenshot sounds</string>
     <string name="disable_screenshot_sounds_description">Disable screenshot and screen recording sounds.</string>
+    <string name="disable_shutter_sounds_title">Disable shutter sounds</string>
+    <string name="disable_shutter_sounds_description">Disable shutter, focus and video recording sounds.</string>
+    <string name="disable_shutter_sounds_description_on">Some apps using the old Camera API might not be muted. The screenshot sound might be muted too.</string>
 </resources>
