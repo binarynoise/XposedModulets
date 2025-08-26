@@ -2,18 +2,31 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="DisableSounds">
+    <application android:label="@string/app_name">
+        <activity
+            android:name=".SettingsActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        
         <meta-data
             android:name="xposedmodule"
             android:value="true"
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Disable various system sounds"
+            android:value="@string/description"
             />
         <meta-data
             android:name="xposedminversion"
-            android:value="53"
+            android:value="93"
             />
         <meta-data
             android:name="xposedscope"

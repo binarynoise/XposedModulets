@@ -3,6 +3,7 @@
 Disable various system sounds.
 
 - Disable (regionally) forced camera sound
+- Disable screenshot sound
 
 ## Forced camera sound
 
