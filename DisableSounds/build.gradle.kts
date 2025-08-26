@@ -11,3 +11,12 @@ android {
         targetSdk = 36
     }
 }
+
+dependencies {
+    // fragment-ktx is included as transitive dependency through preference-ktx
+    // the transitive dependency is a lower version though, which allows minSdk 17,
+    // while explicit mention with the latest version forced minSdk 21
+    //implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.kotlinx.coroutines.guava)
+}

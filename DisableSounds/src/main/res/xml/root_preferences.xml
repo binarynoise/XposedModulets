@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        app:key="screenshot"
+        app:title="@string/disable_screenshot_sound_title"
+        app:summary="@string/disable_screenshot_sound_description"
+        />
+</PreferenceScreen>

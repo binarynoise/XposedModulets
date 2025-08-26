@@ -3,7 +3,6 @@ package com.programminghoch10.DisableSounds
 import android.content.res.XResources
 import android.media.MediaActionSound
 import android.os.Build
-import android.util.Log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.XC_MethodReplacement
@@ -12,7 +11,6 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class DisableForcedCameraSoundHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        Log.d(TAG, "handleLoadPackage: loaded ${this::class.java.simpleName} with package ${lpparam.packageName}")
         if (lpparam.packageName == "android") {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val AudioServiceClass = XposedHelpers.findClass("com.android.server.audio.AudioService", lpparam.classLoader)
