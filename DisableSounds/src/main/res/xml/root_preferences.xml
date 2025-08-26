@@ -14,4 +14,16 @@
         app:summary="@string/disable_screenshot_sounds_description"
         app:title="@string/disable_screenshot_sounds_title"
         />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="charging"
+        app:title="@string/disable_charging_sounds"
+        />
+    <SwitchPreference
+        app:dependency="charging"
+        app:iconSpaceReserved="false"
+        app:key="chargingFeedback"
+        app:summary="@string/disable_charging_feedback_summary"
+        app:title="@string/disable_charging_feedback"
+        />
 </PreferenceScreen>
