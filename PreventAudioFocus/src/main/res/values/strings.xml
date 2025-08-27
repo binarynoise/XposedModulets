@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">PreventAudioFocus</string>
+    <string name="title_activity_settings">PreventAudioFocus Settings</string>
+    <string name="description">Prevent apps from acquiring audio focus</string>
+</resources>
