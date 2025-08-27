@@ -1,0 +1,4 @@
+This Module allows you to selectively disable sensors on your android device.
+Every sensor is listed and can be selectively disabled at choice.
+Supports all sensors reported by Android through the SensorManager API.
+Select all apps to disable the sensors for as scope for the module.
