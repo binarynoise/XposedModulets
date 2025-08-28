@@ -25,9 +25,12 @@ class SettingsActivity : FragmentActivity() {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.settings, SettingsFragment()).commit()
         }
-        actionBar?.setDisplayHomeAsUpEnabled(
-            supportFragmentManager.backStackEntryCount > 0
-        )
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+    
+    override fun onNavigateUp(): Boolean {
+        finish()
+        return super.onNavigateUp()
     }
     
     class SettingsFragment : PreferenceFragmentCompat() {
