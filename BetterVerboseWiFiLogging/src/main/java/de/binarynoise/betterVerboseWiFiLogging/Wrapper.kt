@@ -1,12 +1,14 @@
 package de.binarynoise.betterVerboseWiFiLogging
 
 import android.net.wifi.ScanResult
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.mWifiInfoField
 import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
 import de.binarynoise.reflection.findDeclaredField
 import de.binarynoise.reflection.findDeclaredMethod
+import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 const val wifitrackerlib = "com.android.wifitrackerlib"
 
@@ -199,6 +201,7 @@ val channelMap = mapOf(
 object WifiEntry {
     val wifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.WifiEntry")
     
+    // TODO: check inline in SystemUI
     val getWifiInfoDescription = wifiEntryClass.findDeclaredMethod("getWifiInfoDescription")
     
     private const val CONNECTED_STATE_CONNECTED = 2
@@ -220,6 +223,11 @@ object WifiEntry {
                 append("standard=${mWifiInfo.wifiStandard}")
                 append(", ")
                 append("rssi=$rssi\u202FdBm")
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    append(", ")
+//                    append("securityType=")
+                    append(securityTypeToString(currentSecurityType))
+                }
             }
         }
     }
@@ -232,6 +240,40 @@ object WifiEntry {
     val getConnectedState = wifiEntryClass.findDeclaredMethod("getConnectedState")
     
     val mWifiInfoField = wifiEntryClass.findDeclaredField("mWifiInfo")
+    
+    
+    @Suppress("DEPRECATION")
+    val getSecurityTypeNameMethod = WifiConfiguration::class.java.getDeclaredMethod("getSecurityTypeName", Int::class.java)
+    
+    @Suppress("DEPRECATION")
+    val WifiConfigurationFields = HiddenApiBypass.getStaticFields(WifiConfiguration::class.java);
+    
+    val SECURITY_TYPE_PASSPOINT_R1_R2 = WifiConfigurationFields.first { it.name == "SECURITY_TYPE_PASSPOINT_R1_R2" }.getInt(null)
+    val SECURITY_TYPE_PASSPOINT_R3 = WifiConfigurationFields.first { it.name == "SECURITY_TYPE_PASSPOINT_R3" }.getInt(null)
+    
+    @Suppress("DEPRECATION")
+    fun convertWifiConfigurationSecurityTypeBack(/* @WifiInfo.SecurityType */ wifiInfoSecurity: Int): /* @WifiAnnotations.SecurityType */ Int =
+        when (wifiInfoSecurity) {
+            WifiInfo.SECURITY_TYPE_OPEN -> WifiConfiguration.SECURITY_TYPE_OPEN
+            WifiInfo.SECURITY_TYPE_WEP -> WifiConfiguration.SECURITY_TYPE_WEP
+            WifiInfo.SECURITY_TYPE_PSK -> WifiConfiguration.SECURITY_TYPE_PSK
+            WifiInfo.SECURITY_TYPE_EAP -> WifiConfiguration.SECURITY_TYPE_EAP
+            WifiInfo.SECURITY_TYPE_SAE -> WifiConfiguration.SECURITY_TYPE_SAE
+            WifiInfo.SECURITY_TYPE_OWE -> WifiConfiguration.SECURITY_TYPE_OWE
+            WifiInfo.SECURITY_TYPE_WAPI_PSK -> WifiConfiguration.SECURITY_TYPE_WAPI_PSK
+            WifiInfo.SECURITY_TYPE_WAPI_CERT -> WifiConfiguration.SECURITY_TYPE_WAPI_CERT
+            WifiInfo.SECURITY_TYPE_EAP_WPA3_ENTERPRISE -> WifiConfiguration.SECURITY_TYPE_EAP_WPA3_ENTERPRISE
+            WifiInfo.SECURITY_TYPE_EAP_WPA3_ENTERPRISE_192_BIT -> WifiConfiguration.SECURITY_TYPE_EAP_WPA3_ENTERPRISE_192_BIT
+            WifiInfo.SECURITY_TYPE_PASSPOINT_R1_R2 -> SECURITY_TYPE_PASSPOINT_R1_R2
+            WifiInfo.SECURITY_TYPE_PASSPOINT_R3 -> SECURITY_TYPE_PASSPOINT_R3
+            WifiInfo.SECURITY_TYPE_DPP -> WifiConfiguration.SECURITY_TYPE_DPP
+            else -> WifiInfo.SECURITY_TYPE_UNKNOWN
+        }
+    
+    
+    fun securityTypeToString(type: Int): String {
+        return getSecurityTypeNameMethod(null, convertWifiConfigurationSecurityTypeBack(type)) as String
+    }
 }
 
 object StandardWifiEntry {
@@ -243,24 +285,32 @@ object StandardWifiEntry {
         val mTargetScanResults = mTargetScanResultsField[wifiEntry] as ArrayList<ScanResult>
         val mWifiInfo = mWifiInfoField[wifiEntry] as WifiInfo?
         if (mTargetScanResults.isEmpty()) return ""
-        return mTargetScanResults.sortedBy { it.frequency }.joinToString(",\n ", "[", "]") {
+        return mTargetScanResults.sortedBy { it.frequency }.joinToString(",\n ", "[", "]") { scanResult ->
             buildString {
                 append("{")
-                append(it.BSSID)
-                if (mWifiInfo != null && mWifiInfo.bssid == it.BSSID) {
+                append(scanResult.BSSID)
+                if (mWifiInfo != null && mWifiInfo.bssid == scanResult.BSSID) {
                     append("*")
                 }
                 append(", ")
                 
-                append(it.frequency)
+                append(scanResult.frequency)
                 append("\u202FMHz")
-                channelMap[it.frequency]?.let {
+                channelMap[scanResult.frequency]?.let {
                     append("\u202F($it)")
                 }
                 append(", ")
                 
-                append(it.level)
+                append(scanResult.level)
                 append("\u202FdBm")
+                
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    append(", ")
+//                    append("securityType=")
+                    append("[")
+                    append(scanResult.securityTypes.joinToString { WifiEntry.securityTypeToString(it) })
+                    append("]")
+                }
                 
                 // removed: WiFi-Standard
                 // removed: WiFi 11BE info: mldMac, linkId, addLinks
