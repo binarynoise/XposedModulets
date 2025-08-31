@@ -109,10 +109,24 @@ class Hook : IXposedHookLoadPackage {
     
     fun tryFindClass(classLoader: ClassLoader, classLoaderName: String, packageName: String) {
         BuildConfig.targetClass.forEach { className ->
-            try {
-                val cls = Class.forName(className, false, classLoader)
-                logClass(cls, classLoaderName, classLoader, packageName)
-            } catch (_: Throwable) {
+            var cls: Class<*>? = null
+            
+            var classLoader: ClassLoader? = classLoader
+            var successClassLoader: ClassLoader? = null
+            var i = 0
+            
+            while (classLoader != null && i++ < 10) {
+                try {
+                    cls = Class.forName(className, false, classLoader)
+                    successClassLoader = classLoader
+                } catch (_: Throwable) {
+                    break
+                }
+                classLoader = classLoader.parent
+            }
+            
+            if (cls != null && successClassLoader != null) {
+                logClass(cls, classLoaderName, successClassLoader, packageName)
             }
         }
     }
