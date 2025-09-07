@@ -18,6 +18,7 @@ object Common {
         "ro.config.alarm_vol_steps" to STREAM_ALARM,
         "ro.config.system_vol_steps" to STREAM_SYSTEM,
     )
+    val streamsToSystemProperties = systemPropertyToStream.entries.associate { it.value to it.key }
     
     val moduleDefaultVolumeSteps = mapOf(
         STREAM_MUSIC to MAX_STREAM_VOLUME[STREAM_MUSIC] * 2,
@@ -25,7 +26,17 @@ object Common {
     )
     
     fun getSystemMaxVolumeSteps(stream: Int): Int {
-        return MAX_STREAM_VOLUME[stream]
+        val default = MAX_STREAM_VOLUME[stream]
+        if (streamsToSystemProperties.contains(stream)) {
+            val systemProperty = streamsToSystemProperties[stream]
+            try {
+                val SystemPropertiesClass = Class.forName("android.os.SystemProperties")
+                val getIntMethod = SystemPropertiesClass.getMethod("getInt", String::class.java, Int::class.java)
+                return getIntMethod.invoke(null, systemProperty, default) as Int
+            } catch (_: Exception) {
+            }
+        }
+        return default
     }
     
     fun getModuleDefaultVolumeSteps(stream: Int): Int {
