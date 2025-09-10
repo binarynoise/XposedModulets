@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="scope">
+        <item>com.samsung.android.app.watchmanager</item>
+        
+        <!-- accessory package names extracted from main watchmanager apk -->
+        <item>com.samsung.accessory.atticmgr</item>
+        <item>com.samsung.accessory.beansmgr</item>
+        <item>com.samsung.accessory.berrymgr</item>
+        <item>com.samsung.accessory.fridaymgr</item>
+        <item>com.samsung.accessory.jellymgr</item>
+        <item>com.samsung.accessory.neobeanmgr</item>
+        <item>com.samsung.accessory.paranmgr</item>
+        <item>com.samsung.accessory.pearlmgr</item>
+        <item>com.samsung.accessory.popcornmgr</item>
+        <item>com.samsung.accessory.triathlonmgr</item>
+        <item>com.samsung.accessory.zenithmgr</item>
+        <item>com.samsung.accessory</item>
+        <item>com.samsung.android.companionservice.service.WRCompanionService</item>
+        <item>com.samsung.android.gearfit2plugin</item>
+        <item>com.samsung.android.geargplugin</item>
+        <item>com.samsung.android.gearnplugin</item>
+        <item>com.samsung.android.gearoplugin</item>
+        <item>com.samsung.android.gearpplugin</item>
+        <item>com.samsung.android.gearrplugin</item>
+        <item>com.samsung.android.heartplugin</item>
+        <item>com.samsung.android.modenplugin</item>
+        <item>com.samsung.android.neatplugin</item>
+        <item>com.samsung.android.neckletplugin</item>
+        <item>com.samsung.android.ringplugin</item>
+        <item>com.samsung.android.waterplugin</item>
+        <item>com.samsung.wearable.fit3plugin</item>
+        <item>com.samsung.wearable.hostmanager.service.HostManager</item>
+    </string-array>
+</resources>
