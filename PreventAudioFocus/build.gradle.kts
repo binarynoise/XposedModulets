@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.buildlogic.android.application)
+    alias(libs.plugins.buildlogic.kotlin.android)
 }
 
 android {
@@ -7,6 +8,11 @@ android {
     
     defaultConfig {
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
     }
+}
+
+dependencies {
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.preference.ktx)
 }
