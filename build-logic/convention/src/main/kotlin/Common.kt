@@ -31,6 +31,7 @@ class CommonAndroidApplication : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 defaultConfig {
                     versionCode = getCommitCount()
+                    if (targetSdk == null) targetSdk = compileSdk
                 }
                 
                 setupSigning(rootProject.projectDir)
