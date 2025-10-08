@@ -8,7 +8,7 @@ import com.programminghoch10.VolumeStepsIncrease.StockValues.STREAM_SYSTEM
 import com.programminghoch10.VolumeStepsIncrease.StockValues.STREAM_VOICE_CALL
 
 object Common {
-    val SHARED_PREFERENCES_NAME = "streams"
+    const val SHARED_PREFERENCES_NAME = "streams"
     
     val STREAMS = StockValues::class.java.declaredFields.filter { it.name.startsWith("STREAM_") }.associate { it.name to it.getInt(null) }
     
@@ -52,7 +52,7 @@ object Common {
     }
     
     fun getModuleMinVolumeSteps(stream: Int): Int {
-        return getSystemMinVolumeSteps((stream))
+        return getSystemMinVolumeSteps(stream)
     }
     
     fun getPreferenceKey(stream: Int): String {
