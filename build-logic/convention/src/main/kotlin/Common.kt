@@ -153,6 +153,7 @@ private class CommonAndroid : Plugin<Project> {
                 
                 dependencies {
                     add("implementation", libs.androidx.annotation)
+                    add("implementation", libs.kotlin.bom) // only for annotation
                     add("compileOnly", libs.xposed.api)
                 }
                 
