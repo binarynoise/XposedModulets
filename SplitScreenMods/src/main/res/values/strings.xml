@@ -15,4 +15,8 @@
         Keep the split screen ratio, when switching one of the split apps.
     </string>
     <string name="restart_required">A restart is required to apply changes!</string>
+    <string name="FreeSnap_title">FreeSnap</string>
+    <string name="FreeSnap_summary">
+        Allow any split ratio instead of snapping to predefined ratios.
+    </string>
 </resources>
