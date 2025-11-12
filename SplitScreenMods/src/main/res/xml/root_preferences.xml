@@ -17,4 +17,10 @@
         app:summary="@string/keepsplitscreenratio_summary"
         app:title="@string/keepsplitscreenratio_title"
         />
+    <CheckBoxPreference
+        app:iconSpaceReserved="false"
+        app:key="FreeSnap"
+        app:summary="@string/freesnap_summary"
+        app:title="@string/freesnap_title"
+        />
 </PreferenceScreen>

@@ -2,3 +2,4 @@ A collection of various SplitScreen modifications.
 
 * AlwaysAllowMultiInstanceSplit
 * KeepSplitScreenRatio
+* FreeSnap
