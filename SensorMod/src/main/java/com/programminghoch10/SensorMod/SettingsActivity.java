@@ -32,7 +32,6 @@ public class SettingsActivity extends FragmentActivity {
     }
     
     public static class SettingsFragment extends PreferenceFragmentCompat {
-        @SuppressLint("WorldReadableFiles")
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             PreferenceManager preferenceManager = getPreferenceManager();
