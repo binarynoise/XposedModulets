@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SplitScreenMods</string>
+    <string name="title_activity_settings">@string/app_name</string>
     <string name="description">
         Collection of various SplitScreen modifications.
-        Enter settings to configure them.
     </string>
+    <string name="AlwaysAllowMultiInstanceSplit_title">AlwaysAllowMultiInstanceSplit</string>
+    <string name="AlwaysAllowMultiInstanceSplit_summary">
+        Allow all apps to be launched twice side-by-side in a split screen.
+        \nUndefined behaviour ahead!
+    </string>
+    <string name="KeepSplitScreenRatio_title">KeepSplitScreenRatio</string>
+    <string name="KeepSplitScreenRatio_summary">
+        Keep the split screen ratio, when switching one of the split apps.
+    </string>
+    <string name="restart_required">A restart is required to apply changes!</string>
 </resources>

@@ -2,23 +2,32 @@ package com.programminghoch10.SplitScreenMods
 
 import android.os.Build
 import android.os.IBinder
+import com.programminghoch10.SplitScreenMods.BuildConfig.SHARED_PREFERENCES_NAME
+import com.programminghoch10.SplitScreenMods.KeepSplitScreenRatioHookConfig.enabled
 import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodReplacement
+import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 
+object KeepSplitScreenRatioHookConfig {
+    @JvmField
+    val enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+}
+
 class KeepSplitScreenRatioHook : IXposedHookLoadPackage {
-    
-    val supportedSdk = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (lpparam.packageName != "com.android.systemui") return
-        if (!supportedSdk) return
+        if (!enabled) return
         log("handleLoadPackage(${lpparam.packageName} in process ${lpparam.processName})")
+        val preferences = XSharedPreferences(BuildConfig.APPLICATION_ID, SHARED_PREFERENCES_NAME)
+        val enabled = preferences.getBoolean("KeepSplitScreenRatio", false)
+        if (!enabled) return
         
         val SplitLayoutClass =
             XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
