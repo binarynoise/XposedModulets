@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SplitScreenMods</string>
+    <string name="description">
+        Collection of various SplitScreen modifications.
+        Enter settings to configure them.
+    </string>
+</resources>
