@@ -175,6 +175,7 @@ private class CommonAndroid : Plugin<Project> {
                     disable += "OldTargetApi"
                     disable += "PrivateApi"
                     disable += "UnusedAttribute"
+                    disable += "WorldReadableFiles"
                 }
                 
                 compileOptions {
