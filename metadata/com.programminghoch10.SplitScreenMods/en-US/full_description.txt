@@ -2,5 +2,6 @@ A collection of various SplitScreen modifications.
 
 * AlwaysAllowMultiInstanceSplit
 * KeepSplitScreenRatio
+* FreeSnap
 
 [Read the module's README on GitHub for explanations.](https://github.com/binarynoise/XposedModulets/blob/main/SplitScreenMods/README.md)
