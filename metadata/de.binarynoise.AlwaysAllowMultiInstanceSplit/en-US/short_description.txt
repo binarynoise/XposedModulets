@@ -1,1 +1,0 @@
-Allow all apps to be launched twice in a split screen

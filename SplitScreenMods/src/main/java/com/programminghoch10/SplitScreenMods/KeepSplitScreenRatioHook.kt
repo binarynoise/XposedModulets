@@ -1,6 +1,8 @@
-package com.programminghoch10.KeepSplitScreenRatio
+package com.programminghoch10.SplitScreenMods
 
+import android.os.Build
 import android.os.IBinder
+import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
@@ -9,13 +11,19 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 
-class Hook : IXposedHookLoadPackage {
+class KeepSplitScreenRatioHook : IXposedHookLoadPackage {
+    
+    val supportedSdk = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (lpparam.packageName != "com.android.systemui") return
+        if (!supportedSdk) return
+        log("handleLoadPackage(${lpparam.packageName} in process ${lpparam.processName})")
         
-        val SplitLayoutClass = XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
-        val StageCoordinatorClass = XposedHelpers.findClass("com.android.wm.shell.splitscreen.StageCoordinator", lpparam.classLoader)
+        val SplitLayoutClass =
+            XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
+        val StageCoordinatorClass =
+            XposedHelpers.findClass("com.android.wm.shell.splitscreen.StageCoordinator", lpparam.classLoader)
         
         /*
         Currently this module disables SplitScreen enter and dismiss animations completely.
@@ -48,6 +56,7 @@ class Hook : IXposedHookLoadPackage {
                         mSplitLayout,
                         arrayOf(),
                     )
+                    log("${StageCoordinatorClass.simpleName} onSnappedToDismiss called")
                 }
             },
         )
@@ -67,6 +76,7 @@ class Hook : IXposedHookLoadPackage {
             object : MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     // disabling resizeAnim makes the method call resetDividerPosition()
+                    log("prepareSplitLayout: disable resizeAnim")
                     param.args[1] = false
                 }
             },
@@ -81,10 +91,11 @@ class Hook : IXposedHookLoadPackage {
                     val binder = param.args[0] as IBinder
                     val stageCoordinator = param.thisObject
                     val mSplitTransitions = XposedHelpers.getObjectField(stageCoordinator, "mSplitTransitions")
-                    val isPendingEnter = XposedHelpers.callMethod(mSplitTransitions, "isPendingEnter", binder) as Boolean
+                    val isPendingEnter =
+                        XposedHelpers.callMethod(mSplitTransitions, "isPendingEnter", binder) as Boolean
+                    log("${startPendingAnimationMethod.name}: isPendingEnter=$isPendingEnter")
                     if (!isPendingEnter) return
                     val mPendingEnter = XposedHelpers.getObjectField(mSplitTransitions, "mPendingEnter")
-                    XposedHelpers.getBooleanField(mPendingEnter, "mResizeAnim")
                     // disable resizeAnim when entering SplitScreen
                     XposedHelpers.setBooleanField(mPendingEnter, "mResizeAnim", false)
                 }
