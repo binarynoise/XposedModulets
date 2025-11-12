@@ -4,10 +4,14 @@ plugins {
 }
 
 android {
-    namespace = "com.programminghoch10.KeepSplitScreenRatio"
+    namespace = "com.programminghoch10.SplitScreenMods"
     
     defaultConfig {
-        minSdk = 34
+        minSdk = 33
         targetSdk = 36
     }
+}
+
+dependencies {
+    implementation(project(":logger"))
 }

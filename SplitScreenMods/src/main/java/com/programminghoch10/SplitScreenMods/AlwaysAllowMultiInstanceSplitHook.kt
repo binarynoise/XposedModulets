@@ -1,19 +1,22 @@
-package de.binarynoise.AlwaysAllowMultiInstanceSplit
+package com.programminghoch10.SplitScreenMods
 
 import android.content.ComponentName
 import android.content.pm.ActivityInfo
 import android.os.Build
 import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
+import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
-import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-class Hook : IXposedHookLoadPackage {
+class AlwaysAllowMultiInstanceSplitHook : IXposedHookLoadPackage {
+    
+    val supportedSdk = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
+        if (!supportedSdk) return
         log("handleLoadPackage(${lpparam.packageName} in process ${lpparam.processName})")
         
         when (lpparam.packageName) {
@@ -46,7 +49,7 @@ class Hook : IXposedHookLoadPackage {
                         ActivityStarterClass,
                         "executeRequest",
                         ActivityStarterRequestClass,
-                        object : MethodHook() {
+                        object : XC_MethodHook() {
                             override fun beforeHookedMethod(param: MethodHookParam) {
                                 val request = param.args[0]
                                 val aInfo = XposedHelpers.getObjectField(request, "activityInfo") as ActivityInfo
