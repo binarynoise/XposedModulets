@@ -1,1 +1,0 @@
-Keep the split screen ratio, when switching one of the split apps.
