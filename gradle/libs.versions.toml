@@ -12,6 +12,7 @@ jebrainsAnnotations = "26.0.2-1"
 kotlin = "2.2.20"
 kotlinxCoroutinesGuava = "1.10.2"
 libsu = "6.0.0"
+performanceUnsafe = "1.0.0-alpha01"
 preference = "1.2.1"
 xposed = "82"
 
@@ -23,6 +24,7 @@ androidx-annotation = { module = "androidx.annotation:annotation", version.ref =
 androidx-collection-ktx = { module = "androidx.collection:collection-ktx", version.ref = "collection" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", version.ref = "fragment" }
+androidx-performance-unsafe = { module = "androidx.performance:performance-unsafe", version.ref = "performanceUnsafe" }
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 androidx-preference-ktx = { group = "androidx.preference", name = "preference-ktx", version.ref = "preference" }
 github-api = { module = "org.kohsuke:github-api", version.ref = "githubApi" }
