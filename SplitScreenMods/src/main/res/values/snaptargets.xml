@@ -18,17 +18,28 @@
         <item>&#8531; &amp; &#188; &amp; &#8534;</item>
     </string-array>
     
-    <string-array name="FREE_SNAP_TARGET_KEYS"
+    <string-array name="SINGLE_SNAP_TARGET_KEYS"
         translatable="false">
         <item>SYSTEM</item>
         <item>CUSTOM</item>
         <item>0.33</item>
         <item>0.25</item>
     </string-array>
-    <string-array name="FREE_SNAP_TARGET_TITLES">
+    <string-array name="SINGLE_SNAP_TARGET_TITLES">
         <item>System default</item>
         <item>Custom</item>
         <item>&#8531;</item>
         <item>&#188;</item>
     </string-array>
+    
+    <string-array name="CUSTOM_ONLY_SNAP_TARGET_KEYS"
+        translatable="false">
+        <item>SYSTEM</item>
+        <item>CUSTOM</item>
+    </string-array>
+    <string-array name="CUSTOM_ONLY_SNAP_TARGET_TITLES">
+        <item>System default</item>
+        <item>Custom</item>
+    </string-array>
+
 </resources>

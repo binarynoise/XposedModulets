@@ -24,7 +24,7 @@ const val SNAP_TO_START_AND_DISMISS = 11
 const val SNAP_TO_END_AND_DISMISS = 12
 
 object AdditionalSnapTargetsHookConfig {
-    val enabled = SnapModeHookConfig.enabled && CustomFixedRatioHookConfig.enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
+    val enabled = SnapModeHookConfig.enabled && CustomFixedRatioHookConfig.enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 }
 
 class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackageResources {
@@ -42,7 +42,22 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
         
         val DividerSnapAlgorithmClass = XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
         val SnapTargetClass = XposedHelpers.findClass(DividerSnapAlgorithmClass.name + "\$SnapTarget", lpparam.classLoader)
-        val SnapTargetClassConstructor = XposedHelpers.findConstructorExact(SnapTargetClass, Int::class.java, Int::class.java)
+        val SnapTargetClassConstructor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) XposedHelpers.findConstructorExact(
+            SnapTargetClass,
+            Int::class.java,
+            Int::class.java,
+        )
+        else XposedHelpers.findConstructorExact(
+            SnapTargetClass,
+            Int::class.java,
+            Int::class.java,
+            Int::class.java,
+        )
+        
+        fun createNewSnapTargetInstance(position: Int, snapPosition: Int): Any {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) SnapTargetClassConstructor.newInstance(position, snapPosition)
+            else SnapTargetClassConstructor.newInstance(position, 0, snapPosition)
+        }
         
         XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
@@ -52,7 +67,11 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
                 if (mTargets.isEmpty()) return
                 
                 // reimplementation of inlined methods getStartInset() and getEndInset()
-                val mIsLeftRightSplit = XposedHelpers.getBooleanField(param.thisObject, "mIsLeftRightSplit")
+                val mIsLeftRightSplit = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) XposedHelpers.getBooleanField(
+                    param.thisObject,
+                    "mIsLeftRightSplit",
+                )
+                else XposedHelpers.getBooleanField(param.thisObject, "mIsHorizontalDivision")
                 val mInsets = XposedHelpers.getObjectField(param.thisObject, "mInsets") as Rect
                 val startInset = if (mIsLeftRightSplit) mInsets.left else mInsets.top
                 val endInset = if (mIsLeftRightSplit) mInsets.right else mInsets.bottom
@@ -85,7 +104,7 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
                             return
                         }
                         log("adding snap target ${snapTargetRatio} at $position of size $size")
-                        val snapTarget = SnapTargetClassConstructor.newInstance(position, snapPosition ?: SNAP_TO_NONE)
+                        val snapTarget = createNewSnapTargetInstance(position, snapPosition ?: SNAP_TO_NONE)
                         mTargets.add(snapTarget)
                     }
                     
@@ -99,6 +118,7 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
     }
     
     fun getCalculateRatiosBasedOnAvailableSpace(res: Resources): Boolean {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) return false
         val mCalculateRatiosBasedOnAvailableSpaceId = res.getIdentifier("config_flexibleSplitRatios", "bool", "android")
         return res.getBoolean(mCalculateRatiosBasedOnAvailableSpaceId)
     }
