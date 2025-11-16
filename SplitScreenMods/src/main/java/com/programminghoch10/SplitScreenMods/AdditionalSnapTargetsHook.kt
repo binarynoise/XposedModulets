@@ -14,6 +14,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
+import sun.misc.Unsafe
 
 // https://github.com/LineageOS/android_frameworks_base/blob/f0964915f5992fd38cf1e5e3f87c0d3ac719aa09/libs/WindowManager/Shell/shared/src/com/android/wm/shell/shared/split/SplitScreenConstants.java
 const val SNAP_TO_2_33_66 = 0
@@ -42,21 +43,14 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
         
         val DividerSnapAlgorithmClass = XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
         val SnapTargetClass = XposedHelpers.findClass(DividerSnapAlgorithmClass.name + "\$SnapTarget", lpparam.classLoader)
-        val SnapTargetClassConstructor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) XposedHelpers.findConstructorExact(
-            SnapTargetClass,
-            Int::class.java,
-            Int::class.java,
-        )
-        else XposedHelpers.findConstructorExact(
-            SnapTargetClass,
-            Int::class.java,
-            Int::class.java,
-            Int::class.java,
-        )
-        
+        val UnsafeClass = XposedHelpers.findClass("sun.misc.Unsafe", lpparam.classLoader)
+        val unsafe = XposedHelpers.callStaticMethod(UnsafeClass, "getUnsafe") as Unsafe
         fun createNewSnapTargetInstance(position: Int, snapPosition: Int): Any {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) SnapTargetClassConstructor.newInstance(position, snapPosition)
-            else SnapTargetClassConstructor.newInstance(position, 0, snapPosition)
+            val snapTarget = unsafe.allocateInstance(SnapTargetClass)
+            XposedHelpers.setIntField(snapTarget, "position", position)
+            XposedHelpers.setIntField(snapTarget, "snapPosition", snapPosition)
+            XposedHelpers.setFloatField(snapTarget, "distanceMultiplier", 1f)
+            return snapTarget
         }
         
         XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
