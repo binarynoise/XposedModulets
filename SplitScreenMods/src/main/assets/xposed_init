@@ -1,3 +1,8 @@
+com.programminghoch10.SplitScreenMods.AdditionalSnapTargetsHook
 com.programminghoch10.SplitScreenMods.AlwaysAllowMultiInstanceSplitHook
+com.programminghoch10.SplitScreenMods.CalculateRatiosHook
+com.programminghoch10.SplitScreenMods.CustomFixedRatioHook
 com.programminghoch10.SplitScreenMods.FreeSnapHook
 com.programminghoch10.SplitScreenMods.KeepSplitScreenRatioHook
+com.programminghoch10.SplitScreenMods.RemoveMinimalTaskSizeHook
+com.programminghoch10.SplitScreenMods.SnapModeHook

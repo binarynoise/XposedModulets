@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="SNAP_TARGET_KEYS"
+        translatable="false">
+        <item>SYSTEM</item>
+        <item>CUSTOM</item>
+        <item>0.33</item>
+        <item>0.25</item>
+        <item>0.25,0.33</item>
+        <item>0.25,0.33,0.4</item>
+    </string-array>
+    <string-array name="SNAP_TARGET_TITLES">
+        <item>System default</item>
+        <item>Custom</item>
+        <item>&#8531;</item>
+        <item>&#188;</item>
+        <item>&#8531; &amp; &#188;</item>
+        <item>&#8531; &amp; &#188; &amp; &#8534;</item>
+    </string-array>
+    
+    <string-array name="FREE_SNAP_TARGET_KEYS"
+        translatable="false">
+        <item>SYSTEM</item>
+        <item>CUSTOM</item>
+        <item>0.33</item>
+        <item>0.25</item>
+    </string-array>
+    <string-array name="FREE_SNAP_TARGET_TITLES">
+        <item>System default</item>
+        <item>Custom</item>
+        <item>&#8531;</item>
+        <item>&#188;</item>
+    </string-array>
+</resources>

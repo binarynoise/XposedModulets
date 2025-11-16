@@ -63,10 +63,8 @@ class AlwaysAllowMultiInstanceSplitHook : IXposedHookLoadPackage {
             }
             "android" -> {
                 try {
-                    val ActivityStarterClass =
-                        Class.forName("com.android.server.wm.ActivityStarter", false, lpparam.classLoader)
-                    val ActivityStarterRequestClass =
-                        Class.forName(ActivityStarterClass.name + "\$Request", false, lpparam.classLoader)
+                    val ActivityStarterClass = Class.forName("com.android.server.wm.ActivityStarter", false, lpparam.classLoader)
+                    val ActivityStarterRequestClass = Class.forName(ActivityStarterClass.name + "\$Request", false, lpparam.classLoader)
                     XposedHelpers.findAndHookMethod(
                         ActivityStarterClass,
                         "executeRequest",
