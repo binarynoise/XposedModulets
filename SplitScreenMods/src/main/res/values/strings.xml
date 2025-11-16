@@ -17,6 +17,25 @@
     <string name="restart_required">A restart is required to apply changes!</string>
     <string name="FreeSnap_title">FreeSnap</string>
     <string name="FreeSnap_summary">
-        Allow any split ratio instead of snapping to predefined ratios.
+        Allow any split ratio instead of snapping to predefined ratios between the outermost snapping points.
     </string>
+    <string name="category_behavior">Behaviour Modifications</string>
+    <string name="category_snapping">Snapping Modifications</string>
+    <string name="SnapMode_title">SnapMode</string>
+    <string name="SnapMode_summary">
+        Select your desired snapping mode
+    </string>
+    <string name="CalculateRatios_title">CalculateRatios</string>
+    <string name="CalculateRatios_summary">
+        Allows split ratios to be calculated dynamically.
+        \nThis will force your selected fixed ratio to be at least the minimum task size.
+    </string>
+    <string name="RemoveMinimalTaskSize_title">RemoveMinimalTaskSize</string>
+    <string name="RemoveMinimalTaskSize_summary">
+        Remove the minimum split app size limit.
+        \nYou don\'t usually need to enable this, 
+        since the default minimum task size is usually small enough.
+    </string>
+    <string name="SnapTargets_title">SnapTargets</string>
+    <string name="CustomRatio_title">Custom Fixed Ratio</string>
 </resources>

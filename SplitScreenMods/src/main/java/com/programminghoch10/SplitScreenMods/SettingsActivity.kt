@@ -1,9 +1,14 @@
 package com.programminghoch10.SplitScreenMods
 
-import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import androidx.preference.ListPreference
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SeekBarPreference
+import androidx.preference.SwitchPreference
 import androidx.preference.children
 import com.programminghoch10.SplitScreenMods.BuildConfig.SHARED_PREFERENCES_NAME
 
@@ -24,22 +29,57 @@ class SettingsActivity : FragmentActivity() {
     }
     
     class SettingsFragment : PreferenceFragmentCompat() {
+        
+        lateinit var onSharedPreferencesChangedListener: SharedPreferences.OnSharedPreferenceChangeListener
+        
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
-            preferenceManager.sharedPreferencesMode = Context.MODE_WORLD_READABLE
+            preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             
-            for (preference in preferenceScreen.children) {
-                if (!preference.hasKey()) continue
-                val clazz = Class.forName(
-                    this::class.java.packageName + "." + preference.key + "HookConfig",
-                    false,
-                    this::class.java.classLoader,
-                )
-                val enabled = clazz.declaredFields.find { it.name == "enabled" }!!.getBoolean(null)
-                preference.isEnabled = enabled
-                preference.isVisible = enabled
+            val alwaysAllowMultiInstanceSplitPreference = preferenceScreen.findPreference<SwitchPreference>("AlwaysAllowMultiInstanceSplit")!!
+            val keepSplitScreenRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSplitScreenRatio")!!
+            val snapModePreference = preferenceScreen.findPreference<ListPreference>("SnapMode")!!
+            val freeSnapPreference = preferenceScreen.findPreference<SwitchPreference>("FreeSnap")!!
+            val snapTargetsPreference = preferenceScreen.findPreference<ListPreference>("SnapTargets")!!
+            val customRatioPreference = preferenceScreen.findPreference<SeekBarPreference>("CustomRatio")!!
+            val calculateRatiosPreference = preferenceScreen.findPreference<SwitchPreference>("CalculateRatios")!!
+            val removeMinimalTaskSizePreference = preferenceScreen.findPreference<SwitchPreference>("RemoveMinimalTaskSize")!!
+            
+            fun calculateDependencies() {
+                alwaysAllowMultiInstanceSplitPreference.setEnabledAndVisible(AlwaysAllowMultiInstanceSplitHookConfig.enabled)
+                keepSplitScreenRatioPreference.setEnabledAndVisible(KeepSplitScreenRatioHookConfig.enabled)
+                snapModePreference.setEnabledAndVisible(SnapModeHookConfig.enabled)
+                val is1_1SnapMode = snapModePreference.value == SNAP_MODE.SNAP_ONLY_1_1.key
+                val isFixedRatioSnapMode = snapModePreference.value == SNAP_MODE.SNAP_FIXED_RATIO.key
+                freeSnapPreference.setEnabledAndVisible(FreeSnapHookConfig.enabled && snapModePreference.isEnabled && !is1_1SnapMode)
+                with(snapTargetsPreference) {
+                    setEnabledAndVisible(snapModePreference.isEnabled && isFixedRatioSnapMode)
+                    setEntries(if (freeSnapPreference.isChecked) R.array.FREE_SNAP_TARGET_TITLES else R.array.SNAP_TARGET_TITLES)
+                    setEntryValues(if (freeSnapPreference.isChecked) R.array.FREE_SNAP_TARGET_KEYS else R.array.SNAP_TARGET_KEYS)
+                }
+                customRatioPreference.setEnabledAndVisible(snapTargetsPreference.isEnabled && snapTargetsPreference.value == "CUSTOM")
+                removeMinimalTaskSizePreference.setEnabledAndVisible(RemoveMinimalTaskSizeHookConfig.enabled && !is1_1SnapMode)
+                calculateRatiosPreference.setEnabledAndVisible(CalculateRatiosHookConfig.enabled && snapModePreference.isEnabled && !removeMinimalTaskSizePreference.isEnabledAndChecked && isFixedRatioSnapMode)
+                
+                preferenceScreen.children.filterIsInstance<PreferenceCategory>().forEach { preferenceCategory ->
+                    preferenceCategory.isVisible = preferenceCategory.children.any { it.isEnabled }
+                }
             }
+            
+            onSharedPreferencesChangedListener = SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
+                calculateDependencies()
+            }
+            preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener(onSharedPreferencesChangedListener)
+            
+            calculateDependencies()
         }
     }
+}
+
+val SwitchPreference.isEnabledAndChecked: Boolean get() = this.isEnabled && this.isChecked
+
+fun Preference.setEnabledAndVisible(enabled: Boolean) {
+    this.isEnabled = enabled
+    this.isVisible = enabled
 }

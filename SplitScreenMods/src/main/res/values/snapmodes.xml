@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+    yoinked from https://github.com/LineageOS/android_frameworks_base/blob/2dc97cf3d6234c87497ca78b2734bb3ed604c349/libs/WindowManager/Shell/src/com/android/wm/shell/common/split/DividerSnapAlgorithm.java
+    -->
+    
+    <integer-array name="SNAP_MODE_VALUES"
+        translatable="false">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <!--<item>3</item>-->
+        <!--<item>4</item>-->
+    </integer-array>
+    
+    <string-array name="SNAP_MODE_KEYS"
+        translatable="false"
+        tools:ignore="Typos">
+        <item>SYSTEM</item>
+        <item>16_9</item>
+        <item>FIXED</item>
+        <item>1_1</item>
+        <!--<item>MINIMIZED</item>-->
+        <!--<item>FLEXIBLE</item>-->
+    </string-array>
+    
+    <string-array name="SNAP_MODE_TITLES"
+        tools:ignore="Typos">
+        <item>UNCHANGED</item>
+        <item>SNAP_MODE_16_9</item>
+        <item>SNAP_FIXED_RATIO</item>
+        <item>SNAP_ONLY_1_1</item>
+        <!--<item>SNAP_MODE_MINIMIZED</item>-->
+        <!--<item>SNAP_FLEXIBLE_SPLIT</item>-->
+    </string-array>
+    
+    <string-array name="SNAP_MODE_DESCRIPTIONS">
+        <item>Don\'t change default snapping behavior</item>
+        <item>3 snap targets: left/top has 16:9 ratio (for videos), 1:1, and right/bottom has 16:9 ratio</item>
+        <item>3 snap targets: fixed ratio, 1:1, (1 - fixed ratio)</item>
+        <item>1 snap target: 1:1</item>
+        <!--<item>1 snap target: minimized height, (1 - minimized height)</item>-->
+        <!--<item>A mode where apps can be \"flexibly offscreen\" on smaller displays</item>-->
+    </string-array>
+</resources>

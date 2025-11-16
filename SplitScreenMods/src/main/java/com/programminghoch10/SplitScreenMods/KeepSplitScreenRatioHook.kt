@@ -29,10 +29,8 @@ class KeepSplitScreenRatioHook : IXposedHookLoadPackage {
         val enabled = preferences.getBoolean("KeepSplitScreenRatio", false)
         if (!enabled) return
         
-        val SplitLayoutClass =
-            XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
-        val StageCoordinatorClass =
-            XposedHelpers.findClass("com.android.wm.shell.splitscreen.StageCoordinator", lpparam.classLoader)
+        val SplitLayoutClass = XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
+        val StageCoordinatorClass = XposedHelpers.findClass("com.android.wm.shell.splitscreen.StageCoordinator", lpparam.classLoader)
         
         /*
         Currently this module disables SplitScreen enter and dismiss animations completely.
@@ -100,8 +98,7 @@ class KeepSplitScreenRatioHook : IXposedHookLoadPackage {
                     val binder = param.args[0] as IBinder
                     val stageCoordinator = param.thisObject
                     val mSplitTransitions = XposedHelpers.getObjectField(stageCoordinator, "mSplitTransitions")
-                    val isPendingEnter =
-                        XposedHelpers.callMethod(mSplitTransitions, "isPendingEnter", binder) as Boolean
+                    val isPendingEnter = XposedHelpers.callMethod(mSplitTransitions, "isPendingEnter", binder) as Boolean
                     log("${startPendingAnimationMethod.name}: isPendingEnter=$isPendingEnter")
                     if (!isPendingEnter) return
                     val mPendingEnter = XposedHelpers.getObjectField(mSplitTransitions, "mPendingEnter")

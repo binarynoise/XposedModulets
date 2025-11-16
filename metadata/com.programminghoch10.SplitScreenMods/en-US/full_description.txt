@@ -2,7 +2,10 @@ A collection of various SplitScreen modifications.
 
 * AlwaysAllowMultiInstanceSplit
 * KeepSplitScreenRatio
+* SnapMode
 * FreeSnap
+* AdditionalSnapTargets
+* RemoveMinimalTaskSize
 
 ## AlwaysAllowMultiInstanceSplit
 
@@ -19,6 +22,22 @@ Keep the split screen ratio, when switching one of the split apps.
 Only usable on Android 14 and later,
 since previous versions did not force a split resize in this situation.
 
+## SnapMode
+
+Change the snap mode used by the system:
+
+* `16:9` snapping useful for playing videos in split screen
+* `FIXED` snapping allows for custom ratios and [additional snap targets](#additionalsnaptargets)
+* `1:1` only allows the middle 50:50 split
+
 ## FreeSnap
 
 Allow any split ratio instead of snapping to predefined ratios.
+
+## AdditionalSnapTargets
+
+Add additional snapping targets to snap to.
+
+## RemoveMinimalTaskSize
+
+Remove the minimal task size limit to allow split screen with unreasonably small apps.
