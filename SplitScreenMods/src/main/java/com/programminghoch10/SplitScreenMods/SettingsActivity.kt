@@ -54,9 +54,21 @@ class SettingsActivity : FragmentActivity() {
                 val isFixedRatioSnapMode = snapModePreference.value == SNAP_MODE.SNAP_FIXED_RATIO.key
                 freeSnapPreference.setEnabledAndVisible(FreeSnapHookConfig.enabled && snapModePreference.isEnabled && !is1_1SnapMode)
                 with(snapTargetsPreference) {
-                    setEnabledAndVisible(snapModePreference.isEnabled && isFixedRatioSnapMode)
-                    setEntries(if (freeSnapPreference.isChecked) R.array.FREE_SNAP_TARGET_TITLES else R.array.SNAP_TARGET_TITLES)
-                    setEntryValues(if (freeSnapPreference.isChecked) R.array.FREE_SNAP_TARGET_KEYS else R.array.SNAP_TARGET_KEYS)
+                    setEnabledAndVisible(snapModePreference.isEnabled && CustomFixedRatioHookConfig.enabled && isFixedRatioSnapMode)
+                    setEntries(
+                        when {
+                            !AdditionalSnapTargetsHookConfig.enabled -> R.array.CUSTOM_ONLY_SNAP_TARGET_TITLES
+                            freeSnapPreference.isChecked -> R.array.SINGLE_SNAP_TARGET_TITLES
+                            else -> R.array.SNAP_TARGET_TITLES
+                        }
+                    )
+                    setEntryValues(
+                        when {
+                            !AdditionalSnapTargetsHookConfig.enabled -> R.array.CUSTOM_ONLY_SNAP_TARGET_KEYS
+                            freeSnapPreference.isChecked -> R.array.SINGLE_SNAP_TARGET_KEYS
+                            else -> R.array.SNAP_TARGET_KEYS
+                        }
+                    )
                 }
                 customRatioPreference.setEnabledAndVisible(snapTargetsPreference.isEnabled && snapTargetsPreference.value == "CUSTOM")
                 removeMinimalTaskSizePreference.setEnabledAndVisible(RemoveMinimalTaskSizeHookConfig.enabled && !is1_1SnapMode)

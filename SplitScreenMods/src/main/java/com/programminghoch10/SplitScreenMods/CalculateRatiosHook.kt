@@ -1,5 +1,6 @@
 package com.programminghoch10.SplitScreenMods
 
+import android.os.Build
 import com.programminghoch10.SplitScreenMods.BuildConfig.SHARED_PREFERENCES_NAME
 import com.programminghoch10.SplitScreenMods.CalculateRatiosHookConfig.enabled
 import de.binarynoise.logger.Logger.log
@@ -8,7 +9,7 @@ import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object CalculateRatiosHookConfig {
-    val enabled = SnapModeHookConfig.enabled
+    val enabled = SnapModeHookConfig.enabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM
 }
 
 class CalculateRatiosHook : IXposedHookInitPackageResources {

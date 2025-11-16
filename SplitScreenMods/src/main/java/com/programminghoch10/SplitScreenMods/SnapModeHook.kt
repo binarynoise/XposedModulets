@@ -10,7 +10,7 @@ import de.robv.android.xposed.callbacks.XC_InitPackageResources
 
 object SnapModeHookConfig {
     @JvmField
-    val enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA
+    val enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
 }
 
 class SnapModeHook : IXposedHookInitPackageResources {

@@ -1,6 +1,5 @@
 package com.programminghoch10.SplitScreenMods
 
-import android.os.Build
 import com.programminghoch10.SplitScreenMods.BuildConfig.SHARED_PREFERENCES_NAME
 import com.programminghoch10.SplitScreenMods.FreeSnapHookConfig.enabled
 import de.binarynoise.logger.Logger.log
@@ -13,7 +12,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 object FreeSnapHookConfig {
     @JvmField
-    val enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE
+    val enabled = SnapModeHookConfig.enabled
 }
 
 class FreeSnapHook : IXposedHookLoadPackage {
