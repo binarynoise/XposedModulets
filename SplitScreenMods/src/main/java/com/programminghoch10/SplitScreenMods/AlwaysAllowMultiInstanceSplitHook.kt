@@ -31,16 +31,23 @@ class AlwaysAllowMultiInstanceSplitHook : IXposedHookLoadPackage {
         when (lpparam.packageName) {
             "com.android.systemui" -> {
                 try {
-                    val method = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                        XposedHelpers.findMethodExact(
+                    val method = when {
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA -> XposedHelpers.findMethodExact(
+                            Class.forName(
+                                "com.android.wm.shell.common.MultiInstanceHelper", false, lpparam.classLoader
+                            ),
+                            "supportsMultiInstanceSplit",
+                            Int::class.java, // wrong order in compiled code
+                            ComponentName::class.java,
+                        )
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE -> XposedHelpers.findMethodExact(
                             Class.forName(
                                 "com.android.wm.shell.common.MultiInstanceHelper", false, lpparam.classLoader
                             ),
                             "supportsMultiInstanceSplit",
                             ComponentName::class.java,
                         )
-                    } else {
-                        XposedHelpers.findMethodExact(
+                        else -> XposedHelpers.findMethodExact(
                             Class.forName(
                                 "com.android.wm.shell.splitscreen.SplitScreenController", false, lpparam.classLoader
                             ),
