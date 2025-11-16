@@ -25,8 +25,7 @@ class FreeSnapHook : IXposedHookLoadPackage {
         val enabled = preferences.getBoolean("FreeSnap", false)
         if (!enabled) return
         
-        val DividerSnapAlgorithmClass =
-            XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
+        val DividerSnapAlgorithmClass = XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
         XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.setBooleanField(param.thisObject, "mFreeSnapMode", true)
