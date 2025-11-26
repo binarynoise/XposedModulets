@@ -34,6 +34,7 @@ class KeepSwapRatioHook : IXposedHookLoadPackage {
         val preferences = XSharedPreferences(BuildConfig.APPLICATION_ID, SHARED_PREFERENCES_NAME)
         val enabled = preferences.getBoolean("KeepSwapRatio", false)
         if (!enabled) return
+        val disableAnimation = preferences.getBoolean("DisableSwapAnimation", false)
         
         val SplitLayoutClass = XposedHelpers.findClass("com.android.wm.shell.common.split.SplitLayout", lpparam.classLoader)
         val playSwapAnimationMethod =
@@ -56,8 +57,11 @@ class KeepSwapRatioHook : IXposedHookLoadPackage {
                         if (mIsLeftRightSplit) insets.right else 0,
                         if (mIsLeftRightSplit) 0 else insets.bottom,
                     )
-                    //finishCallback.accept(insets)
-                    log("replaced ${playSwapAnimationMethod.name} with dummy implementation to prevent swapping")
+                    log("running own implementation of ${playSwapAnimationMethod.name} to prevent swapping")
+                    if (disableAnimation) {
+                        finishCallback.accept(insets)
+                        return null
+                    }
                     
                     val t = param.args[0] as SurfaceControl.Transaction
                     val topLeftStage = param.args[1]

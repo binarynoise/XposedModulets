@@ -21,6 +21,10 @@ since previous versions did not force a split resize in this situation.
 
 Keep the split ratio while swapping sides.
 
+## DisableSwapAnimation
+
+Disable the swapping animation.
+
 ## SnapMode
 
 Change the snap mode used by the system:
