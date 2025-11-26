@@ -3,6 +3,7 @@ A collection of various SplitScreen modifications.
 * AlwaysAllowMultiInstanceSplit
 * KeepSplitScreenRatio
 * KeepSwapRatio
+* DisableSwapAnimation
 * SnapMode
 * FreeSnap
 * AdditionalSnapTargets
@@ -26,6 +27,10 @@ since previous versions did not force a split resize in this situation.
 ## KeepSwapRatio
 
 Keep the split ratio while swapping sides.
+
+## DisableSwapAnimation
+
+Disable the swapping animation.
 
 ## SnapMode
 

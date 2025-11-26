@@ -24,6 +24,12 @@
             app:summary="@string/KeepSwapRatio_summary"
             app:title="@string/KeepSwapRatio_title"
             />
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="DisableSwapAnimation"
+            app:summary="@string/DisableSwapAnimation_summary"
+            app:title="@string/DisableSwapAnimation_title"
+            />
     </PreferenceCategory>
     <PreferenceCategory
         app:iconSpaceReserved="false"

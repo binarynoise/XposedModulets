@@ -40,4 +40,6 @@
     <string name="CustomRatio_title">Custom Fixed Ratio</string>
     <string name="KeepSwapRatio_title">KeepSwapRatio</string>
     <string name="KeepSwapRatio_summary">Keep split ratio when swapping sides.</string>
+    <string name="DisableSwapAnimation_title">DisableSwapAnimation</string>
+    <string name="DisableSwapAnimation_summary">Disable swapping animation.</string>
 </resources>
