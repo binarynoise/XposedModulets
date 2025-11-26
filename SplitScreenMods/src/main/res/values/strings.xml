@@ -38,4 +38,6 @@
     </string>
     <string name="SnapTargets_title">SnapTargets</string>
     <string name="CustomRatio_title">Custom Fixed Ratio</string>
+    <string name="KeepSwapRatio_title">KeepSwapRatio</string>
+    <string name="KeepSwapRatio_summary">Keep split ratio when swapping sides.</string>
 </resources>
