@@ -18,6 +18,12 @@
             app:summary="@string/keepsplitscreenratio_summary"
             app:title="@string/keepsplitscreenratio_title"
             />
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="KeepSwapRatio"
+            app:summary="@string/keepswapratio_summary"
+            app:title="@string/keepswapratio_title"
+            />
     </PreferenceCategory>
     <PreferenceCategory
         app:iconSpaceReserved="false"
