@@ -39,6 +39,7 @@ class SettingsActivity : FragmentActivity() {
             
             val alwaysAllowMultiInstanceSplitPreference = preferenceScreen.findPreference<SwitchPreference>("AlwaysAllowMultiInstanceSplit")!!
             val keepSplitScreenRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSplitScreenRatio")!!
+            val keepSwapRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSwapRatio")!!
             val snapModePreference = preferenceScreen.findPreference<ListPreference>("SnapMode")!!
             val freeSnapPreference = preferenceScreen.findPreference<SwitchPreference>("FreeSnap")!!
             val snapTargetsPreference = preferenceScreen.findPreference<ListPreference>("SnapTargets")!!
@@ -49,6 +50,7 @@ class SettingsActivity : FragmentActivity() {
             fun calculateDependencies() {
                 alwaysAllowMultiInstanceSplitPreference.setEnabledAndVisible(AlwaysAllowMultiInstanceSplitHookConfig.enabled)
                 keepSplitScreenRatioPreference.setEnabledAndVisible(KeepSplitScreenRatioHookConfig.enabled)
+                keepSwapRatioPreference.setEnabledAndVisible(KeepSwapRatioHookConfig.enabled)
                 snapModePreference.setEnabledAndVisible(SnapModeHookConfig.enabled)
                 val is1_1SnapMode = snapModePreference.value == SNAP_MODE.SNAP_ONLY_1_1.key
                 val isFixedRatioSnapMode = snapModePreference.value == SNAP_MODE.SNAP_FIXED_RATIO.key
