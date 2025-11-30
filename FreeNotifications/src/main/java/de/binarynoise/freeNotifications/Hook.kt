@@ -115,7 +115,7 @@ class Hook : IXposedHookLoadPackage {
     }
 }
 
-private inline fun tryAndLog(message: String, block: () -> Unit) {
+inline fun tryAndLog(message: String, block: () -> Unit) {
     return try {
         block()
         log("hook $message successful!")
