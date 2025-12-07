@@ -34,7 +34,6 @@ class SettingsActivity : FragmentActivity() {
     }
     
     class SettingsFragment : PreferenceFragmentCompat() {
-        @SuppressLint("WorldReadableFiles")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
