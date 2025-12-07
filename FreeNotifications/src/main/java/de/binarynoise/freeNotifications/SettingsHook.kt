@@ -2,11 +2,8 @@ package de.binarynoise.freeNotifications
 
 import android.app.NotificationChannel
 import android.app.NotificationChannelGroup
-import android.app.role.RoleManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.os.Build
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
@@ -123,23 +120,6 @@ class SettingsHook : IXposedHookLoadPackage {
                     )
                 }
             }
-            tryAndLog("recordCanBeBlocked") {
-                XposedHelpers.findAndHookMethod(
-                    NotificationBackendClass,
-                    "recordCanBeBlocked",
-                    Context::class.java,
-                    PackageManager::class.java,
-                    RoleManager::class.java,
-                    PackageInfo::class.java,
-                    AppRowClass,
-                    object : XC_MethodHook() {
-                        override fun afterHookedMethod(param: MethodHookParam) {
-                            val row = param.args[4]
-                            XposedHelpers.setBooleanField(row, "systemApp", false)
-                        }
-                    },
-                )
-            }
             tryAndLog("markAppRowWithBlockables") {
                 XposedHelpers.findAndHookMethod(
                     NotificationBackendClass,
@@ -156,6 +136,17 @@ class SettingsHook : IXposedHookLoadPackage {
                 )
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                tryAndLog("recordCanBeBlocked") {
+                    XposedBridge.hookMethod(
+                        NotificationBackendClass.declaredMethods.single { it.name == "recordCanBeBlocked" },
+                        object : XC_MethodHook() {
+                            override fun afterHookedMethod(param: MethodHookParam) {
+                                val row = param.args.last()
+                                XposedHelpers.setBooleanField(row, "systemApp", false)
+                            }
+                        },
+                    )
+                }
                 tryAndLog("isSystemApp") {
                     XposedHelpers.findAndHookMethod(
                         NotificationBackendClass,
