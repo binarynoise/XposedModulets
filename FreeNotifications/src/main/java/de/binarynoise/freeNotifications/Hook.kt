@@ -1,7 +1,6 @@
 package de.binarynoise.freeNotifications
 
 import android.app.NotificationChannel
-import android.app.NotificationChannelGroup
 import android.os.Build
 import de.binarynoise.logger.Logger.log
 import de.binarynoise.reflection.findDeclaredField
@@ -40,12 +39,21 @@ class Hook : IXposedHookLoadPackage {
             )
         }
         
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            hookVariable(
-                NotificationChannelGroup::class.java,
-                "mBlocked",
-                false,
-            )
+        if (lpparam.packageName == "android" && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            tryAndLog("PreferencesHelperClass lockChannelsForOEM") {
+                val PreferencesHelperClass = Class.forName("com.android.server.notification.PreferencesHelper", false, lpparam.classLoader)
+                XposedHelpers.findAndHookMethod(
+                    PreferencesHelperClass,
+                    "lockChannelsForOEM",
+                    Array<String>::class.java,
+                    DO_NOTHING,
+                )
+            }
+            tryAndLog("NotificationManagerService NON_BLOCKABLE_DEFAULT_ROLES") {
+                val NotificationManagerService =
+                    Class.forName("com.android.server.notification.NotificationManagerService", false, lpparam.classLoader)
+                XposedHelpers.setStaticObjectField(NotificationManagerService, "NON_BLOCKABLE_DEFAULT_ROLES", emptyArray<String>())
+            }
         }
     }
     
