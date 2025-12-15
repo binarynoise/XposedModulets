@@ -38,7 +38,7 @@ jobs:
       run: ./gradlew assembleDebug
 
     - name: Upload Result (all APKs)
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: all-apks.zip
         path: '*/build/outputs/apk/debug/*-debug.apk'
@@ -72,7 +72,7 @@ jobs:
         name: all-apks.zip
 
     - name: Upload single APK
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: ${{ matrix.apk.name }}
         path: ${{ matrix.apk.path }}
