@@ -1,6 +1,26 @@
 version: 2
+
 updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
+  - package-ecosystem: "gradle"
+    directory: "/"
+    registries:
+      - google
+      - gradle-plugin
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+
+registries:
+  google:
+    type: maven-repository
+    url: maven.google.com
+  gradle-plugin:
+    type: maven-repository
+    url: plugins.gradle.org/m2
