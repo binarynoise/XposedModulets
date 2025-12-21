@@ -19,7 +19,6 @@ public class CodecStore {
     private final SharedPreferences sharedPreferences;
     private final List<OnCodecPreferenceChangedListenerMeta> receivers = new LinkedList<>();
     
-    @SuppressLint("WorldReadableFiles")
     CodecStore(Context context) {
         this.sharedPreferences = context.getSharedPreferences(PREFERENCES, MODE_WORLD_READABLE);
     }

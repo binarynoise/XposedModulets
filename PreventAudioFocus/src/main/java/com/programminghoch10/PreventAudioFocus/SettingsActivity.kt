@@ -22,7 +22,6 @@ class SettingsActivity : FragmentActivity() {
     }
     
     class SettingsFragment : PreferenceFragmentCompat() {
-        @SuppressLint("WorldReadableFiles")
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
