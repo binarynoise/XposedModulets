@@ -41,6 +41,9 @@ class SettingsActivity : FragmentActivity() {
             val keepSplitScreenRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSplitScreenRatio")!!
             val keepSwapRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSwapRatio")!!
             val disableSwapAnimationPreference = preferenceScreen.findPreference<SwitchPreference>("DisableSwapAnimation")!!
+            val disableSnapToDismissPreference = preferenceScreen.findPreference<SwitchPreference>("DisableSnapToDismiss")!!
+            val disableFlingToDismissPreference = preferenceScreen.findPreference<SwitchPreference>("DisableFlingToDismiss")!!
+            val disabledEdgeDismissNoticePreference = preferenceScreen.findPreference<Preference>("DisabledEdgeDismissNotice")!!
             val snapModePreference = preferenceScreen.findPreference<ListPreference>("SnapMode")!!
             val freeSnapPreference = preferenceScreen.findPreference<SwitchPreference>("FreeSnap")!!
             val snapTargetsPreference = preferenceScreen.findPreference<ListPreference>("SnapTargets")!!
@@ -53,6 +56,10 @@ class SettingsActivity : FragmentActivity() {
                 keepSplitScreenRatioPreference.setEnabledAndVisible(KeepSplitScreenRatioHookConfig.enabled)
                 keepSwapRatioPreference.setEnabledAndVisible(KeepSwapRatioHookConfig.enabled)
                 disableSwapAnimationPreference.setEnabledAndVisible(DisableSwapAnimationHookConfig.enabled || keepSwapRatioPreference.isEnabledAndChecked)
+                disableSnapToDismissPreference.setEnabledAndVisible(DisableSnapToDismissHookConfig.enabled)
+                disableFlingToDismissPreference.setEnabledAndVisible(DisableFlingToDismissHookConfig.enabled)
+                disabledEdgeDismissNoticePreference.isVisible =
+                    listOf(disableFlingToDismissPreference, disableSnapToDismissPreference).filter { it.isEnabled }.allOrFalse { it.isChecked }
                 snapModePreference.setEnabledAndVisible(SnapModeHookConfig.enabled)
                 val is1_1SnapMode = snapModePreference.value == SNAP_MODE.SNAP_ONLY_1_1.key
                 val isFixedRatioSnapMode = snapModePreference.value == SNAP_MODE.SNAP_FIXED_RATIO.key
@@ -98,4 +105,12 @@ val SwitchPreference.isEnabledAndChecked: Boolean get() = this.isEnabled && this
 fun Preference.setEnabledAndVisible(enabled: Boolean) {
     this.isEnabled = enabled
     this.isVisible = enabled
+}
+
+/**
+ * Same as [Iterable.all], but returns false on empty Collections
+ */
+inline fun <T> Iterable<T>.allOrFalse(predicate: (T) -> Boolean): Boolean {
+    if (this is Collection && isEmpty()) return false
+    return this.all(predicate)
 }

@@ -30,6 +30,24 @@
             app:summary="@string/DisableSwapAnimation_summary"
             app:title="@string/DisableSwapAnimation_title"
             />
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="DisableSnapToDismiss"
+            app:summary="@string/DisableSnapToDismiss_summary"
+            app:title="@string/DisableSnapToDismiss_title"
+            />
+        <SwitchPreference
+            app:iconSpaceReserved="false"
+            app:key="DisableFlingToDismiss"
+            app:summary="@string/DisableFlingToDismiss_summary"
+            app:title="@string/DisableFlingToDismiss_title"
+            />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:key="DisabledEdgeDismissNotice"
+            app:selectable="false"
+            app:summary="@string/DisabledEdgeDismissNotice"
+            />
     </PreferenceCategory>
     <PreferenceCategory
         app:iconSpaceReserved="false"

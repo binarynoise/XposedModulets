@@ -32,6 +32,10 @@ Keep the split ratio while swapping sides.
 
 Disable the swapping animation.
 
+## DisableSnapToDismiss / DisableFlingToDismiss
+
+Disable leaving the split by dragging the divider to the edge.
+
 ## SnapMode
 
 Change the snap mode used by the system:
