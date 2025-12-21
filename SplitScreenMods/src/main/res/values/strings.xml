@@ -42,4 +42,13 @@
     <string name="KeepSwapRatio_summary">Keep split ratio when swapping sides.</string>
     <string name="DisableSwapAnimation_title">DisableSwapAnimation</string>
     <string name="DisableSwapAnimation_summary">Disable swapping animation.</string>
+    <string name="DisableSnapToDismiss_title">DisableSnapToDismiss</string>
+    <string name="DisableSnapToDismiss_summary">Disable snap to dismiss.</string>
+    <string name="DisableFlingToDismiss_title">DisableFlingToDismiss</string>
+    <string name="DisableFlingToDismiss_summary">Disable fling to dismiss.</string>
+    <string name="DisabledEdgeDismissNotice">
+        Please note that you can only exit the SplitScreen 
+        by exiting the app by going back 
+        or by closing the SplitScreen entirely from the overview.
+    </string>
 </resources>
