@@ -6,9 +6,7 @@ android {
     namespace = "com.programminghoch10.AntiBrightnessChange"
     
     defaultConfig {
-        minSdk = 33
-        targetSdk = 33
+        minSdk = 17
+        targetSdk = 36
     }
 }
-
-dependencies {}
