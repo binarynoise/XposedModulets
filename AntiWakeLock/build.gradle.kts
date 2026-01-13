@@ -11,3 +11,7 @@ android {
         targetSdk = 36
     }
 }
+
+dependencies {
+    implementation(project(":logger"))
+}
