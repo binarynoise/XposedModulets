@@ -9,7 +9,7 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Enables running Galaxy Wearable on modded Samsung devices."
+            android:value="Galaxy Wearable enhancements"
             />
         <meta-data
             android:name="xposedminversion"
