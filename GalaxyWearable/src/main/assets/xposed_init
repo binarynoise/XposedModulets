@@ -1,1 +1,2 @@
-com.programminghoch10.GalaxyWearable.Hook
+com.programminghoch10.GalaxyWearable.DisableForcedUpdateHook
+com.programminghoch10.GalaxyWearable.DisableManufacturerCheckHook
