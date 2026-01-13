@@ -2,6 +2,7 @@ package com.programminghoch10.AntiBrightnessChange;
 
 import static android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
 
+import android.os.Build;
 import android.view.WindowManager;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -12,7 +13,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class Hook implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (lpparam.packageName.equals("android")) {
+        if (lpparam.packageName.equals("android") && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             XposedHelpers.findAndHookMethod(
                 "com.android.server.wm.RootWindowContainer",
                 lpparam.classLoader,
