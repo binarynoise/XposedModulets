@@ -1,6 +1,7 @@
 include(":AlwaysAllowChargingFeedback")
 include(":AnimationScaleMod")
 include(":AntiBrightnessChange")
+include(":AntiWakeLock")
 include(":AutomaticAdvancedSettingsExpander")
 include(":BetterBluetoothDeviceSort")
 include(":BetterVerboseWiFiLogging")
