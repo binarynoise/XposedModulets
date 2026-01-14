@@ -51,6 +51,13 @@ object Logger {
         System.out.flush()
     }
     
+    
+    private val sparseArrayCompatAvailable = try {
+        SparseArrayCompat::class.qualifiedName != null
+    } catch (e: NoClassDefFoundError) {
+        false
+    }
+    
     private fun Any?.dump(name: String, indent: Int, processed: MutableSet<Any>, forceInclude: Set<Any>, forceIncludeClasses: Set<Class<*>>) {
         //<editor-fold defaultstate="collapsed" desc="...">
         
@@ -108,7 +115,7 @@ object Logger {
                     }
                 }
             }
-            this is SparseLongArray -> {
+            Build.VERSION.SDK_INT >= 18 && this is SparseLongArray -> {
                 if (this.isEmpty()) {
                     println("[]")
                 } else {
@@ -128,7 +135,7 @@ object Logger {
                     }
                 }
             }
-            this is SparseArrayCompat<*> -> {
+            sparseArrayCompatAvailable && this is SparseArrayCompat<*> -> {
                 if (this.size() == 0) {
                     println("[]")
                 } else {
@@ -225,8 +232,10 @@ object Logger {
                     it.isAccessible = true
                     try {
                         it.get(this).dump(it.name, nextIndent, processed, forceInclude, forceIncludeClasses)
-                    } catch (e: ReflectiveOperationException) {
-                        e.printStackTrace()
+                    } catch (e: Exception) {
+                        val cause = e.cause
+                        if (cause != null) cause.printStackTrace()
+                        else e.printStackTrace()
                     }
                 }
                 
@@ -234,8 +243,10 @@ object Logger {
                     it.isAccessible = true
                     try {
                         it.invoke(this).dump(it.name, nextIndent, processed, forceInclude, forceIncludeClasses)
-                    } catch (e: ReflectiveOperationException) {
-                        e.printStackTrace()
+                    } catch (e: Exception) {
+                        val cause = e.cause
+                        if (cause != null) cause.printStackTrace()
+                        else e.printStackTrace()
                     }
                 }
             }

@@ -7,11 +7,11 @@ android {
     namespace = "de.binarynoise.logger"
     
     defaultConfig {
-        minSdk = 19
+        minSdk = 1
     }
 }
 
 dependencies {
-    debugImplementation(libs.androidx.collection.ktx)
-    debugImplementation(libs.androidx.core.ktx)
+    debugCompileOnly(libs.androidx.collection.ktx)
+    debugCompileOnly(libs.androidx.core.ktx)
 }
