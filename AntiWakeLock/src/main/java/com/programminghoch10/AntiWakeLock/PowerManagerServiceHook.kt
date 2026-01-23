@@ -9,7 +9,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 class PowerManagerServiceHook : IXposedHookLoadPackage {
     fun disableMethodByName(clazz: Class<*>, name: String) {
-        val method = clazz.declaredMethods.single { it.name == "name" }
+        val method = clazz.declaredMethods.single { it.name == name }
         XposedBridge.hookMethod(method, XC_MethodReplacement.DO_NOTHING)
     }
     

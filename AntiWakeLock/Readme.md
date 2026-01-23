@@ -2,4 +2,4 @@
 
 Disable WAKE_LOCK and FLAG_KEEP_SCREEN_ON.
 
-Applies to selected apps only.
+Can be applied to selected apps or the whole system.
