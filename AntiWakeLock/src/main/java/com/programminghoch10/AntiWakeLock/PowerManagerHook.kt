@@ -13,7 +13,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 class PowerManagerHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         XposedHelpers.findAndHookMethod(PowerManager.WakeLock::class.java, "acquire", DO_NOTHING)
-        XposedHelpers.findAndHookMethod(PowerManager.WakeLock::class.java, "acquire", Int::class.java, DO_NOTHING)
+        XposedHelpers.findAndHookMethod(PowerManager.WakeLock::class.java, "acquire", Long::class.java, DO_NOTHING)
         
         // optional hooks for completeness
         XposedHelpers.findAndHookMethod(PowerManager.WakeLock::class.java, "isHeld", returnConstant(false))
