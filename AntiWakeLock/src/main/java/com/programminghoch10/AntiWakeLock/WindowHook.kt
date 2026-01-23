@@ -70,6 +70,7 @@ class WindowHook : IXposedHookLoadPackage {
                     WindowManager.LayoutParams::class.java,
                     DO_NOTHING,
                 )
+                log("hooked applyKeepScreenOnFlag to do nothing")
             } catch (e: Throwable) {
                 log("failed to hook ViewRootImpl.applyKeepScreenOnFlag", e)
             }
