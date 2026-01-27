@@ -9,7 +9,8 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public class DisableForcedUpdateHook implements IXposedHookLoadPackage {
     @Override
-    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
+    public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (!lpparam.packageName.equals("com.samsung.android.app.watchmanager")) return;
         final Class<?> UpdateManagerClass =
             XposedHelpers.findClass("com.samsung.android.app.twatchmanager.update.UpdateManager", lpparam.classLoader);
         XposedHelpers.findAndHookMethod(
