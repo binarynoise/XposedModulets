@@ -8,3 +8,4 @@ Additional features:
 * Disable the forced app update prompt when opening the app
 * Disable the required phone permission
 * Disable nearby WiFi devices permission
+* Disable fine location permission
