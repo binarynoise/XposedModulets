@@ -1,3 +1,4 @@
 com.programminghoch10.GalaxyWearable.DisableForcedUpdateHook
 com.programminghoch10.GalaxyWearable.DisableManufacturerCheckHook
+com.programminghoch10.GalaxyWearable.DisableNearbyWifiDevicesPermissionHook
 com.programminghoch10.GalaxyWearable.DisableTelephonyPermissionHook
