@@ -67,7 +67,7 @@ jobs:
         apk: ${{ fromJson(needs.build.outputs.artifact-paths) }}
     steps:
     - name: Download all-apks artifact
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: all-apks.zip
 
