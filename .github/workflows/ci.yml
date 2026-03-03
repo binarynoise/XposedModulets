@@ -76,4 +76,5 @@ jobs:
       with:
         name: ${{ matrix.apk.name }}
         path: ${{ matrix.apk.path }}
+        archive: false
         if-no-files-found: error
