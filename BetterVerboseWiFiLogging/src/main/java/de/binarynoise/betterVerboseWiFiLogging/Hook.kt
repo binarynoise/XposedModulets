@@ -4,6 +4,7 @@ import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.StandardWifiEntry.newGetScanResultDescription
 import de.binarynoise.betterVerboseWiFiLogging.Utils.wifiTrackerLibUtilsClass
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getNetworkCapabilityDescription
+import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getNetworkCapabilityDescriptionFallback
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getNetworkSelectionDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.getWifiInfoDescription
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.newGetWifiInfoDescription
@@ -20,13 +21,15 @@ class Hook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         Wrapper.classLoader = lpparam.classLoader
         
-        XposedBridge.hookMethod(getWifiInfoDescription, object : MethodHook() {
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                with(param) {
-                    result = newGetWifiInfoDescription(thisObject)
+        if (getWifiInfoDescription != null) {
+            XposedBridge.hookMethod(getWifiInfoDescription, object : MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    with(param) {
+                        result = newGetWifiInfoDescription(thisObject)
+                    }
                 }
-            }
-        })
+            })
+        }
         
         run {
             val hook = object : MethodHook() {
@@ -64,7 +67,8 @@ class Hook : IXposedHookLoadPackage {
                     
                     result = listOf(
                         newGetWifiInfoDescription(wifiEntry),
-                        getNetworkCapabilityDescription.invoke(wifiEntry)?.cast<String>()?.replace(":", ":\u00A0"), // can stay as is
+                        (getNetworkCapabilityDescription?.invoke(wifiEntry) ?: getNetworkCapabilityDescriptionFallback(wifiEntry))?.cast<String>()
+                            ?.replace(":", ":\u00A0"), // can stay as is
                         newGetScanResultDescription(wifiEntry),
                         getNetworkSelectionDescription.invoke(wifiEntry)?.cast<String?>(), // TODO
                     ).filterNot { it.isNullOrBlank() }.joinToString(",\n").trim()

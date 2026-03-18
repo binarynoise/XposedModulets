@@ -18,6 +18,18 @@ fun <T> Class<T>.findDeclaredMethod(name: String, vararg params: Class<*>): Meth
     throw NoSuchMethodException("$name(${params.joinToString { it.simpleName }})")
 }
 
+fun <T> Class<T>.findDeclaredMethodOrNull(name: String, vararg params: Class<*>): Method? {
+    var c: Class<*>? = this
+    while (c != null) {
+        c.declaredMethods.filter { it.name == name }
+            .firstOrNull { params.isEmpty() || (it.parameterTypes.map { t -> t.name }) == (params.map { p -> p.name }) }
+            ?.let { return it.makeAccessible() }
+        c = c.superclass
+    }
+    
+    return null
+}
+
 fun <T> Class<T>.findDeclaredField(name: String): Field {
     var c: Class<*>? = this
     while (c != null) {

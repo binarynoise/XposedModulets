@@ -1,5 +1,6 @@
 package de.binarynoise.betterVerboseWiFiLogging
 
+import java.lang.reflect.Method
 import android.net.wifi.ScanResult
 import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
@@ -8,6 +9,8 @@ import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.mWifiInfoField
 import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
 import de.binarynoise.reflection.findDeclaredField
 import de.binarynoise.reflection.findDeclaredMethod
+import de.binarynoise.reflection.findDeclaredMethodOrNull
+import de.robv.android.xposed.XposedHelpers
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 const val wifitrackerlib = "com.android.wifitrackerlib"
@@ -17,11 +20,11 @@ object Wrapper {
 }
 
 object BaseWifiTracker {
-    val baseWiFiTrackerClass: Class<*> = classLoader.loadClass("$wifitrackerlib.BaseWifiTracker")
-    
     fun isVerboseLoggingEnabled(): Boolean {
-        if (Build.VERSION.SDK_INT < 34) return baseWiFiTrackerClass.getDeclaredMethod("isVerboseLoggingEnabled").invoke(null) as Boolean
-        else {
+        if (Build.VERSION.SDK_INT < 34) {
+            val baseWiFiTrackerClass: Class<*> = XposedHelpers.findClass("$wifitrackerlib.BaseWifiTracker", classLoader)
+            return baseWiFiTrackerClass.getDeclaredMethod("isVerboseLoggingEnabled").invoke(null) as Boolean
+        } else {
             // that actually is the fix, the original code doesn't check for this either anymore
             // https://cs.android.com/android/_/android/platform/frameworks/opt/net/wifi/+/main:libs/WifiTrackerLib/src/com/android/wifitrackerlib/Utils.java;l=529;bpv=0;bpt=0
             return true
@@ -201,8 +204,8 @@ val channelMap = mapOf(
 object WifiEntry {
     val wifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.WifiEntry")
     
-    // TODO: check inline in SystemUI
-    val getWifiInfoDescription = wifiEntryClass.findDeclaredMethod("getWifiInfoDescription")
+    // inlined by r8 in SystemUI
+    val getWifiInfoDescription: Method? = wifiEntryClass.findDeclaredMethodOrNull("getWifiInfoDescription")
     
     private const val CONNECTED_STATE_CONNECTED = 2
     fun newGetWifiInfoDescription(wifiEntry: Any): String {
@@ -232,7 +235,29 @@ object WifiEntry {
         }
     }
     
-    val getNetworkCapabilityDescription = wifiEntryClass.findDeclaredMethod("getNetworkCapabilityDescription")
+    val getNetworkCapabilityDescription = wifiEntryClass.findDeclaredMethodOrNull("getNetworkCapabilityDescription")
+    
+    /**
+     * Fallback for getNetworkCapabilityDescription when it is inlined by r8
+     */
+    fun getNetworkCapabilityDescriptionFallback(wifiEntry: Any): String? {
+        val getConnectedState = wifiEntryClass.findDeclaredMethodOrNull("getConnectedState") ?: return null
+        val hasInternetAccess = wifiEntryClass.findDeclaredMethodOrNull("hasInternetAccess") ?: return null
+        val isDefaultNetwork = wifiEntryClass.findDeclaredMethodOrNull("isDefaultNetwork") ?: return null
+        val isLowQuality = wifiEntryClass.findDeclaredMethodOrNull("isLowQuality") ?: return null
+        
+        return buildString {
+            if (getConnectedState(wifiEntry) == CONNECTED_STATE_CONNECTED) {
+                append("hasInternet:")
+                append(hasInternetAccess(wifiEntry))
+                append(", isDefaultNetwork:")
+                append(isDefaultNetwork(wifiEntry))
+                append(", isLowQuality:")
+                append(isLowQuality(wifiEntry))
+            }
+        }
+    }
+    
     val getNetworkSelectionDescription = wifiEntryClass.findDeclaredMethod("getNetworkSelectionDescription")
     
     val getScanResultDescription = wifiEntryClass.findDeclaredMethod("getScanResultDescription") // -> StandardWifiEntry
