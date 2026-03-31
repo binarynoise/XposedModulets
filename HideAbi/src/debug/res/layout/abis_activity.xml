@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    >
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SUPPORTED_ABIS:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        />
+    
+    <TextView
+        android:id="@+id/supported_abis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        tools:text="arm64\narm"
+        />
+    
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Preferences:"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.Medium"
+        />
+    
+    
+    <TextView
+        android:id="@+id/preferences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault"
+        tools:text="whatever"
+        />
+
+</LinearLayout>
