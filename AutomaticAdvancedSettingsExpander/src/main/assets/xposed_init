@@ -1,1 +1,2 @@
-de.binarynoise.automaticadvancedsettingsexpander.Hook
+de.binarynoise.AutomaticAdvancedSettingsExpander.ExpandablePreferenceHook
+de.binarynoise.AutomaticAdvancedSettingsExpander.PreferenceGroupChildrenHook

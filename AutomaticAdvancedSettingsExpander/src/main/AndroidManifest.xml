@@ -2,7 +2,10 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android">
     
-    <application android:label="Automatic Advanced Settings Expander">
+    <application
+        android:label="Automatic Advanced Settings Expander"
+        android:theme="@style/AppTheme"
+        >
         <meta-data
             android:name="xposedmodule"
             android:value="true"
@@ -13,12 +16,25 @@
             />
         <meta-data
             android:name="xposedminversion"
-            android:value="53"
+            android:value="93"
             />
         <meta-data
             android:name="xposedscope"
             android:resource="@array/scope"
             />
+        
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <action android:name="android.intent.action.MAIN" />
+                
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
