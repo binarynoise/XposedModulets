@@ -12,6 +12,10 @@ buildscript {
         mavenCentral()
         gradlePluginPortal()
     }
+    
+    dependencies {
+        classpath(libs.r8)
+    }
 }
 
 plugins {

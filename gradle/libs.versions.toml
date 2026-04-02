@@ -15,6 +15,7 @@ libsu = "6.0.0"
 performanceUnsafe = "1.0.0-alpha01"
 preference = "1.2.1"
 xposed = "82"
+r8 = "9.1.31"
 
 [libraries]
 android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
@@ -35,6 +36,7 @@ kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin" }
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8" }
 kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
 libsu-core = { module = "com.github.topjohnwu.libsu:core", version.ref = "libsu" }
+r8 = { module = "com.android.tools:r8", version.ref = "r8" }
 xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed" }
 
 [plugins]
