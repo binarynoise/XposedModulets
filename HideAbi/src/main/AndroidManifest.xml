@@ -5,7 +5,7 @@
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="HideAbi"
-        android:theme="@android:style/Theme.DeviceDefault.Settings"
+        android:theme="@style/AppTheme"
         >
         <meta-data
             android:name="xposedmodule"
@@ -29,7 +29,10 @@
             android:exported="true"
             >
             <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
                 <action android:name="android.intent.action.MAIN" />
+                
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
