@@ -61,7 +61,9 @@ class CommonAndroidApplication : Plugin<Project> {
                         "**/*.kotlin_builtins",
                         "**/*.kotlin_metadata",
                         "**/*.kotlin_module",
+                        "**/*.version",
                         "kotlin-tooling-metadata.json",
+                        "**/LICENSE.txt",
                     )
                 }
                 
