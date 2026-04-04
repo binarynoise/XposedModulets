@@ -7,7 +7,7 @@ android {
     namespace = "com.programminghoch10.AntiWakeLock"
     
     defaultConfig {
-        minSdk = 1
+        minSdk = 14
         targetSdk = 36
     }
 }

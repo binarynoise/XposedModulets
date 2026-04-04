@@ -7,7 +7,7 @@ android {
     namespace = "de.binarynoise.logger"
     
     defaultConfig {
-        minSdk = 1
+        minSdk = 14
     }
 }
 
