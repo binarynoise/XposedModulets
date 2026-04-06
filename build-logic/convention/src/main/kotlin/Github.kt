@@ -1,12 +1,11 @@
 @file:Suppress("unused")
 
 import java.util.*
+import buildlogic.EndOfBuildLoggerService.Companion.buildLogger
 import buildlogic.git.getAllCommitsPushed
 import buildlogic.git.getCommitCount
 import buildlogic.git.getWorkingTreeClean
 import com.android.build.api.dsl.ApplicationExtension
-import org.gradle.BuildAdapter
-import org.gradle.BuildResult
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -76,11 +75,7 @@ abstract class GithubCreateReleaseTask : Github() {
         if (repository.getReleaseByTagName(tagName) != null) {
             val logString = "Release $name already exists"
             
-            project.gradle.addBuildListener(object : BuildAdapter() {
-                override fun buildFinished(result: BuildResult) {
-                    println(logString)
-                }
-            })
+            buildLogger.addMessage(logString)
             return
         }
         
@@ -95,11 +90,7 @@ abstract class GithubCreateReleaseTask : Github() {
         
         val logString = "Created release ${release.name}: ${release.htmlUrl}"
         
-        project.gradle.addBuildListener(object : BuildAdapter() {
-            override fun buildFinished(result: BuildResult) {
-                println(logString)
-            }
-        })
+        buildLogger.addMessage(logString)
     }
 }
 
@@ -114,7 +105,7 @@ abstract class GithubClearReleaseTask : Github() {
         repository.listReleases().filter { it.isDraft }.forEach { release ->
             val name = release.name
             release.delete()
-            println("Deleted release $name")
+            buildLogger.addMessage("Deleted release $name")
         }
     }
 }
