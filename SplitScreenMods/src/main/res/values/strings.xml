@@ -51,4 +51,6 @@
         by exiting the app by going back 
         or by closing the SplitScreen entirely from the overview.
     </string>
+    <string name="targetSdkWarning_title">Unsupported Android Version</string>
+    <string name="targetSdkWarning_summary">Your Android is newer than this module has been developed for.\nSome features might not work as intended.</string>
 </resources>

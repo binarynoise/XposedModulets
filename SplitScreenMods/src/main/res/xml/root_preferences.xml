@@ -1,7 +1,17 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
+    <Preference
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        app:key="targetSdkWarning"
+        app:selectable="false"
+        app:summary="@string/targetSdkWarning_summary"
+        app:title="@string/targetSdkWarning_title"
+        tools:isPreferenceVisible="true"
+        />
     <PreferenceCategory
         app:iconSpaceReserved="false"
         app:title="@string/category_behavior"

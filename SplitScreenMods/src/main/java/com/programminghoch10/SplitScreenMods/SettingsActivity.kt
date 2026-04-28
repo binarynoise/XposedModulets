@@ -1,6 +1,7 @@
 package com.programminghoch10.SplitScreenMods
 
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
@@ -36,6 +37,11 @@ class SettingsActivity : FragmentActivity() {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            
+            val targetSdkVersion = context?.applicationInfo?.targetSdkVersion
+            if (targetSdkVersion != null && Build.VERSION.SDK_INT > targetSdkVersion) {
+                preferenceScreen.findPreference<Preference>("targetSdkWarning")!!.isVisible = true
+            }
             
             val alwaysAllowMultiInstanceSplitPreference = preferenceScreen.findPreference<SwitchPreference>("AlwaysAllowMultiInstanceSplit")!!
             val keepSplitScreenRatioPreference = preferenceScreen.findPreference<SwitchPreference>("KeepSplitScreenRatio")!!
