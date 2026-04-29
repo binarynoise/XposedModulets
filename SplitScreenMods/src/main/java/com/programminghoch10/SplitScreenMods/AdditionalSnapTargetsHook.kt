@@ -10,7 +10,6 @@ import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
 import de.robv.android.xposed.callbacks.XC_LoadPackage
@@ -45,7 +44,7 @@ class AdditionalSnapTargetsHook : IXposedHookLoadPackage, IXposedHookInitPackage
             return snapTarget
         }
         
-        XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
+        hookDividerSnapAlgorithmAfterConstructor(lpparam.classLoader, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 log("after ${DividerSnapAlgorithmClass.simpleName} constructor")
                 val res = param.args[0] as Resources

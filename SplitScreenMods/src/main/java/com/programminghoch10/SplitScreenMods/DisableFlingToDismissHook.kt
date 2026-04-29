@@ -7,7 +7,6 @@ import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -25,8 +24,7 @@ class DisableFlingToDismissHook : IXposedHookLoadPackage {
         val enabled = preferences.getBoolean("DisableFlingToDismiss", false)
         if (!enabled) return
         
-        val DividerSnapAlgorithmClass = XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
-        XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
+        hookDividerSnapAlgorithmAfterConstructor(lpparam.classLoader, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 log("disabling dismiss targets")
                 XposedHelpers.setObjectField(

@@ -6,7 +6,6 @@ import de.binarynoise.logger.Logger.log
 import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XSharedPreferences
-import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
@@ -24,11 +23,10 @@ class FreeSnapHook : IXposedHookLoadPackage {
         val enabled = preferences.getBoolean("FreeSnap", false)
         if (!enabled) return
         
-        val DividerSnapAlgorithmClass = XposedHelpers.findClass("com.android.wm.shell.common.split.DividerSnapAlgorithm", lpparam.classLoader)
-        XposedBridge.hookAllConstructors(DividerSnapAlgorithmClass, object : XC_MethodHook() {
+        hookDividerSnapAlgorithmAfterConstructor(lpparam.classLoader, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 XposedHelpers.setBooleanField(param.thisObject, "mFreeSnapMode", true)
-                log("${DividerSnapAlgorithmClass.simpleName} mFreeSnapMode constant changed to true")
+                log("${param.thisObject::class.java.simpleName} mFreeSnapMode constant changed to true")
             }
         })
     }
