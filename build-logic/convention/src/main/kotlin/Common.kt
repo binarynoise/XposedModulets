@@ -87,7 +87,7 @@ class CommonAndroidApplication : Plugin<Project> {
             maybeCreate("release").apply {
                 storeFile = storeFile ?: projectBaseDir.resolve(props["storeFile"].toString())
                 
-                check(storeFile != null && storeFile!!.exists()) { "keystore does not exist" }
+                check(storeFile?.exists() == true) { "keystore does not exist" }
                 
                 storePassword = storePassword ?: props["storePassword"].toString()
                 keyAlias = keyAlias ?: props["keyAlias"].toString()
@@ -242,7 +242,7 @@ private class CommonKotlin : Plugin<Project> {
             
             dependencies {
                 add("implementation", libs.kotlin.bom)
-                add("implementation", libs.jebtrains.annotations)
+                add("implementation", libs.jetbrains.annotations)
             }
         }
     }

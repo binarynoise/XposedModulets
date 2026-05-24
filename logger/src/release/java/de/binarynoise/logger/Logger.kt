@@ -2,7 +2,6 @@
 
 package de.binarynoise.logger
 
-import java.util.Collections.*
 import android.view.View
 
 object Logger {
