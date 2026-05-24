@@ -13,5 +13,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":logger"))
+    implementation(projects.logger)
 }

@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":reflection"))
-    implementation(project(":logger"))
+    implementation(projects.reflection)
+    implementation(projects.logger)
 }

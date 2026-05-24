@@ -16,6 +16,6 @@ android {
 dependencies {
     implementation(libs.androidx.fragment.ktx)
     implementation(libs.androidx.preference.ktx)
-    implementation(project(":logger"))
+    implementation(projects.logger)
     compileOnly(libs.androidx.performance.unsafe)
 }

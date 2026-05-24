@@ -12,5 +12,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":reflection"))
+    implementation(projects.reflection)
 }

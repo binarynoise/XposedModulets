@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":reflection"))
+    implementation(projects.reflection)
     implementation(libs.hiddenapibypass)
 }
