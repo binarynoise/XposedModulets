@@ -11,7 +11,7 @@ class RestartSettingsActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         thread {
-            Runtime.getRuntime().exec("su -c am force-stop com.android.settings").waitFor()
+            Runtime.getRuntime().exec("su -c am force-stop com.android.bluetooth").waitFor()
             runOnUiThread {
                 try {
                     startActivity(Intent(Settings.ACTION_BLUETOOTH_SETTINGS).apply {
