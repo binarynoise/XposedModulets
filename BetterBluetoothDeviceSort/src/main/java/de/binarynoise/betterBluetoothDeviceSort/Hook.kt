@@ -10,6 +10,7 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 class Hook : IXposedHookLoadPackage {
     
+    @Suppress("RemoveExplicitTypeArguments") // Comparator.naturalOrder<String>() does need type info so the other lambda gets inferred correctly
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         
         XposedHelpers.findAndHookMethod(
@@ -32,11 +33,21 @@ class Hook : IXposedHookLoadPackage {
                         log("${bonded.size} bonded, ${others.size} others")
                         
                         val comparator = Comparator.comparing<BluetoothDevice, String>({
-                            val properties = map[it] ?: return@comparing null
-                            (XposedHelpers.getObjectField(properties, "mAlias") ?: XposedHelpers.getObjectField(properties, "mName")).cast<String?>()
+                            val properties = map[it] ?: run {
+                                log("${it.address} not found")
+                                return@comparing null
+                            }
+                            val mAlias = XposedHelpers.getObjectField(properties, "mAlias") as? String?
+                            val mName = XposedHelpers.getObjectField(properties, "mName") as? String?
+                            log("alias: $mAlias | name: $mName")
+                            return@comparing mAlias ?: mName
                         }, Comparator.nullsLast(Comparator.naturalOrder<String>()))
                         
-                        result = bonded.toSortedSet(comparator).toMutableList() + others
+                        val res = ArrayList<BluetoothDevice>()
+                        res.addAll(bonded.toSortedSet(comparator))
+                        res.addAll(others)
+                        
+                        result = res
                     }
                 }
             },
