@@ -170,6 +170,7 @@ private class CommonAndroid : Plugin<Project> {
                 
                 lintOptions {
                     disable += "DiscouragedApi"
+                    disable += "EditedTargetSdkVersion"
                     disable += "ExpiredTargetSdkVersion"
                     disable += "MissingApplicationIcon"
                     disable += "MissingPermission"
