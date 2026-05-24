@@ -1,0 +1,3 @@
+# Keep Playing, Soundcloud!
+
+This Xposed module prevents SoundCloud from stopping playback when the app is removed from the recent apps list.
