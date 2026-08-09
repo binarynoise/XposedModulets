@@ -37,10 +37,11 @@ A collection of small Xposed Modules.
 These modules are licensed under the [European Union Public Licence (EUPL) v. 1.2](https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12)
 
 ---
-<a href="https://star-history.com/#binarynoise/XposedModulets&Date">
+
+<a href="https://www.star-history.com/?repos=binarynoise%2FXposedModulets&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=binarynoise/XposedModulets&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=binarynoise/XposedModulets&type=date&theme=dark&legend=top-left&sealed_token=tsh2Eg_k7j_bx7ns9Ch_sWAPfOKujxJkpYfnyJiSHk3VLnim4VnSo8xfZxh2XcpnWiM2EQw2rb6uyMWW_5fQWYRuBcGd5JddmKQE05QFxZ5hDK5skVAsmg" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=binarynoise/XposedModulets&type=date&legend=top-left&sealed_token=tsh2Eg_k7j_bx7ns9Ch_sWAPfOKujxJkpYfnyJiSHk3VLnim4VnSo8xfZxh2XcpnWiM2EQw2rb6uyMWW_5fQWYRuBcGd5JddmKQE05QFxZ5hDK5skVAsmg" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=binarynoise/XposedModulets&type=date&legend=top-left&sealed_token=tsh2Eg_k7j_bx7ns9Ch_sWAPfOKujxJkpYfnyJiSHk3VLnim4VnSo8xfZxh2XcpnWiM2EQw2rb6uyMWW_5fQWYRuBcGd5JddmKQE05QFxZ5hDK5skVAsmg" />
  </picture>
 </a>
