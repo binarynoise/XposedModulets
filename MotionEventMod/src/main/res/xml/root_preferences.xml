@@ -5,35 +5,49 @@
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="disableTouchDuringPen"
+        app:title="@string/disableTouchDuringPen_title"
         />
     <SwitchPreference
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="disableTouchDuringHover"
+        app:title="@string/disableTouchDuringHover_title"
         />
     <EditTextPreference
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="disableTouchTimeout"
+        app:summary="@string/disableTouchTimeout_description"
+        app:title="@string/disableTouchTimeout_title"
         />
     <SwitchPreference
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="replayAfterTimeout"
+        app:summary="@string/replayAfterTimeout_description"
+        app:title="@string/replayAfterTimeout_title"
         />
     <SwitchPreference
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="markAsHandled"
+        app:summary="@string/markAsHandled_summary"
+        app:summaryOff="@string/markAsHandled_summaryOff"
+        app:title="@string/markAsHandled_title"
         />
     <Preference
         app:enabled="false"
+        app:fragment="TypeSelectorFragment"
         app:iconSpaceReserved="false"
         app:key="disableTypes"
+        app:title="@string/disableTypes_title"
         />
     <Preference
         app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="test"
+        app:summary="@string/activity_motion_event_test_description"
+        app:title="@string/activity_motion_event_test_title"
+        
         />
 </PreferenceScreen>
