@@ -7,7 +7,6 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-private val TAG: String = BuildConfig.APPLICATION_ID.split("[.]".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[2]
 private const val hover_timeout = 1000L
 
 class XposedHook : IXposedHookLoadPackage {
