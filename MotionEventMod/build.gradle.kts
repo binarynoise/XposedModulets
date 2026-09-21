@@ -10,6 +10,7 @@ android {
         minSdk = 14
         targetSdk = 37
         buildConfigField("String", "SHARED_PREFERENCES_NAME", "\"MotionEventMod\"")
+        buildConfigField("String", "TAG", "\"${namespace!!.split(".").last()}\"")
     }
     buildFeatures {
         buildConfig = true
