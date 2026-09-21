@@ -4,15 +4,18 @@ plugins {
 }
 
 android {
-    val packageName = "com.programminghoch10.MotionEventMod"
-    namespace = packageName
+    namespace = "com.programminghoch10.MotionEventMod"
     
     defaultConfig {
-        applicationId = packageName
         minSdk = 14
-        targetSdk = 33
+        targetSdk = 37
+        buildConfigField("String", "SHARED_PREFERENCES_NAME", "\"MotionEventMod\"")
     }
     buildFeatures {
         buildConfig = true
     }
+}
+
+dependencies {
+    implementation(libs.androidx.preference.ktx)
 }

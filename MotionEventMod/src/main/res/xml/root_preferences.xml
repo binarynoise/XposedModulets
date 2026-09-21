@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="disableTouchDuringPen"
+        />
+    <SwitchPreference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="disableTouchDuringHover"
+        />
+    <EditTextPreference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="disableTouchTimeout"
+        />
+    <SwitchPreference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="replayAfterTimeout"
+        />
+    <SwitchPreference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="markAsHandled"
+        />
+    <Preference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="disableTypes"
+        />
+    <Preference
+        app:enabled="false"
+        app:iconSpaceReserved="false"
+        app:key="test"
+        />
+</PreferenceScreen>
