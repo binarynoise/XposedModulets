@@ -4,8 +4,26 @@
     
     <application
         android:icon="@android:drawable/ic_menu_edit"
-        android:label="MotionEventMod"
+        android:label="@string/app_name"
         >
+        <activity
+            android:name=".SettingsActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".InputTestActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            />
         
         <meta-data
             android:name="xposedmodule"
@@ -13,11 +31,11 @@
             />
         <meta-data
             android:name="xposeddescription"
-            android:value="Disable touch input for some seconds after the stylus was in use"
+            android:value="@string/description"
             />
         <meta-data
             android:name="xposedminversion"
-            android:value="82"
+            android:value="93"
             />
         <meta-data
             android:name="xposedscope"

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_activity_settings">MotionEventMod Configuration</string>
+    <string name="app_name">MotionEventMod</string>
+    <string name="description">Customize MotionEvent functionality</string>
+</resources>
