@@ -2,13 +2,11 @@
 <PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <SwitchPreference
-        app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="disableTouchDuringPen"
         app:title="@string/disableTouchDuringPen_title"
         />
     <SwitchPreference
-        app:enabled="false"
         app:iconSpaceReserved="false"
         app:key="disableTouchDuringHover"
         app:title="@string/disableTouchDuringHover_title"
@@ -28,7 +26,7 @@
         app:title="@string/replayAfterTimeout_title"
         />
     <SwitchPreference
-        app:enabled="false"
+        app:defaultValue="true"
         app:iconSpaceReserved="false"
         app:key="markAsHandled"
         app:summary="@string/markAsHandled_summary"
