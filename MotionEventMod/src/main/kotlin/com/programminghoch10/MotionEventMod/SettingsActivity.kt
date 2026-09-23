@@ -21,7 +21,8 @@ class SettingsActivity : FragmentActivity() {
     }
     
     override fun onNavigateUp(): Boolean {
-        finish()
+        if (supportFragmentManager.backStackEntryCount > 0) supportFragmentManager.popBackStack()
+        else finish()
         return true
     }
     
@@ -34,7 +35,6 @@ class SettingsActivity : FragmentActivity() {
             val disableTouchTimeoutPreference = findPreference<TimeoutPreference>("disableTouchTimeout")!!
             val disableTouchDuringPenPreference = findPreference<SwitchPreference>("disableTouchDuringPen")!!
             val disableTouchDuringHoverPreference = findPreference<SwitchPreference>("disableTouchDuringHover")!!
-            val disableTypesPreference = findPreference<Preference>("disableTypes")!!
             val testPreference = findPreference<Preference>("test")!!
             
             fun recalculateDependencies() {
@@ -47,9 +47,6 @@ class SettingsActivity : FragmentActivity() {
                     true
                 }
             }
-            disableTypesPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                parentFragmentManager.beginTransaction().add(R.id.settings, TypeSelectorFragment()).commit() > 0
-            }
             testPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 val intent = Intent(context, InputTestActivity::class.java)
                 requireActivity().startActivity(intent)
@@ -60,7 +57,16 @@ class SettingsActivity : FragmentActivity() {
     
     class TypeSelectorFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            TODO("Not yet implemented")
+            preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
+            preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
+            preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
+            toolTypes.forEach {
+                val preference = SwitchPreference(requireContext())
+                preference.key = toolTypeEnabledKey(it)
+                preference.title = it
+                preference.setDefaultValue(true)
+                preferenceScreen.addPreference(preference)
+            }
         }
     }
 }

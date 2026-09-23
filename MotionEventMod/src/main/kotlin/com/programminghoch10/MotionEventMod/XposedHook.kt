@@ -12,6 +12,11 @@ import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
+val toolTypeFields = MotionEvent::class.java.declaredFields.filter { it.name.startsWith("TOOL_TYPE_") && it.type == Int::class.java }
+val toolTypes = toolTypeFields.map { it.name }
+val toolTypeNames = toolTypeFields.associate { it.getInt(null) to it.name }
+fun toolTypeEnabledKey(toolType: String): String = "${toolType.lowercase()}_enabled"
+
 class XposedHook : IXposedHookLoadPackage {
     val sharedPreferences = XSharedPreferences(APPLICATION_ID, SHARED_PREFERENCES_NAME)
     val disableTouchDuringPen get() = sharedPreferences.getBoolean("disableTouchDuringPen", false)
@@ -50,6 +55,12 @@ class XposedHook : IXposedHookLoadPackage {
         lastHoverEventTimestamp = System.currentTimeMillis()
     }
     
+    fun shouldDisableMotionEventByToolType(toolType: Int): Boolean {
+        val name = toolTypeNames[toolType] ?: return false
+        val key = toolTypeEnabledKey(name)
+        return !sharedPreferences.getBoolean(key, true)
+    }
+    
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         if (lpparam.packageName == "android") return
         if (lpparam.packageName == APPLICATION_ID) return
@@ -62,6 +73,7 @@ class XposedHook : IXposedHookLoadPackage {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val event = param.args[0] as MotionEvent
                     val toolType = event.getToolType()
+                    if (shouldDisableMotionEventByToolType(toolType)) return preventMotionEvent(param)
                     when (toolType) {
                         MotionEvent.TOOL_TYPE_UNKNOWN -> return
                         MotionEvent.TOOL_TYPE_STYLUS, MotionEvent.TOOL_TYPE_ERASER -> handleStylusEvent(event, param)
@@ -79,6 +91,7 @@ class XposedHook : IXposedHookLoadPackage {
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val event = param.args[0] as MotionEvent
+                    if (shouldDisableMotionEventByToolType(event.getToolType())) return preventMotionEvent(param)
                     if (disableHover) return preventMotionEvent(param)
                     when (event.getToolType()) {
                         MotionEvent.TOOL_TYPE_UNKNOWN -> return

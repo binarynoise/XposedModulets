@@ -39,8 +39,7 @@
         app:title="@string/disableHover_title"
         />
     <Preference
-        app:enabled="false"
-        app:fragment="TypeSelectorFragment"
+        app:fragment="com.programminghoch10.MotionEventMod.SettingsActivity$TypeSelectorFragment"
         app:iconSpaceReserved="false"
         app:key="disableTypes"
         app:title="@string/disableTypes_title"
