@@ -1,12 +1,7 @@
 package com.programminghoch10.MotionEventMod
 
-import kotlin.sequences.forEach
-import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import androidx.fragment.app.FragmentActivity
-import androidx.preference.EditTextPreference
-import androidx.preference.MultiSelectListPreferenceDialogFragmentCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceGroup
@@ -36,7 +31,7 @@ class SettingsActivity : FragmentActivity() {
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
             
-            val disableTouchTimeoutPreference = findPreference<EditTextPreference>("disableTouchTimeout")!!
+            val disableTouchTimeoutPreference = findPreference<TimeoutPreference>("disableTouchTimeout")!!
             val disableTouchDuringPenPreference = findPreference<SwitchPreference>("disableTouchDuringPen")!!
             val disableTouchDuringHoverPreference = findPreference<SwitchPreference>("disableTouchDuringHover")!!
             val disableTypesPreference = findPreference<Preference>("disableTypes")!!
@@ -51,10 +46,6 @@ class SettingsActivity : FragmentActivity() {
                     recalculateDependencies()
                     true
                 }
-            }
-            disableTouchTimeoutPreference.setOnBindEditTextListener {
-                it.hint = "Time in seconds"
-                it.inputType = InputType.TYPE_CLASS_NUMBER
             }
             disableTypesPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 parentFragmentManager.beginTransaction().add(R.id.settings, TypeSelectorFragment()).commit() > 0

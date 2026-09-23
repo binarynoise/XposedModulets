@@ -1,5 +1,6 @@
 package com.programminghoch10.MotionEventMod
 
+import kotlin.math.roundToLong
 import android.view.MotionEvent
 import android.view.View
 import com.programminghoch10.MotionEventMod.BuildConfig.APPLICATION_ID
@@ -16,16 +17,20 @@ class XposedHook : IXposedHookLoadPackage {
     val disableTouchDuringPen get() = sharedPreferences.getBoolean("disableTouchDuringPen", false)
     val disableTouchDuringHover get() = sharedPreferences.getBoolean("disableTouchDuringHover", false)
     val markAsHandled get() = sharedPreferences.getBoolean("markAsHandled", true)
+    val disableTouchTimeout get() = (sharedPreferences.getFloat("disableTouchTimeout", 0f) * 1000L).roundToLong()
     fun preventMotionEvent(param: MethodHookParam) = run { param.result = markAsHandled }
     
     private var isPenDown: Boolean = false
     private var isPenHovering: Boolean = false
     private var lastPenEventTimestamp: Long = 0L
     private var lastHoverEventTimestamp: Long = 0L
+    fun isInTimeout(m: Long): Boolean = System.currentTimeMillis() < m + disableTouchTimeout
     
     fun handleTouchEvent(event: MotionEvent, param: MethodHookParam) {
         if (disableTouchDuringPen && isPenDown) preventMotionEvent(param)
         if (disableTouchDuringHover && isPenHovering) preventMotionEvent(param)
+        if (disableTouchDuringPen && isInTimeout(lastPenEventTimestamp)) preventMotionEvent(param)
+        if (disableTouchDuringHover && isInTimeout(lastHoverEventTimestamp)) preventMotionEvent(param)
     }
     
     fun handleStylusEvent(event: MotionEvent, param: MethodHookParam) {
@@ -36,7 +41,7 @@ class XposedHook : IXposedHookLoadPackage {
         lastPenEventTimestamp = System.currentTimeMillis()
     }
     
-    fun handleHoverEvent(event: MotionEvent, param: MethodHookParam) {
+    fun handleStylusHoverEvent(event: MotionEvent, param: MethodHookParam) {
         when (event.action) {
             MotionEvent.ACTION_HOVER_ENTER -> isPenHovering = true
             MotionEvent.ACTION_HOVER_EXIT -> isPenHovering = false
@@ -46,6 +51,7 @@ class XposedHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         if (lpparam.packageName == "android") return
+        if (lpparam.packageName == APPLICATION_ID) return
         
         XposedHelpers.findAndHookMethod(
             View::class.java,
@@ -54,9 +60,7 @@ class XposedHook : IXposedHookLoadPackage {
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val event = param.args[0] as MotionEvent
-                    val actionIndex = event.actionIndex
-                    val pointerId = event.getPointerId(actionIndex)
-                    val toolType = event.getToolType(pointerId)
+                    val toolType = event.getToolType()
                     when (toolType) {
                         MotionEvent.TOOL_TYPE_UNKNOWN -> return
                         MotionEvent.TOOL_TYPE_STYLUS, MotionEvent.TOOL_TYPE_ERASER -> handleStylusEvent(event, param)
@@ -74,9 +78,15 @@ class XposedHook : IXposedHookLoadPackage {
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val event = param.args[0] as MotionEvent
-                    handleHoverEvent(event, param)
+                    when (event.getToolType()) {
+                        MotionEvent.TOOL_TYPE_UNKNOWN -> return
+                        MotionEvent.TOOL_TYPE_STYLUS, MotionEvent.TOOL_TYPE_ERASER -> handleStylusHoverEvent(event, param)
+                    }
                 }
             },
         )
     }
 }
+
+fun MotionEvent.getPointerId(): Int = getPointerId(actionIndex)
+fun MotionEvent.getToolType(): Int = getToolType(getPointerId())

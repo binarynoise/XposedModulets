@@ -11,8 +11,7 @@
         app:key="disableTouchDuringHover"
         app:title="@string/disableTouchDuringHover_title"
         />
-    <EditTextPreference
-        app:enabled="false"
+    <com.programminghoch10.MotionEventMod.TimeoutPreference
         app:iconSpaceReserved="false"
         app:key="disableTouchTimeout"
         app:summary="@string/disableTouchTimeout_description"
