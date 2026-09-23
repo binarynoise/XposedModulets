@@ -18,6 +18,7 @@ class XposedHook : IXposedHookLoadPackage {
     val disableTouchDuringHover get() = sharedPreferences.getBoolean("disableTouchDuringHover", false)
     val markAsHandled get() = sharedPreferences.getBoolean("markAsHandled", true)
     val disableTouchTimeout get() = (sharedPreferences.getFloat("disableTouchTimeout", 0f) * 1000L).roundToLong()
+    val disableHover get() = sharedPreferences.getBoolean("disableHover", false)
     fun preventMotionEvent(param: MethodHookParam) = run { param.result = markAsHandled }
     
     private var isPenDown: Boolean = false
@@ -78,6 +79,7 @@ class XposedHook : IXposedHookLoadPackage {
             object : XC_MethodHook() {
                 override fun beforeHookedMethod(param: MethodHookParam) {
                     val event = param.args[0] as MotionEvent
+                    if (disableHover) return preventMotionEvent(param)
                     when (event.getToolType()) {
                         MotionEvent.TOOL_TYPE_UNKNOWN -> return
                         MotionEvent.TOOL_TYPE_STYLUS, MotionEvent.TOOL_TYPE_ERASER -> handleStylusHoverEvent(event, param)

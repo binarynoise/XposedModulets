@@ -16,4 +16,6 @@
     <string name="disableTypes_title">Disable MotionEvents by Type</string>
     <string name="activity_motion_event_test_description">Test the module configuration</string>
     <string name="timeoutPreference_hint">seconds</string>
+    <string name="disableHover_title">Disable Hover</string>
+    <string name="disableHover_summary">Disable Hover events completely.</string>
 </resources>
