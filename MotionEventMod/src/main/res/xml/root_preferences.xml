@@ -32,6 +32,12 @@
         app:summaryOff="@string/markAsHandled_summaryOff"
         app:title="@string/markAsHandled_title"
         />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="disableHover"
+        app:summary="@string/disableHover_summary"
+        app:title="@string/disableHover_title"
+        />
     <Preference
         app:enabled="false"
         app:fragment="TypeSelectorFragment"
