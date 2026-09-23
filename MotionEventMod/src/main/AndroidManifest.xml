@@ -8,6 +8,7 @@
         >
         <activity
             android:name=".SettingsActivity"
+            android:enableOnBackInvokedCallback="false"
             android:excludeFromRecents="true"
             android:exported="true"
             android:label="@string/activity_settings_title"
