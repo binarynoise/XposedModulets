@@ -6,8 +6,8 @@
     <string name="activity_motion_event_test_title">MotionEvents Test</string>
     <string name="disableTouchDuringPen_title">Disable Touch while Pen is in use</string>
     <string name="disableTouchDuringHover_title">Disable Touch while Pen is hovering</string>
-    <string name="disableTouchTimeout_title">Disable Touch timeout</string>
-    <string name="disableTouchTimeout_description">How long to wait after last pen interaction before the pen is re-enabled.</string>
+    <string name="disableTouchTimeout_title">Disable Touch Timeout</string>
+    <string name="disableTouchTimeout_description">How long to wait after last pen interaction before the pen is re-enabled.\nCurrently: %1$.1f seconds</string>
     <string name="replayAfterTimeout_title">Replay Events after Timeout</string>
     <string name="replayAfterTimeout_description">Replay MotionEvents which occurred during the disabled phase, if they continue after the timeout ended.</string>
     <string name="markAsHandled_title">Mark Disabled MotionEvents as Handled</string>
@@ -15,4 +15,5 @@
     <string name="markAsHandled_summaryOff">Tell Android the MotionEvents have not been handled.</string>
     <string name="disableTypes_title">Disable MotionEvents by Type</string>
     <string name="activity_motion_event_test_description">Test the module configuration</string>
+    <string name="timeoutPreference_hint">seconds</string>
 </resources>
