@@ -59,7 +59,7 @@ class SettingsActivity : FragmentActivity() {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
-            (toolTypeFields + sourceClassFields + actionTypeFields).map { it.name }.forEach {
+            (toolTypeFields + sourceClassFields + actionTypeFields + buttonFields).map { it.name }.forEach {
                 val preference = SwitchPreference(requireContext())
                 preference.key = typeEnabledKey(it)
                 preference.title = it
