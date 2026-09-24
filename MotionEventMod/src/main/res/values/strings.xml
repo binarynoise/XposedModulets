@@ -3,7 +3,6 @@
     <string name="activity_settings_title">MotionEventMod Configuration</string>
     <string name="app_name">MotionEventMod</string>
     <string name="description">Customize MotionEvent functionality</string>
-    <string name="activity_motion_event_test_title">MotionEvents Test</string>
     <string name="disableTouchDuringPen_title">Disable Touch while Pen is in use</string>
     <string name="disableTouchDuringHover_title">Disable Touch while Pen is hovering</string>
     <string name="disableTouchTimeout_title">Disable Touch Timeout</string>
@@ -15,7 +14,6 @@
     <string name="markAsHandled_summaryOff">Tell Android the MotionEvents have not been handled.</string>
     <string name="disableTypes_title">Disable MotionEvents by Type</string>
     <string name="disableTypes_summary">This is advanced functionality may break apps and other functionality of this module.</string>
-    <string name="activity_motion_event_test_description">Test the module configuration</string>
     <string name="timeoutPreference_hint">seconds</string>
     <string name="disableHover_title">Disable Hover</string>
     <string name="disableHover_summary">Disable Hover events completely.</string>

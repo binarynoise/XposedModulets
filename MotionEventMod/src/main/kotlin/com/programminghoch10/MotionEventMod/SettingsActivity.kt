@@ -2,7 +2,6 @@ package com.programminghoch10.MotionEventMod
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
-import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import androidx.preference.TwoStatePreference
@@ -34,7 +33,6 @@ class SettingsActivity : FragmentActivity() {
             val disableTouchDuringPenPreference = findPreference<SwitchPreference>("disableTouchDuringPen")!!
             val disableTouchDuringHoverPreference = findPreference<SwitchPreference>("disableTouchDuringHover")!!
             val replayOngoingEventsPreference = findPreference<SwitchPreference>("replayOngoingEvents")!!
-            val testPreference = findPreference<Preference>("test")!!
             
             fun recalculateDependencies() {
                 disableTouchDuringHoverPreference.isEnabled = disableTouchDuringPenPreference.isEnabledAndChecked
@@ -45,12 +43,6 @@ class SettingsActivity : FragmentActivity() {
             }
             preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener { _, _ -> recalculateDependencies() }
             recalculateDependencies()
-            
-            testPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                val intent = Intent(context, InputTestActivity::class.java)
-                requireActivity().startActivity(intent)
-                true
-            }
         }
     }
     
