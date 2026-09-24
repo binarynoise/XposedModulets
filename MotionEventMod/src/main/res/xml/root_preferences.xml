@@ -18,11 +18,10 @@
         app:title="@string/disableTouchTimeout_title"
         />
     <SwitchPreference
-        app:enabled="false"
         app:iconSpaceReserved="false"
-        app:key="replayAfterTimeout"
-        app:summary="@string/replayAfterTimeout_description"
-        app:title="@string/replayAfterTimeout_title"
+        app:key="replayOngoingEvents"
+        app:summary="@string/replayOngoingEvents_description"
+        app:title="@string/replayOngoingEvents_title"
         />
     <SwitchPreference
         app:defaultValue="true"

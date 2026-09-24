@@ -4,10 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceGroup
 import androidx.preference.SwitchPreference
 import androidx.preference.TwoStatePreference
-import androidx.preference.children
 import com.programminghoch10.MotionEventMod.BuildConfig.SHARED_PREFERENCES_NAME
 
 class SettingsActivity : FragmentActivity() {
@@ -35,18 +33,19 @@ class SettingsActivity : FragmentActivity() {
             val disableTouchTimeoutPreference = findPreference<TimeoutPreference>("disableTouchTimeout")!!
             val disableTouchDuringPenPreference = findPreference<SwitchPreference>("disableTouchDuringPen")!!
             val disableTouchDuringHoverPreference = findPreference<SwitchPreference>("disableTouchDuringHover")!!
+            val replayOngoingEventsPreference = findPreference<SwitchPreference>("replayOngoingEvents")!!
             val testPreference = findPreference<Preference>("test")!!
             
             fun recalculateDependencies() {
-                disableTouchTimeoutPreference.isEnabled = disableTouchDuringPenPreference.isChecked || disableTouchDuringHoverPreference.isChecked
+                disableTouchDuringHoverPreference.isEnabled = disableTouchDuringPenPreference.isEnabledAndChecked
+                disableTouchTimeoutPreference.isEnabled =
+                    disableTouchDuringPenPreference.isEnabledAndChecked || disableTouchDuringHoverPreference.isEnabledAndChecked
+                replayOngoingEventsPreference.isEnabled =
+                    disableTouchDuringPenPreference.isEnabledAndChecked || disableTouchDuringHoverPreference.isEnabledAndChecked
             }
+            preferenceManager.sharedPreferences!!.registerOnSharedPreferenceChangeListener { _, _ -> recalculateDependencies() }
             recalculateDependencies()
-            listOf(disableTouchDuringPenPreference, disableTouchDuringHoverPreference).forEach {
-                it.onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, _ ->
-                    recalculateDependencies()
-                    true
-                }
-            }
+            
             testPreference.onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 val intent = Intent(context, InputTestActivity::class.java)
                 requireActivity().startActivity(intent)
