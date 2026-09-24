@@ -44,12 +44,4 @@
         app:summary="@string/disableTypes_summary"
         app:title="@string/disableTypes_title"
         />
-    <Preference
-        app:enabled="false"
-        app:iconSpaceReserved="false"
-        app:key="test"
-        app:summary="@string/activity_motion_event_test_description"
-        app:title="@string/activity_motion_event_test_title"
-        
-        />
 </PreferenceScreen>
