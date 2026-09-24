@@ -12,6 +12,8 @@ val sourceClassFields = InputDevice::class.java.declaredFields.filter { it.name.
     .filter { it.name != "SOURCE_CLASS_MASK" }
 val actionTypeFields =
     MotionEvent::class.java.declaredFields.filter { it.name.startsWith("ACTION_") && it.type == Int::class.java }.filter { it.name != "ACTION_MASK" }
+val buttonFields = MotionEvent::class.java.declaredFields.filter { it.name.startsWith("BUTTON_") && it.type == Int::class.java }
+val buttonFieldsMap = buttonFields.associate { field -> field.name to field.getInt(null) }
 fun typeEnabledKey(fieldName: String): String = "${fieldName.lowercase()}_enabled"
 
 // thanks https://farhanpatel.dev/index.php/2020/06/14/deep-clones-with-android-parcelable/

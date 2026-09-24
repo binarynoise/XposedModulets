@@ -148,6 +148,23 @@ class XposedHook : IXposedHookLoadPackage {
                 }
             },
         )
+        
+        XposedHelpers.findAndHookMethod(
+            MotionEvent::class.java,
+            "getButtonState",
+            object : XC_MethodHook() {
+                override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
+                    var buttons = param.result as Int
+                    buttonFields.asSequence()
+                        .map { it.name }
+                        .filterNot { sharedPreferences.getBoolean(typeEnabledKey(it), true) }
+                        .map { buttonFieldsMap[it]!! }
+                        .map { it.inv() }
+                        .forEach { buttons = buttons and it }
+                    param.result = buttons
+                }
+            },
+        )
     }
 }
 
