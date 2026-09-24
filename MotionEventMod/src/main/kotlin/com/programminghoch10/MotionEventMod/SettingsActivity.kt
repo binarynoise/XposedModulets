@@ -59,9 +59,9 @@ class SettingsActivity : FragmentActivity() {
             preferenceManager.sharedPreferencesName = SHARED_PREFERENCES_NAME
             preferenceManager.sharedPreferencesMode = MODE_WORLD_READABLE
             preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
-            toolTypes.forEach {
+            (toolTypeFields + sourceClassFields + actionTypeFields).map { it.name }.forEach {
                 val preference = SwitchPreference(requireContext())
-                preference.key = toolTypeEnabledKey(it)
+                preference.key = typeEnabledKey(it)
                 preference.title = it
                 preference.setDefaultValue(true)
                 preferenceScreen.addPreference(preference)
