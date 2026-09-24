@@ -8,8 +8,8 @@
     <string name="disableTouchDuringHover_title">Disable Touch while Pen is hovering</string>
     <string name="disableTouchTimeout_title">Disable Touch Timeout</string>
     <string name="disableTouchTimeout_description">How long to wait after last pen interaction before the pen is re-enabled.\nCurrently: %1$.1f seconds</string>
-    <string name="replayAfterTimeout_title">Replay Events after Timeout</string>
-    <string name="replayAfterTimeout_description">Replay MotionEvents which occurred during the disabled phase, if they continue after the timeout ended.</string>
+    <string name="replayOngoingEvents_title">Replay Ongoing Events</string>
+    <string name="replayOngoingEvents_description">Replay Ongoing MotionEvents which occurred during the disabled phase, if they are still active when re-enabled.</string>
     <string name="markAsHandled_title">Mark Disabled MotionEvents as Handled</string>
     <string name="markAsHandled_summary">Tell Android the MotionEvents have been handled.</string>
     <string name="markAsHandled_summaryOff">Tell Android the MotionEvents have not been handled.</string>
