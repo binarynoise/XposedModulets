@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="activity_settings_title">MotionEventMod Configuration</string>
+    <string name="app_name">MotionEventMod</string>
+    <string name="description">Customize MotionEvent functionality</string>
+    <string name="disableTouchDuringPen_title">Disable Touch while Pen is in use</string>
+    <string name="disableTouchDuringHover_title">Disable Touch while Pen is hovering</string>
+    <string name="disableTouchTimeout_title">Disable Touch Timeout</string>
+    <string name="disableTouchTimeout_description">How long to wait after last pen interaction before the pen is re-enabled.\nCurrently: %1$.1f seconds</string>
+    <string name="replayOngoingEvents_title">Replay Ongoing Events</string>
+    <string name="replayOngoingEvents_description">Replay Ongoing MotionEvents which occurred during the disabled phase, if they are still active when re-enabled.</string>
+    <string name="markAsHandled_title">Mark Disabled MotionEvents as Handled</string>
+    <string name="markAsHandled_summary">Tell Android the MotionEvents have been handled.</string>
+    <string name="markAsHandled_summaryOff">Tell Android the MotionEvents have not been handled.</string>
+    <string name="disableTypes_title">Disable MotionEvents by Type</string>
+    <string name="disableTypes_summary">This is advanced functionality may break apps and other functionality of this module.</string>
+    <string name="timeoutPreference_hint">seconds</string>
+    <string name="disableHover_title">Disable Hover</string>
+    <string name="disableHover_summary">Disable Hover events completely.</string>
+</resources>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="disableTouchDuringPen"
+        app:title="@string/disableTouchDuringPen_title"
+        />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="disableTouchDuringHover"
+        app:title="@string/disableTouchDuringHover_title"
+        />
+    <com.programminghoch10.MotionEventMod.TimeoutPreference
+        app:iconSpaceReserved="false"
+        app:key="disableTouchTimeout"
+        app:summary="@string/disableTouchTimeout_description"
+        app:title="@string/disableTouchTimeout_title"
+        />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="replayOngoingEvents"
+        app:summary="@string/replayOngoingEvents_description"
+        app:title="@string/replayOngoingEvents_title"
+        />
+    <SwitchPreference
+        app:defaultValue="true"
+        app:iconSpaceReserved="false"
+        app:key="markAsHandled"
+        app:summary="@string/markAsHandled_summary"
+        app:summaryOff="@string/markAsHandled_summaryOff"
+        app:title="@string/markAsHandled_title"
+        />
+    <SwitchPreference
+        app:iconSpaceReserved="false"
+        app:key="disableHover"
+        app:summary="@string/disableHover_summary"
+        app:title="@string/disableHover_title"
+        />
+    <Preference
+        app:fragment="com.programminghoch10.MotionEventMod.SettingsActivity$TypeSelectorFragment"
+        app:iconSpaceReserved="false"
+        app:key="disableTypes"
+        app:summary="@string/disableTypes_summary"
+        app:title="@string/disableTypes_title"
+        />
+</PreferenceScreen>
