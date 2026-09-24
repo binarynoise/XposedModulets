@@ -14,6 +14,7 @@
     <string name="markAsHandled_summary">Tell Android the MotionEvents have been handled.</string>
     <string name="markAsHandled_summaryOff">Tell Android the MotionEvents have not been handled.</string>
     <string name="disableTypes_title">Disable MotionEvents by Type</string>
+    <string name="disableTypes_summary">This is advanced functionality may break apps and other functionality of this module.</string>
     <string name="activity_motion_event_test_description">Test the module configuration</string>
     <string name="timeoutPreference_hint">seconds</string>
     <string name="disableHover_title">Disable Hover</string>

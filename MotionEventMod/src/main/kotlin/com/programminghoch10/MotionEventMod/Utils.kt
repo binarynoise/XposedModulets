@@ -3,6 +3,16 @@ package com.programminghoch10.MotionEventMod
 import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import android.view.InputDevice
+import android.view.MotionEvent
+
+
+val toolTypeFields = MotionEvent::class.java.declaredFields.filter { it.name.startsWith("TOOL_TYPE_") && it.type == Int::class.java }
+val sourceClassFields = InputDevice::class.java.declaredFields.filter { it.name.startsWith("SOURCE_CLASS_") && it.type == Int::class.java }
+    .filter { it.name != "SOURCE_CLASS_MASK" }
+val actionTypeFields =
+    MotionEvent::class.java.declaredFields.filter { it.name.startsWith("ACTION_") && it.type == Int::class.java }.filter { it.name != "ACTION_MASK" }
+fun typeEnabledKey(fieldName: String): String = "${fieldName.lowercase()}_enabled"
 
 // thanks https://farhanpatel.dev/index.php/2020/06/14/deep-clones-with-android-parcelable/
 // slightly modified for compatibility, extension functions and nullability

@@ -41,6 +41,7 @@
         app:fragment="com.programminghoch10.MotionEventMod.SettingsActivity$TypeSelectorFragment"
         app:iconSpaceReserved="false"
         app:key="disableTypes"
+        app:summary="@string/disableTypes_summary"
         app:title="@string/disableTypes_title"
         />
     <Preference
