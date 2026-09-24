@@ -19,14 +19,6 @@
                 <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InputTestActivity"
-            android:description="@string/activity_motion_event_test_description"
-            android:exported="true"
-            android:label="@string/activity_motion_event_test_title"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme"
-            />
         
         <meta-data
             android:name="xposedmodule"
