@@ -1,72 +1,65 @@
 package com.programminghoch10.CodecMod
 
-import java.util.*
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
+import androidx.core.content.edit
+import androidx.preference.PreferenceDataStore
 import de.robv.android.xposed.XSharedPreferences
 
-class CodecStore {
+class CodecStore : PreferenceDataStore {
     private val sharedPreferences: SharedPreferences
-    private val receivers: MutableList<OnCodecPreferenceChangedListenerMeta> = LinkedList<OnCodecPreferenceChangedListenerMeta>()
+    private val receivers: MutableList<OnCodecPreferenceChangedListenerMeta> = mutableListOf()
     
-    internal constructor(context: Context) {
-        this.sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_WORLD_READABLE)
+    constructor(context: Context) {
+        sharedPreferences = context.getSharedPreferences(PREFERENCES, Context.MODE_WORLD_READABLE)
     }
     
-    internal constructor() {
-        this.sharedPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, PREFERENCES)
+    constructor() {
+        sharedPreferences = XSharedPreferences(BuildConfig.APPLICATION_ID, PREFERENCES)
     }
     
     fun getCodecPreference(mediaCodecInfo: MediaCodecInfoWrapper): Boolean {
-        return sharedPreferences.getBoolean(getKey(mediaCodecInfo), DEFAULT_VALUE)
+        return getBoolean(getKey(mediaCodecInfo), DEFAULT_VALUE)
     }
     
-    fun setCodecPreference(mediaCodecInfo: MediaCodecInfoWrapper, enabled: Boolean): Boolean {
-        val success = sharedPreferences.edit().apply {
-            if (REMOVE_DEFAULT_VALUE_FROM_CONFIG && enabled == DEFAULT_VALUE) {
-                remove(getKey(mediaCodecInfo))
+    override fun getBoolean(key: String, defValue: Boolean): Boolean {
+        return sharedPreferences.getBoolean(key, defValue)
+    }
+    
+    override fun putBoolean(key: String, value: Boolean) {
+        sharedPreferences.edit(commit = true) {
+            if (REMOVE_DEFAULT_VALUE_FROM_CONFIG && value == DEFAULT_VALUE) {
+                remove(key)
             } else {
-                putBoolean(getKey(mediaCodecInfo), enabled)
+                putBoolean(key, value)
             }
-        }.commit()
-        if (!success) return false
-        dispatchOnCodecPreferenceChanged(mediaCodecInfo, enabled)
-        return true
+        }
+        dispatchOnCodecPreferenceChanged(key, value)
     }
     
     fun registerOnCodecPreferenceChangedListener(
         mediaCodecInfo: MediaCodecInfoWrapper,
         onCodecPreferenceChangedListener: OnCodecPreferenceChangedListener,
     ) {
-        val listener = OnCodecPreferenceChangedListenerMeta()
-        listener.mediaCodecInfo = mediaCodecInfo
-        listener.callback = onCodecPreferenceChangedListener
+        val listener = OnCodecPreferenceChangedListenerMeta(
+            mediaCodecInfo,
+            onCodecPreferenceChangedListener,
+        )
         receivers.add(listener)
     }
     
-    private fun dispatchOnCodecPreferenceChanged(mediaCodecInfo: MediaCodecInfoWrapper, enabled: Boolean) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            receivers.stream().filter { r: OnCodecPreferenceChangedListenerMeta? ->
-                getKey(r!!.mediaCodecInfo!!) == getKey(mediaCodecInfo)
-            }.forEach { r: OnCodecPreferenceChangedListenerMeta? -> r!!.callback!!.onCodecPreferenceChanged(enabled) }
-        } else {
-            for (receiver in receivers) {
-                if (getKey(receiver.mediaCodecInfo!!) == getKey(mediaCodecInfo)) receiver.callback!!.onCodecPreferenceChanged(
-                    enabled
-                )
-            }
-        }
+    private fun dispatchOnCodecPreferenceChanged(key: String, enabled: Boolean) {
+        receivers.filter { getKey(it.mediaCodecInfo) == key }.forEach { it.callback.onCodecPreferenceChanged(enabled) }
     }
     
     fun interface OnCodecPreferenceChangedListener {
         fun onCodecPreferenceChanged(value: Boolean)
     }
     
-    private class OnCodecPreferenceChangedListenerMeta {
-        var mediaCodecInfo: MediaCodecInfoWrapper? = null
-        var callback: OnCodecPreferenceChangedListener? = null
-    }
+    private data class OnCodecPreferenceChangedListenerMeta(
+        val mediaCodecInfo: MediaCodecInfoWrapper,
+        val callback: OnCodecPreferenceChangedListener,
+    )
     
     companion object {
         const val DEFAULT_VALUE: Boolean = true
