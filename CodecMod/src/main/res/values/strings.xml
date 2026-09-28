@@ -1,11 +1,21 @@
 <resources>
     <string name="app_name">CodecMod</string>
-    <string name="description">This Module allows you to selectively disable audio/video hardware/software encoders/decoders.
-    </string>
+    <string name="description">Selectively disable audio/video hardware/software encoders/decoders.</string>
     <string name="title_activity_settings">CodecMod Settings</string>
     <string name="hardware_accelerated">Hardware-accelerated: %b</string>
     <string name="software_only">Software-only: %b</string>
     <string name="supported_types">Supported MIME-Types: %s</string>
     <string name="alias">Alias: %b</string>
     <string name="vendor">Vendor: %b</string>
+    <string name="show_video_codecs">Show Video Codecs</string>
+    <string name="show_audio_codecs">Show Audio Codecs</string>
+    <string name="show_hardware_codecs">Show Hardware Codecs</string>
+    <string name="show_software_codecs">Show Software Codecs</string>
+    <string name="show_aliases">Show Aliases</string>
+    <string name="enable_all_visible">Enable all visible codecs</string>
+    <string name="disable_all_visible">Disable all visible codecs</string>
+    <string name="reset_configuration">Reset Configuration</string>
+    <string name="all_hidden_by_filters">All Codecs are hidden by the current filter settings.</string>
+    <string name="category_decoders_title">Decoders</string>
+    <string name="category_encoders_title">Encoders</string>
 </resources>

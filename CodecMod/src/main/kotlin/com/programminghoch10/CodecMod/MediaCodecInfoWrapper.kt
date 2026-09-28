@@ -44,6 +44,9 @@ class MediaCodecInfoWrapper internal constructor(val originalMediaCodecInfo: Med
     val isDecoder: Boolean
         get() = !this.isEncoder
     
-    val supportedTypes: Array<String?>?
+    val supportedTypes: Array<String>
         get() = originalMediaCodecInfo.getSupportedTypes()
+    
+    val isVideoCodec get() = supportedTypes.any { it.startsWith("video") }
+    val isAudioCodec get() = supportedTypes.any { it.startsWith("audio") }
 }
