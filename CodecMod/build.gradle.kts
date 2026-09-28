@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.buildlogic.android.application)
+    alias(libs.plugins.buildlogic.kotlin.android)
 }
 
 android {
@@ -16,6 +17,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.preference)
+    implementation(libs.androidx.preference.ktx)
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 }
