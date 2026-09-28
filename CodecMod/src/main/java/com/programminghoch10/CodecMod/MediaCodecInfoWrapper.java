@@ -40,17 +40,17 @@ public class MediaCodecInfoWrapper {
         return mediaCodecInfo.getName();
     }
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @RequiresApi(Build.VERSION_CODES.Q)
     public boolean isHardwareAccelerated() {
         return mediaCodecInfo.isHardwareAccelerated();
     }
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @RequiresApi(Build.VERSION_CODES.Q)
     public boolean isSoftwareOnly() {
         return mediaCodecInfo.isSoftwareOnly();
     }
     
-    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @RequiresApi(Build.VERSION_CODES.Q)
     public boolean isVendor() {
         return mediaCodecInfo.isVendor();
     }
