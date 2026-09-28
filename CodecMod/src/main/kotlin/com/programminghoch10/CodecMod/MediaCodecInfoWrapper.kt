@@ -1,5 +1,7 @@
 package com.programminghoch10.CodecMod
 
+import android.annotation.SuppressLint
+import android.annotation.TargetApi
 import android.media.MediaCodecInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,6 +17,8 @@ class MediaCodecInfoWrapper internal constructor(val originalMediaCodecInfo: Med
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) originalMediaCodecInfo.canonicalName
         else originalMediaCodecInfo.name
     
+    @get:SuppressLint("UseRequiresApi")
+    @get:TargetApi(Build.VERSION_CODES.Q)
     val isAlias: Boolean
         get() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) originalMediaCodecInfo.isAlias
         else false
