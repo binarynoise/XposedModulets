@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <style name="AppTheme" parent="@android:style/Theme.DeviceDefault" />
+    <style name="AppTheme"
+        parent="@android:style/Theme.DeviceDefault" />
     
     <style name="AppTheme.Edge2EdgeFix">
         <item name="android:fitsSystemWindows">true</item>
     </style>
+    
+    <style name="AppTheme.ButtonBar"
+        parent="@android:style/Widget.DeviceDefault.Button.Borderless">
+        <item name="android:textColor">@color/tab_text_color</item>
+    </style>
+
 </resources>
