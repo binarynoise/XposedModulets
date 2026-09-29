@@ -7,31 +7,37 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
-import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.children
 import com.programminghoch10.CodecMod.CodecStore.Companion.DEFAULT_VALUE
+import com.programminghoch10.CodecMod.databinding.SettingsActivityBinding
 
 class SettingsActivity : FragmentActivity() {
+    private lateinit var binding: SettingsActivityBinding
+    val allHiddenByFiltersView get() = binding.allHiddenByFilters
+    val buttonCategoryDecoders get() = binding.buttonCategoryDecoders
+    val buttonCategoryEncoders get() = binding.buttonCategoryEncoders
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
+        binding = SettingsActivityBinding.inflate(layoutInflater, null, false)
+        setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.settings, SettingsFragment()).commit()
         }
         actionBar?.setDisplayHomeAsUpEnabled(supportFragmentManager.backStackEntryCount > 0)
+        buttonCategoryDecoders.isActivated = true
+        buttonCategoryEncoders.isActivated = false
     }
     
     class SettingsFragment : PreferenceFragmentCompat() {
         lateinit var menu: Menu
+        val activity get() = requireActivity() as SettingsActivity
         
-        val decodersPreferenceCategory get() = findPreference<PreferenceCategory>("category_decoders")!!
-        val encodersPreferenceCategory get() = findPreference<PreferenceCategory>("category_encoders")!!
-        val allHiddenByFiltersPreference get() = findPreference<Preference>("allHiddenByFilters")!!
-        
-        val allPreferences get() = (encodersPreferenceCategory.children + decodersPreferenceCategory.children).filterIsInstance(MediaCodecPreference::class.java)
+        val allMediaCodecPreferences get() = preferenceScreen.children.filterIsInstance(MediaCodecPreference::class.java)
         
         override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
             inflater.inflate(R.menu.settings_options, menu)
@@ -55,11 +61,11 @@ class SettingsActivity : FragmentActivity() {
             }
             if (item.itemId in listOf(R.id.enable_all_visible, R.id.disable_all_visible)) {
                 val checked = item.itemId == R.id.enable_all_visible
-                allPreferences.forEach { it.isChecked = checked }
+                allMediaCodecPreferences.filter { it.isVisible }.forEach { it.isChecked = checked }
                 return true
             }
             if (item.itemId == R.id.reset_configuration) {
-                allPreferences.forEach { it.isChecked = DEFAULT_VALUE }
+                allMediaCodecPreferences.forEach { it.isChecked = DEFAULT_VALUE }
                 return true
             }
             return super.onOptionsItemSelected(item)
@@ -67,6 +73,8 @@ class SettingsActivity : FragmentActivity() {
         
         fun reevaluateFilters() {
             val filterSpec = MediaCodecPreference.FilterSpec(
+                activity.buttonCategoryEncoders.isActivated,
+                activity.buttonCategoryDecoders.isActivated,
                 menu.findItem(R.id.show_aliases).isChecked,
                 menu.findItem(R.id.show_video_codecs).isChecked,
                 menu.findItem(R.id.show_audio_codecs).isChecked,
@@ -74,15 +82,23 @@ class SettingsActivity : FragmentActivity() {
                 menu.findItem(R.id.show_software_codecs).isChecked,
             )
             Log.d(this::class.java.simpleName, "reevaluateFilters: $filterSpec")
-            allPreferences.forEach { it.setFilterSpec(filterSpec) }
-            allHiddenByFiltersPreference.isVisible = allPreferences.all { !it.isVisible }
+            allMediaCodecPreferences.forEach { it.setFilterSpec(filterSpec) }
+            activity.allHiddenByFiltersView.isVisible = allMediaCodecPreferences.all { !it.isVisible }
         }
         
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            setPreferencesFromResource(R.xml.root_preferences, rootKey)
+            preferenceScreen = preferenceManager.createPreferenceScreen(requireContext())
             setHasOptionsMenu(true)
-            //getPreferenceManager().setSharedPreferencesName("codecs");
             val codecStore = CodecStore(requireContext())
+            
+            val onCategoryChangeListener = View.OnClickListener {
+                activity.buttonCategoryDecoders.isActivated = false
+                activity.buttonCategoryEncoders.isActivated = false
+                it.isActivated = true
+                reevaluateFilters()
+            }
+            activity.buttonCategoryDecoders.setOnClickListener(onCategoryChangeListener)
+            activity.buttonCategoryEncoders.setOnClickListener(onCategoryChangeListener)
             
             var mediaCodecs: List<MediaCodecInfoWrapper>
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -101,8 +117,7 @@ class SettingsActivity : FragmentActivity() {
             for (mediaCodecInfo in mediaCodecs) {
                 val preference = MediaCodecPreference(requireContext(), codecStore, mediaCodecInfo)
                 preference.isIconSpaceReserved = false
-                val preferenceCategory = if (mediaCodecInfo.isEncoder) encodersPreferenceCategory else decodersPreferenceCategory
-                preferenceCategory.addPreference(preference)
+                preferenceScreen.addPreference(preference)
             }
         }
     }

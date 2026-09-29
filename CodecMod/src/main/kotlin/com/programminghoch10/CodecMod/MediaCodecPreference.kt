@@ -16,6 +16,8 @@ class MediaCodecPreference(context: Context, codecStore: CodecStore, val mediaCo
     fun setFilterSpec(filterSpec: FilterSpec) {
         this.filterSpec = filterSpec
         isVisible = when {
+            !filterSpec.showDecoders && !mediaCodecInfoWrapper.isEncoder -> false
+            !filterSpec.showEncoders && mediaCodecInfoWrapper.isEncoder -> false
             !filterSpec.showAliases && mediaCodecInfoWrapper.isAlias -> false
             !filterSpec.showVideoCodecs && mediaCodecInfoWrapper.isVideoCodec -> false
             !filterSpec.showAudioCodecs && mediaCodecInfoWrapper.isAudioCodec -> false
@@ -64,6 +66,8 @@ class MediaCodecPreference(context: Context, codecStore: CodecStore, val mediaCo
     }
     
     data class FilterSpec(
+        val showEncoders: Boolean,
+        val showDecoders: Boolean,
         val showAliases: Boolean,
         val showVideoCodecs: Boolean,
         val showAudioCodecs: Boolean,

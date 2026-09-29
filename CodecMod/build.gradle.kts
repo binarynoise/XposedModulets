@@ -13,6 +13,7 @@ android {
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+        viewBinding.isEnabled = true
     }
 }
 
