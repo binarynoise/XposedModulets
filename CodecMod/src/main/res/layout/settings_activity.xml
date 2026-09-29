@@ -4,11 +4,47 @@
     style="@style/AppTheme.Edge2EdgeFix"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
     >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        
+        <Button
+            android:id="@+id/button_category_decoders"
+            style="@style/AppTheme.ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/category_decoders_title"
+            />
+        
+        <Button
+            android:id="@+id/button_category_encoders"
+            style="@style/AppTheme.ButtonBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/category_encoders_title"
+            />
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/allHiddenByFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/all_hidden_by_filters"
+        android:visibility="gone"
+        />
     
     <FrameLayout
         android:id="@+id/settings"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         />
 </LinearLayout>

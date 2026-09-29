@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.buildlogic.android.application)
+    alias(libs.plugins.buildlogic.kotlin.android)
 }
 
 android {
@@ -7,15 +8,16 @@ android {
     
     defaultConfig {
         minSdk = 16
-        targetSdk = 35
+        targetSdk = 37
         multiDexEnabled = true
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
+        viewBinding.isEnabled = true
     }
 }
 
 dependencies {
-    implementation(libs.androidx.preference)
+    implementation(libs.androidx.preference.ktx)
     coreLibraryDesugaring(libs.android.desugarJdkLibs)
 }
