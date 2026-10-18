@@ -16,14 +16,13 @@ import com.programminghoch10.CodecMod.CodecStore.Companion.DEFAULT_VALUE
 import com.programminghoch10.CodecMod.databinding.SettingsActivityBinding
 
 class SettingsActivity : FragmentActivity() {
-    private lateinit var binding: SettingsActivityBinding
+    private val binding: SettingsActivityBinding by lazy { SettingsActivityBinding.inflate(layoutInflater) }
     val allHiddenByFiltersView get() = binding.allHiddenByFilters
     val buttonCategoryDecoders get() = binding.buttonCategoryDecoders
     val buttonCategoryEncoders get() = binding.buttonCategoryEncoders
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = SettingsActivityBinding.inflate(layoutInflater, null, false)
         setContentView(binding.root)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.settings, SettingsFragment()).commit()
