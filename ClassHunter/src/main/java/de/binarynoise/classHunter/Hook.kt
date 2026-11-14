@@ -67,7 +67,7 @@ class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     }
     
     override fun initZygote(startupParam: IXposedHookZygoteInit.StartupParam) {
-        val packageName = File("/proc/self/cmdline").readText().replace(0.toChar(), ' ')
+        val packageName = File("/proc/self/cmdline").readText().trim('\u0000', ' ')
         
         @Suppress("RemoveExplicitTypeArguments") //
         val classLoaderClasses = mutableSetOf<Class<out ClassLoader>>(
