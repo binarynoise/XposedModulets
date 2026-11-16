@@ -10,7 +10,7 @@ import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class Hook implements IXposedHookLoadPackage {
+public class EnableCallRecordingHook implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (Objects.equals(lpparam.packageName, BuildConfig.APPLICATION_ID)) return;

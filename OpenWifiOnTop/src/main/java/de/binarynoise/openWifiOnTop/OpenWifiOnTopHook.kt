@@ -6,7 +6,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class Hook : IXposedHookLoadPackage {
+class OpenWifiOnTopHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         val WifiEntryClass = lpparam.classLoader.loadClass("com.android.wifitrackerlib.WifiEntry")

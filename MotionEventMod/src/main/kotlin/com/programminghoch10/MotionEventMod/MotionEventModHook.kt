@@ -16,7 +16,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class XposedHook : IXposedHookLoadPackage {
+class MotionEventModHook : IXposedHookLoadPackage {
     val sharedPreferences = XSharedPreferences(APPLICATION_ID, SHARED_PREFERENCES_NAME)
     val disableTouchDuringPen get() = sharedPreferences.getBoolean("disableTouchDuringPen", false)
     val disableTouchDuringHover get() = disableTouchDuringPen && sharedPreferences.getBoolean("disableTouchDuringHover", false)

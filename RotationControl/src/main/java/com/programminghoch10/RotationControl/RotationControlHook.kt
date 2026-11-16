@@ -11,7 +11,7 @@ import de.robv.android.xposed.XSharedPreferences
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class XposedHook : IXposedHookLoadPackage {
+class RotationControlHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         if (lpparam.packageName == BuildConfig.APPLICATION_ID) return
         

@@ -6,7 +6,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-class Hook : IXposedHookLoadPackage {
+class MuteSlf4jWarningsHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         val errorPrintStreamClass = lpparam.classLoader.loadClass("com.android.internal.os.AndroidPrintStream")

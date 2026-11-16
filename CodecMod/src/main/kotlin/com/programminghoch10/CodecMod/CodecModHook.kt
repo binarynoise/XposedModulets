@@ -12,7 +12,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class Hook : IXposedHookLoadPackage {
+class CodecModHook : IXposedHookLoadPackage {
     fun getFilteredMediaCodecInfos(unfilteredMediaCodecInfos: Array<MediaCodecInfo>): Array<MediaCodecInfo> {
         val codecStore = CodecStore()
         return unfilteredMediaCodecInfos.map { mediaCodecInfo -> MediaCodecInfoWrapper(mediaCodecInfo) }

@@ -16,7 +16,7 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-public class Hook implements IXposedHookLoadPackage {
+public class SensorModHook implements IXposedHookLoadPackage {
     
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {

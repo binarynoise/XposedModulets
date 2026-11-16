@@ -23,7 +23,7 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 val FLAG_NO_DISMISS = XposedHelpers.getStaticIntField(Notification::class.java, "FLAG_NO_DISMISS")
 
-class Hook : IXposedHookLoadPackage {
+class PersistentForegroundServiceNotificationsHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) = try {
         val statusBarNotificationClass = StatusBarNotification::class.java

@@ -22,7 +22,7 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 
 const val TAG = "Hook"
 
-class Hook : IXposedHookLoadPackage, IXposedHookZygoteInit {
+class ClassHunterHook : IXposedHookLoadPackage, IXposedHookZygoteInit {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         Log.d(TAG, "handleLoadPackage: ${lpparam.packageName}")

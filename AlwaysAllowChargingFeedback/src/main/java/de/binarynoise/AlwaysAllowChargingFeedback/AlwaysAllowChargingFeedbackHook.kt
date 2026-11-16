@@ -7,7 +7,7 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class Hook : IXposedHookLoadPackage {
+class AlwaysAllowChargingFeedbackHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (lpparam.packageName != "android") return

@@ -12,7 +12,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-class Hook : IXposedHookLoadPackage {
+class HideAbiHook : IXposedHookLoadPackage {
     
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {

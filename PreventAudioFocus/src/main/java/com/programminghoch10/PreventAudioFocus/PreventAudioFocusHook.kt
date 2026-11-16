@@ -8,7 +8,7 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 
-class Hook : IXposedHookLoadPackage {
+class PreventAudioFocusHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: LoadPackageParam) {
         var clazz: Class<*>? = AudioManager::class.java
         if (lpparam.packageName == "android") clazz = XposedHelpers.findClass(

@@ -8,7 +8,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage
 
 const val TAG = "ResetAllNotifications"
 
-class Hook : IXposedHookLoadPackage {
+class ResetAllNotificationChannelsHook : IXposedHookLoadPackage {
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         if (lpparam.packageName != "android") return
         

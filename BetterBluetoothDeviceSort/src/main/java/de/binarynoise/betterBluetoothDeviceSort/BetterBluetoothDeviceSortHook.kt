@@ -9,7 +9,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 import de.robv.android.xposed.XC_MethodHook as MethodHook
 
-class Hook : IXposedHookLoadPackage {
+class BetterBluetoothDeviceSortHook : IXposedHookLoadPackage {
     
     @Suppress("RemoveExplicitTypeArguments") // Comparator.naturalOrder<String>() does need type info so the other lambda gets inferred correctly
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {

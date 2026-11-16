@@ -7,7 +7,7 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.XposedHelpers.ClassNotFoundError
 import de.robv.android.xposed.callbacks.XC_LoadPackage
 
-class Hook : IXposedHookLoadPackage {
+class DontResetIfBootedAndConnectedHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
         try {
