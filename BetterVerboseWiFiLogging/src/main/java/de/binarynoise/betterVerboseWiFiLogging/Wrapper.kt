@@ -6,23 +6,37 @@ import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiInfo
 import android.os.Build
 import de.binarynoise.betterVerboseWiFiLogging.WifiEntry.mWifiInfoField
-import de.binarynoise.betterVerboseWiFiLogging.Wrapper.classLoader
+import de.binarynoise.betterVerboseWiFiLogging.Wrapper.findClass
 import de.binarynoise.reflection.findDeclaredField
 import de.binarynoise.reflection.findDeclaredMethod
 import de.binarynoise.reflection.findDeclaredMethodOrNull
-import de.robv.android.xposed.XposedHelpers
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 const val wifitrackerlib = "com.android.wifitrackerlib"
 
 object Wrapper {
-    lateinit var classLoader: ClassLoader
+    var classLoaders = mutableListOf<ClassLoader>()
+    
+    fun findClass(name: String): Class<*> {
+        val exceptions = mutableListOf<Throwable>()
+        for (classLoader in classLoaders) {
+            try {
+                return classLoader.loadClass(name)
+            } catch (t: Throwable) {
+                exceptions.add(t)
+                // continue
+            }
+        }
+        val classNotFoundException = ClassNotFoundException("Class $name not found in any class loader")
+        exceptions.forEach { classNotFoundException.addSuppressed(it) }
+        throw classNotFoundException
+    }
 }
 
 object BaseWifiTracker {
     fun isVerboseLoggingEnabled(): Boolean {
         if (Build.VERSION.SDK_INT < 34) {
-            val baseWiFiTrackerClass: Class<*> = XposedHelpers.findClass("$wifitrackerlib.BaseWifiTracker", classLoader)
+            val baseWiFiTrackerClass: Class<*> = findClass("$wifitrackerlib.BaseWifiTracker")
             return baseWiFiTrackerClass.getDeclaredMethod("isVerboseLoggingEnabled").invoke(null) as Boolean
         } else {
             // that actually is the fix, the original code doesn't check for this either anymore
@@ -33,7 +47,7 @@ object BaseWifiTracker {
 }
 
 object Utils {
-    val wifiTrackerLibUtilsClass: Class<*> get() = classLoader.loadClass("$wifitrackerlib.Utils")
+    val wifiTrackerLibUtilsClass: Class<*> get() = findClass("$wifitrackerlib.Utils")
 }
 
 val channelMap = mapOf(
@@ -202,7 +216,7 @@ val channelMap = mapOf(
 )
 
 object WifiEntry {
-    val wifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.WifiEntry")
+    val wifiEntryClass: Class<*> = findClass("$wifitrackerlib.WifiEntry")
     
     // inlined by r8 in SystemUI
     val getWifiInfoDescription: Method? = wifiEntryClass.findDeclaredMethodOrNull("getWifiInfoDescription")
@@ -302,7 +316,7 @@ object WifiEntry {
 }
 
 object StandardWifiEntry {
-    private val standardWifiEntryClass: Class<*> = classLoader.loadClass("$wifitrackerlib.StandardWifiEntry")
+    private val standardWifiEntryClass: Class<*> = findClass("$wifitrackerlib.StandardWifiEntry")
     val getScanResultDescription = WifiEntry.wifiEntryClass.findDeclaredMethod("getScanResultDescription") // -> StandardWifiEntry
     
     fun newGetScanResultDescription(wifiEntry: Any): String {

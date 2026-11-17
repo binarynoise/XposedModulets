@@ -19,7 +19,8 @@ import de.robv.android.xposed.XC_MethodHook as MethodHook
 class BetterVerboseWiFiLoggingHook : IXposedHookLoadPackage {
     
     override fun handleLoadPackage(lpparam: XC_LoadPackage.LoadPackageParam) {
-        Wrapper.classLoader = lpparam.classLoader
+        if (lpparam.packageName == BuildConfig.APPLICATION_ID) return
+        Wrapper.classLoaders += lpparam.classLoader
         
         if (getWifiInfoDescription != null) {
             XposedBridge.hookMethod(getWifiInfoDescription, object : MethodHook() {
