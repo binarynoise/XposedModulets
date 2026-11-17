@@ -10,6 +10,7 @@ import de.binarynoise.betterVerboseWiFiLogging.Wrapper.findClass
 import de.binarynoise.reflection.findDeclaredField
 import de.binarynoise.reflection.findDeclaredMethod
 import de.binarynoise.reflection.findDeclaredMethodOrNull
+import de.robv.android.xposed.XposedHelpers
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 const val wifitrackerlib = "com.android.wifitrackerlib"
@@ -349,9 +350,18 @@ object StandardWifiEntry {
                     append("[")
                     append(scanResult.securityTypes.joinToString { WifiEntry.securityTypeToString(it) })
                     append("]")
+                    
+                    val wifiStandard = scanResult.getWifiStandard()
+                    if (wifiStandard != 0) {
+                        append(", ")
+                        val mWifiManager = XposedHelpers.getObjectField(wifiEntry, "mWifiManager")
+                        val context = XposedHelpers.getObjectField(mWifiManager, "mContext")
+                        val getStandardString =
+                            XposedHelpers.callStaticMethod(Utils.wifiTrackerLibUtilsClass, "getStandardString", context, wifiStandard)
+                        append(getStandardString)
+                    }
                 }
                 
-                // removed: WiFi-Standard
                 // removed: WiFi 11BE info: mldMac, linkId, addLinks
                 // removed: age in seconds
                 
